@@ -1,0 +1,78 @@
+version: '3'
+
+services: 
+
+  db:
+    image: postgres
+    container_name: db
+    volumes:
+      - data:/var/lib/postgresql/data
+    env_file:
+      - ./env/PG.env
+    ports: 
+      - "5432:5432"
+    networks: 
+      - node-network
+    
+    
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: unless-stopped
+    env_file:
+      - ./env/pgadmin.env
+    ports:
+      - 8088:80
+    depends_on:
+      - db
+
+  frontend:
+    build: 
+      context: ./react
+    container_name: frontend
+    working_dir: /usr/src/app
+    networks: 
+      - node-network
+    volumes: 
+      - ./react:/usr/src/app
+      - /usr/src/app/node_modules
+    ports: 
+      - "5173:5173"
+    command: npm run dev
+
+  backend:
+    build: 
+      context: ./node
+    container_name: backend
+    working_dir: /usr/src/app
+    networks: 
+      - node-network
+    volumes: 
+      - ./node:/usr/src/app
+      - /usr/src/app/node_modules
+    ports: 
+      - "3000:3000"
+    depends_on:
+      - db
+    command: npm start
+
+  nginx:
+    build: 
+      context: ./nginx
+    container_name: nginx
+    restart: always
+    ports: 
+      - "8000:80"
+    networks: 
+      - node-network
+    depends_on:
+       - backend
+       - frontend
+  
+networks: 
+  node-network:
+    driver: bridge  
+
+volumes:
+  data:
+    name: ppp-database
