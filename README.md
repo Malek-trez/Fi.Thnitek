@@ -2,7 +2,7 @@
 To set up the project locally, follow these steps:
 
 **1. Clone the repository:**
-`git clone https://github.com/Malek-trez/PPP.git`
+`git clone https://github.com/Malek-trez/DriveToGether.git`
 
 **2. Make sure you have Docker installed on your machine. If not, you can download and install it from Docker's [official website](https://www.docker.com/products/docker-desktop/).**
 
