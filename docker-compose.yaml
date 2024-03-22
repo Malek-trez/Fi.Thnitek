@@ -3,7 +3,7 @@ version: '3'
 services: 
 
   db:
-    image: postgres
+    image: postgres:alpine3.18
     container_name: db
     volumes:
       - data:/var/lib/postgresql/data
@@ -25,6 +25,8 @@ services:
       - 8088:80
     depends_on:
       - db
+    networks: 
+      - node-network
 
   frontend:
     build: 
