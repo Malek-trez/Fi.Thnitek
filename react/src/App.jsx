@@ -3,6 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./components/Home";
 import Login  from "./components/login";
+import "bootstrap/dist/css/bootstrap.css";
+import "./App.css";
+
 export default function App() {
   return (
     <BrowserRouter>

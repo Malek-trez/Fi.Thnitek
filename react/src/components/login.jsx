@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './login.css'; // Import your custom CSS file for additional styles
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +11,6 @@ const Login = () => {
   });
   const [error, setError] = useState(null);
   const navigateTo = useNavigate();
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,8 +23,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.REACT_APP_REMOTE_SERVER_URL}/login`, formData, {
-        withCredentials: true, // Include credentials (cookies)
+      const response = await axios.post(`http://localhost:8000/api/login`, formData, {
+        withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
         }
@@ -36,41 +36,47 @@ const Login = () => {
 
       const data = response.data;
       localStorage.setItem('token', data.token);
-      navigateTo('/')
+      navigateTo('/');
     } catch (error) {
       setError(error.message);
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <section>
+        <div className="container login-block">
+          <h2 className="text-center pb-3 mb-3 border-bottom border-primary">Login</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="username" className="form-label">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="form-control"
+                required
+              />
+            </div>
+            <button type="submit" className="button-5">Login</button>
+            {error && <p className="mt-3 text-danger">{error}</p>}
+          </form>
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-      </form>
+      </section>
     </div>
   );
 };
