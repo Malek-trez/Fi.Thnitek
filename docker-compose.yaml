@@ -30,7 +30,7 @@ services:
 
   frontend:
     build: 
-      context: Client
+      context: client
     container_name: frontend
     working_dir: /usr/src/app
     networks: 
@@ -44,7 +44,7 @@ services:
 
   backend:
     build: 
-      context: Server
+      context: server
     container_name: backend
     working_dir: /usr/src/app
     networks: 

@@ -1,8 +1,8 @@
 // index.js
 
 import express from 'express';
-import { login } from './controller/login.js';
-
+import { login } from './controllers/login.js';
+const { Server } = require("socket.io");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
