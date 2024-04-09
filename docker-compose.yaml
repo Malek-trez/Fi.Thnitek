@@ -30,7 +30,7 @@ services:
 
   frontend:
     build: 
-      context: ./react
+      context: Client
     container_name: frontend
     working_dir: /usr/src/app
     networks: 
@@ -44,7 +44,7 @@ services:
 
   backend:
     build: 
-      context: ./node
+      context: Server
     container_name: backend
     working_dir: /usr/src/app
     networks: 
