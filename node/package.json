@@ -14,7 +14,8 @@
     "jsonwebtoken": "^9.0.2",
     "node": "^18.20.0",
     "nodemon": "^3.1.0",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "cors": "2.8.5"
   },
   "type": "module",
   "description": ""
