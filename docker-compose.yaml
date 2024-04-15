@@ -36,7 +36,7 @@ services:
     networks: 
       - node-network
     volumes: 
-      - ./react:/usr/src/app
+      - ./client:/usr/src/app
       - /usr/src/app/node_modules
     ports: 
       - "5173:5173"
@@ -50,7 +50,7 @@ services:
     networks: 
       - node-network
     volumes: 
-      - ./node:/usr/src/app
+      - ./server:/usr/src/app
       - /usr/src/app/node_modules
     ports: 
       - "3000:3000"
