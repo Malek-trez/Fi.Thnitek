@@ -1,39 +1,45 @@
 // index.js
 
 import express from 'express';
-import { login } from './controllers/login.js'; // <-- Keep this line from HEAD
-import { allCarpool , onBookNow} from './controllers/carpool.js'; // <-- Add this line from emna
-import { signup } from './controllers/signup.js'; // <-- Add this line from chaima
-import cors from 'cors'; // <-- Add this line from emna
+import { login } from './controllers/login.js';
+import { allCarpool, onBookNow } from './controllers/carpool.js';
+import { signup } from './controllers/signup.js';
+import cors from 'cors';
 import { Server } from "socket.io";
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:5173', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-  allowedHeaders: ['Content-Type', 'Authorization'], 
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 const PORT = process.env.PORT || 3000;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-app.post('/api/signup', (req, res) => {
-  res.status(200).send("Signup endpoint is working");
+// Route for user login
+app.post('/api/login', login);
+
+// Route for user sign up
+app.post("/api/signup", signup);
+
+// Get all carpool
+app.get("/api/carpool", allCarpool);
+
+// Route for testing the API
+app.get('/api/test', (req, res) => res.send('Hello World!'));
+
+// Route for booking a carpool
+app.put('/api/carpool/book', onBookNow);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
 });
 
-
-// Route for user login
-//app.post('/api/login', login);
-// Route for user sign up
-app.post('/api/signup', signup);// <-- Add this route from chaima
-// Get all carpool
-app.get("/api/carpool",allCarpool); // <-- Add this route from emna
-
-//route for reservation of carpool
-app.put('/api/carpool/book',onBookNow); // <-- Add this route from emna
-
 // Start the server
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

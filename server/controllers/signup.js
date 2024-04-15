@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import pool from '../db/db.js'; // Import the database connection
+import { pool } from '../db/db.js'; // Import the database connection
 
 const secretKey = 'your_secret_key';
 
