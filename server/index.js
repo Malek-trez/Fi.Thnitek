@@ -2,9 +2,9 @@
 
 import express from 'express';
 import { login } from './controllers/login.js'; // <-- Keep this line from HEAD
-import { allCarpool , onBookNow} from './controller/carpool.js'; // <-- Add this line from emna
+import { allCarpool , onBookNow} from './controllers/carpool.js'; // <-- Add this line from emna
 import cors from 'cors'; // <-- Add this line from emna
-const { Server } = require("socket.io");
+import { Server } from "socket.io";
 
 const app = express();
 app.use(cors({
