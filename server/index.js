@@ -3,6 +3,7 @@
 import express from 'express';
 import { login } from './controllers/login.js'; // <-- Keep this line from HEAD
 import { allCarpool , onBookNow} from './controllers/carpool.js'; // <-- Add this line from emna
+import { signup } from './controllers/signup.js'; // <-- Add this line from chaima
 import cors from 'cors'; // <-- Add this line from emna
 import { Server } from "socket.io";
 
@@ -17,9 +18,15 @@ const PORT = process.env.PORT || 3000;
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Route for user login
-app.post('/api/login', login);
+app.post('/api/signup', (req, res) => {
+  res.status(200).send("Signup endpoint is working");
+});
 
+
+// Route for user login
+//app.post('/api/login', login);
+// Route for user sign up
+app.post('/api/signup', signup);// <-- Add this route from chaima
 // Get all carpool
 app.get("/api/carpool",allCarpool); // <-- Add this route from emna
 

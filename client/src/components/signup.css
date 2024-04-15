@@ -1,0 +1,75 @@
+body {
+    color: white;
+    background-color: #f4f4f4; /* Couleur de fond pour augmenter le contraste */
+}
+
+/* Boutons */
+.button-5 {
+    align-items: center;
+    background-color: #001861;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui,-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    vertical-align: baseline;
+    width: auto;
+}
+
+.button-5:hover, .button-5:focus {
+    background-color: #001e77;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+    transform: translateY(-1px);
+}
+
+.button-5:active {
+    background-color: #001861b4;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    transform: translateY(0);
+}
+
+/* Styles spécifiques pour la zone de connexion/enregistrement */
+.login-block {
+    background-color: #ffffff; /* Background color changed to white */
+    color: #0044cc; /* Text color changed to blue */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(79, 85, 130, 0.1); /* Added shadow for better visibility */
+    max-width: 500px;
+    padding: 30px; /* Increased padding for more space */
+    width: 100%;
+}
+
+.login-block h2 {
+    color: #0044cc; /* Headers in blue */
+}
+
+/* Style adjustments for input fields for better visibility and size */
+.login-block input[type="text"],
+.login-block input[type="password"],
+.login-block input[type="email"],
+.login-block input[type="tel"],
+.login-block select {
+    border: 2px solid #0044cc; /* Border color set to blue */
+    border-radius: 4px;
+    font-size: 18px; /* Larger font size for better readability */
+    padding: 15px; /* Increased padding for larger touch area */
+    width: 100%; /* Full width */
+}
+
+/* Responsive Design for smaller devices */
+@media (max-width: 600px) {
+    .login-block {
+        margin: 20px;
+        padding: 20px;
+    }
+}
