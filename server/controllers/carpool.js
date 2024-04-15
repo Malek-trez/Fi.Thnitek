@@ -1,13 +1,5 @@
-import pkg from 'pg';
-const { Pool } = pkg;
-// Configure PostgreSQL connection
-const pool = new Pool({
-  user: 'postgres',
-  host: 'db',
-  database: 'postgres',
-  password: '1234',
-  port: 5432,
-});
+import { pool } from '../db/db.js';
+
 export async function allCarpool(req, res) {
     try {
         const client = await pool.connect();
@@ -25,7 +17,6 @@ export async function allCarpool(req, res) {
           console.log(err);
         }
 }
-
 
 // Fetch the carpool from the database
 const getCarpoolFromDatabase = async (client, id) => {
