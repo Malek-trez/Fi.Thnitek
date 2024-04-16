@@ -8,11 +8,11 @@ const pool = process.env.DATABASE_URL
         ssl: { rejectUnauthorized: false },
     })
     : new Pool({
-        database: process.env.DATABASE_NAME,
-        host: process.env.DATABASE_HOST,
-        password: process.env.DATABASE_PASSWORD,
-        user: process.env.DATABASE_USER,
-        port: process.env.DATABASE_PORT,
+        user: process.env.POSTGRES_USER,
+        password: process.env.POSTGRES_PASSWORD,
+        database: process.env.POSTGRES_NAME,
+        host: process.env.POSTGRES_HOST,
+        port: process.env.POSTGRES_PORT,
     });
 
 export { pool };

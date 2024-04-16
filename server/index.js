@@ -4,6 +4,7 @@ import express from 'express';
 import { login } from './controllers/login.js';
 import { allCarpool, onBookNow } from './controllers/carpool.js';
 import { signup } from './controllers/signup.js';
+import { test } from './controllers/testdb.js';
 import cors from 'cors';
 import { Server } from "socket.io";
 
@@ -28,7 +29,7 @@ app.post("/api/signup", signup);
 app.get("/api/carpool", allCarpool);
 
 // Route for testing the API
-app.get('/api/test', (req, res) => res.send('Hello World!'));
+app.get('/api/testdata', test);
 
 // Route for booking a carpool
 app.put('/api/carpool/book', onBookNow);

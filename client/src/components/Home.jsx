@@ -7,7 +7,7 @@ const GetDataBases = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/get")
+      .get("http://localhost:8000/api/testdata")
       .then((response) => setAllUser(response.data))
       .catch((err) => {
         console.error(err);

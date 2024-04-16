@@ -9,7 +9,7 @@ const carpool = () => {
       const fetchCarpools = async () => {
         try {
           
-          const response = await axios.get('http://localhost:3000/api/carpool');
+          const response = await axios.get('http://localhost:8000/api/carpool');
           const { data } = response.data;
           setCarpools(data.carpools);
           
