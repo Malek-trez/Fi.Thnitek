@@ -8,8 +8,8 @@ const carpool = () => {
     useEffect(() => {
       const fetchCarpools = async () => {
         try {
-          
-          const response = await axios.get('http://localhost:8000/api/carpool');
+
+          const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/carpool`);
           const { data } = response.data;
           setCarpools(data.carpools);
           

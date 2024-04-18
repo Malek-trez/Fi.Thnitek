@@ -1,7 +1,7 @@
 import { Grid, GridItem, Tabs } from "@chakra-ui/react";
 import { createContext, useContext, useEffect, useState } from "react";
 import socketConn from "../../socket";
-import { AccountContext } from "../AccountContext";
+import { AccountContext } from "../../contexts/AccountContext.jsx";
 import Chat from "./Chat";
 import Sidebar from "./Sidebar";
 import useSocketSetup from "./useSocketSetup";
@@ -10,17 +10,20 @@ export const FriendContext = createContext();
 export const MessagesContext = createContext();
 export const SocketContext = createContext();
 
-const Home = () => {
+const ChatHome = () => {
   const [friendList, setFriendList] = useState([]);
   const [messages, setMessages] = useState([]);
   const [friendIndex, setFriendIndex] = useState(0);
 
-  const { user } = useContext(AccountContext);
-  const [socket, setSocket] = useState(() => socketConn(user));
-  useEffect(() => {
-    setSocket(() => socketConn(user));
-  }, [user]);
-  useSocketSetup(setFriendList, setMessages, socket);
+  //const { user } = useContext(AccountContext);
+  const user = {loggedIn: true}
+  //const [socket, setSocket] = useState(() => socketConn(user));
+  //setSocket(() => socketConn(user));
+  // useEffect(() => {
+  //   setSocket(() => socketConn(user));
+  // }, [user]);
+//}, [user]);
+  //useSocketSetup(setFriendList, setMessages, socket);
   return (
     <FriendContext.Provider value={{ friendList, setFriendList }}>
       <SocketContext.Provider value={{ socket }}>
@@ -44,4 +47,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default ChatHome;

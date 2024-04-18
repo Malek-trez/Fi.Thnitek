@@ -1,6 +1,6 @@
-const redisClient = require("../../redis");
-const addFriend = require("./addFriend");
-const parseFriendList = require("./parseFriendList");
+import redisClient from "../../redis.js";
+import addFriend from "./addFriend.js";
+import parseFriendList from "./parseFriendList.js";
 
 const initializeUser = async socket => {
   socket.join(socket.user.userid);
@@ -47,4 +47,4 @@ const initializeUser = async socket => {
   }
 };
 
-module.exports = initializeUser;
+export default initializeUser;

@@ -7,6 +7,12 @@ import { signup } from './controllers/signup.js';
 import { test } from './controllers/testdb.js';
 import cors from 'cors';
 import { Server } from "socket.io";
+import addFriend from "./controllers/socketio/addFriend.js"
+import initializeUser from "./controllers/socketio/initializeUser.js";
+import onDisconnect from "./controllers/socketio/onDisconnect.js";
+import authorizeUser from "./controllers/socketio/authorizeUser.js";
+import dm from "./controllers/socketio/dm.js";
+import http from "http";
 
 const app = express();
 app.use(cors({
@@ -16,6 +22,14 @@ app.use(cors({
 }));
 const PORT = process.env.PORT || 3000;
 
+
+const server = http.createServer(app)
+
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:5173',
+  }
+});
 // Middleware to parse JSON bodies
 app.use(express.json());
 
@@ -40,7 +54,21 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong!');
 });
 
+
+io.use(authorizeUser);
+io.on("connect", socket => {
+  initializeUser(socket);
+
+  socket.on("add_friend", (friendName, cb) => {
+    addFriend(socket, friendName, cb);
+  });
+
+  socket.on("dm", message => dm(socket, message));
+
+  socket.on("disconnecting", () => onDisconnect(socket));
+});
+
 // Start the server
-const server = app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

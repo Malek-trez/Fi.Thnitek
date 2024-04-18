@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router";
-
-const { createContext, useState, useEffect } = require("react");
+import { createContext, useState, useEffect } from "react";
 
 export const AccountContext = createContext();
 
@@ -11,7 +10,7 @@ const UserContext = ({ children }) => {
   });
   const navigate = useNavigate();
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/auth/login`, {
+    fetch(`${import.meta.env.VITE_SERVER_URL}/auth/login`, {
       credentials: "include",
       headers: {
         authorization: `Bearer ${user.token}`,

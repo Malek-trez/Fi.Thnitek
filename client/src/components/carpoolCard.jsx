@@ -8,7 +8,7 @@ const carpoolCard = ({ carpool, onEmpty }) => {
   const handleBookNow = async (id, event) => {
     event.preventDefault();
     try {
-      const response = await axios.put('http://localhost:8000/api/carpool/book', {id});
+      const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}/api/carpool/book`, {id});
       console.log(response.data);
       const newCapacity = capacity - 1;
       setCapacity(newCapacity);

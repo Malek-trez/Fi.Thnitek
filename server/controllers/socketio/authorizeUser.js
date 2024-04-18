@@ -1,5 +1,6 @@
-const { jwtVerify } = require("../jwt/jwtAuth");
-require("dotenv").config();
+import dotenv from "dotenv";
+import { jwtVerify } from "../jwt/jwtAuth.js";
+dotenv.config();
 
 const authorizeUser = (socket, next) => {
   const token = socket.handshake.auth.token;
@@ -15,4 +16,4 @@ const authorizeUser = (socket, next) => {
     });
 };
 
-module.exports = authorizeUser;
+export default authorizeUser;

@@ -1,4 +1,4 @@
-const redisClient = require("../../redis");
+import redisClient from "../../redis.js";
 
 const dm = async (socket, message) => {
   message.from = socket.user.userid;
@@ -13,4 +13,4 @@ const dm = async (socket, message) => {
   socket.to(message.to).emit("dm", message);
 };
 
-module.exports = dm;
+export default dm;

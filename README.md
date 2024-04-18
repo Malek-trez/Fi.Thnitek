@@ -1,5 +1,18 @@
 # **Getting Started**
-To set up the project locally, follow these steps:
+To set up the project LOCALLY, follow these steps:
+
+**1. Create and set the .env files in /client and /server**
+
+**2. Run `npm i` in / , /client and /server**
+
+**3. Set up the database locally (you can use psql or pgadmin)**
+
+**4. Access the application at http://localhost:5173**g
+(You also need to have redis running)
+`docker run --name my-redis-container -p 6379:6379 -d redis`
+
+
+To set up the project with DOCKER, follow these steps:
 
 **1. Clone the repository:**
 `git clone https://github.com/Malek-trez/DriveToGether.git`

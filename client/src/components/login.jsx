@@ -23,7 +23,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:8000/api/login`, formData, {
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/login`, formData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',

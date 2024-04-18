@@ -2,7 +2,7 @@ import { Text, VStack } from "@chakra-ui/layout";
 import { TabPanel, TabPanels } from "@chakra-ui/tabs";
 import { useContext, useEffect, useRef } from "react";
 import ChatBox from "./ChatBox";
-import { FriendContext, MessagesContext } from "./Home";
+import { FriendContext, MessagesContext } from "./ChatHome.jsx";
 
 const Chat = ({ userid }) => {
   const { friendList } = useContext(FriendContext);

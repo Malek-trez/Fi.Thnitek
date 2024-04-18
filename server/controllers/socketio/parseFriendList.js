@@ -1,4 +1,4 @@
-const redisClient = require("../../redis");
+import redisClient from "../../redis.js";
 
 const parseFriendList = async friendList => {
   const newFriendList = [];
@@ -17,4 +17,4 @@ const parseFriendList = async friendList => {
   return newFriendList;
 };
 
-module.exports = parseFriendList;
+export default parseFriendList;

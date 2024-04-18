@@ -12,7 +12,7 @@ import {
 import { Tab, TabList } from "@chakra-ui/tabs";
 import { useContext } from "react";
 import AddFriendModal from "./AddFriendModal";
-import { FriendContext } from "./Home";
+import { FriendContext } from "./ChatHome.jsx";
 
 const Sidebar = () => {
   const { friendList } = useContext(FriendContext);

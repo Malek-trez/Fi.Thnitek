@@ -32,8 +32,10 @@ const SignUp = () => {
     }
     try {
       // Vous devez modifier l'URL et probablement gérer l'inscription dans votre backend
-      const response = await axios.post(`http://localhost:8000/api/signup`, formData, {
-        withCredentials: true,
+      const stuff = import.meta.env.VITE_SERVER_URL;
+      console.log("env: ", stuff)
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/signup`, formData, {
+        //withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
         }

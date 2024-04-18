@@ -29,13 +29,14 @@ export async function signup(req, res) {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     // Create a new user and store it in the database
-    const insertUserQuery = 'INSERT INTO users(username, password, email, phone_number, role) VALUES ($1, $2, $3, $4, $5) RETURNING id, username';
+    const insertUserQuery = 'INSERT INTO users(username, password, email, phone, role) VALUES ($1, $2, $3, $4, $5) RETURNING id, username';
     const newUser = await pool.query(insertUserQuery, [username, hashedPassword, email, phoneNumber, role]);
 
     // Generate JWT token
     const token = generateToken(newUser.rows[0]);
     res.status(201).json({ token });
   } catch (err) {
+    console.log("Error signing up: ", err)
     res.status(500).json({ message: 'Error registering new user', err });
   }
 }

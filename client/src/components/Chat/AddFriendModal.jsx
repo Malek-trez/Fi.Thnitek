@@ -7,11 +7,11 @@ import {
   ModalHeader,
 } from "@chakra-ui/modal";
 import { Button, Heading, ModalOverlay } from "@chakra-ui/react";
-import { friendSchema } from "@whatsapp-clone/common";
+import { friendSchema } from "../../validationSchemas/chatValidation.js";
 import { Form, Formik } from "formik";
 import { useCallback, useContext, useState } from "react";
 import TextField from "../TextField";
-import { FriendContext, SocketContext } from "./Home";
+import { FriendContext, SocketContext } from "./ChatHome.jsx";
 
 const AddFriendModal = ({ isOpen, onClose }) => {
   const [error, setError] = useState("");

@@ -1,4 +1,4 @@
-const redisClient = require("../../redis");
+import redisClient from "../../redis.js";
 
 const addFriend = async (socket, friendName, cb) => {
   if (friendName === socket.user.username) {
@@ -36,4 +36,4 @@ const addFriend = async (socket, friendName, cb) => {
   cb({ done: true, newFriend });
 };
 
-module.exports = addFriend;
+export default addFriend;

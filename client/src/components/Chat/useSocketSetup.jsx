@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { AccountContext } from "../AccountContext";
+import { AccountContext } from "../../contexts/AccountContext.jsx";
 
 const useSocketSetup = (setFriendList, setMessages, socket) => {
   const { setUser } = useContext(AccountContext);

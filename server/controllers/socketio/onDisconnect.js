@@ -1,5 +1,5 @@
-const redisClient = require("../../redis");
-const parseFriendList = require("./parseFriendList");
+import redisClient from "../../redis.js";
+import parseFriendList from "./parseFriendList.js";
 
 const onDisconnect = async socket => {
   await redisClient.hset(
@@ -18,4 +18,4 @@ const onDisconnect = async socket => {
   socket.to(friendRooms).emit("connected", false, socket.user.username);
 };
 
-module.exports = onDisconnect;
+export default onDisconnect;

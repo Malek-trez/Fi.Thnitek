@@ -4,7 +4,7 @@ import { HStack } from "@chakra-ui/layout";
 import { Field, Form, Formik } from "formik";
 import { useContext } from "react";
 import * as Yup from "yup";
-import { MessagesContext, SocketContext } from "./Home";
+import { MessagesContext, SocketContext } from "./ChatHome.jsx";
 
 const ChatBox = ({ userid }) => {
   const { setMessages } = useContext(MessagesContext);
