@@ -1,9 +1,11 @@
 # **Getting Started**
 To set up the project LOCALLY, follow these steps:
 
-**1. Create and set the .env files in /client and /server**
+1 run `git clone https://github.com/Malek-trez/DriveToGether -b nonginx`
 
-**2. Run `npm i` in / , /client and /server**
+**1. Create and set the .env files in /client and /server (if they don't exit)**
+
+**2. Run `npm i` in "/", "/client", and "/server"**
 
 **3. Set up the database locally (you can use psql or pgadmin)**
 
