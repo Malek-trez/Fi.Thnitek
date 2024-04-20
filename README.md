@@ -9,7 +9,10 @@ To set up the project LOCALLY, follow these steps:
 
 **3. Set up the database locally (you can use psql or pgadmin)**
 
-**4. Access the application at http://localhost:5173**g
+**run the server using `npm start` in "/server" and the react client
+using `npm run dev` in "/client"**
+
+**4. Access the application at http://localhost:5173**
 (You also need to have redis running)
 `docker run --name my-redis-container -p 6379:6379 -d redis`
 
