@@ -3,36 +3,50 @@ import { AccountContext } from "../../contexts/AccountContext.jsx";
 
 const useSocketSetup = (setFriendList, setMessages, socket) => {
   const { setUser } = useContext(AccountContext);
+
   useEffect(() => {
     socket.connect();
-    socket.on("friends", friendList => {
+
+    const handleFriends = (friendList) => {
       setFriendList(friendList);
-    });
-    socket.on("messages", messages => {
+    };
+
+    const handleMessages = (messages) => {
       setMessages(messages);
-    });
-    socket.on("dm", message => {
+    };
+
+    const handleDM = (message) => {
       setMessages(prevMsgs => [message, ...prevMsgs]);
-    });
-    socket.on("connected", (status, username) => {
+    };
+
+    const handleConnected = (status, username) => {
       setFriendList(prevFriends => {
-        return [...prevFriends].map(friend => {
+        return prevFriends.map(friend => {
           if (friend.username === username) {
             friend.connected = status;
           }
           return friend;
         });
       });
-    });
-    socket.on("connect_error", () => {
+    };
+
+    const handleConnectError = () => {
       setUser({ loggedIn: false });
-    });
+    };
+
+    socket.on("friends", handleFriends);
+    socket.on("messages", handleMessages);
+    socket.on("dm", handleDM);
+    socket.on("connected", handleConnected);
+    socket.on("connect_error", handleConnectError);
+
+    // Cleanup function
     return () => {
-      socket.off("connect_error");
-      socket.off("connected");
-      socket.off("friends");
-      socket.off("messages");
-      socket.off("dm");
+      socket.off("friends", handleFriends);
+      socket.off("messages", handleMessages);
+      socket.off("dm", handleDM);
+      socket.off("connected", handleConnected);
+      socket.off("connect_error", handleConnectError);
     };
   }, [setUser, setFriendList, setMessages, socket]);
 };

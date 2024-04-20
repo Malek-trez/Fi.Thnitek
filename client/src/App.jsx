@@ -8,23 +8,16 @@ import "./App.css";
 import Carpool from "./components/carpool";
 import SignUp from "./components/signup";
 import ChatHome from "./components/Chat/ChatHome.jsx";
-import UserContext from "./contexts/AccountContext.jsx";
+import UserContext, {AccountContext} from "./contexts/AccountContext.jsx";
+import Views from "./components/Views.jsx";
 
 export default function App() {
-  return (
-    <BrowserRouter>
-      <UserContext>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="signup" element={<SignUp />} />
-        <Route path="login" element={<Login />} />
-        <Route path="carpool" element={<Carpool />} />
-          <Route path="chat" element={<ChatHome/>}/>
-        </Route>
-      </Routes>
-      </UserContext>
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <UserContext>
+                <Views/>
+            </UserContext>
+        </BrowserRouter>
+    );
 }
 

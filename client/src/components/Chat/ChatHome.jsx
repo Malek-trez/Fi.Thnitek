@@ -15,14 +15,11 @@ const ChatHome = () => {
   const [messages, setMessages] = useState([]);
   const [friendIndex, setFriendIndex] = useState(0);
 
-  //const { user } = useContext(AccountContext);
-  const user = {loggedIn: true}
-  //const [socket, setSocket] = useState(() => socketConn(user));
-  //setSocket(() => socketConn(user));
-  // useEffect(() => {
-  //   setSocket(() => socketConn(user));
-  // }, [user]);
-//}, [user]);
+  const { user } = useContext(AccountContext);
+  const [socket, setSocket] = useState(() => socketConn(user));
+  useEffect(() => {
+    setSocket(() => socketConn(user));
+  }, [user]);
   //useSocketSetup(setFriendList, setMessages, socket);
   return (
     <FriendContext.Provider value={{ friendList, setFriendList }}>
