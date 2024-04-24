@@ -11,7 +11,7 @@ function generateToken(user) {
 
 // Controller for handling user signup
 export async function signup(req, res) {
-  const { username, password, confirmPassword, email, phoneNumber, role } = req.body;
+  const { username, password, confirmPassword, email, phone, role } = req.body;
 
   if (password !== confirmPassword) {
     return res.status(400).json({ message: 'Passwords do not match' });
@@ -30,13 +30,12 @@ export async function signup(req, res) {
 
     // Create a new user and store it in the database
     const insertUserQuery = 'INSERT INTO users(username, password, email, phone, role) VALUES ($1, $2, $3, $4, $5) RETURNING id, username';
-    const newUser = await pool.query(insertUserQuery, [username, hashedPassword, email, phoneNumber, role]);
+    const newUser = await pool.query(insertUserQuery, [username, hashedPassword, email, phone, role]);
 
     // Generate JWT token
     const token = generateToken(newUser.rows[0]);
     res.status(201).json({ token });
   } catch (err) {
-    console.log("Error signing up: ", err)
     res.status(500).json({ message: 'Error registering new user', err });
   }
 }

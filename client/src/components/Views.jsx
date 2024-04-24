@@ -7,6 +7,7 @@ import ChatHome from "./Chat/ChatHome.jsx";
 import {AccountContext} from "../contexts/AccountContext.jsx";
 import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
+import SignUp from "./components/signup";
 
 const Views = () => {
     const {user} = useContext(AccountContext);
@@ -19,6 +20,7 @@ const Views = () => {
                 <Route path="login" element={<Login/>}/>
                 <Route path="carpool" element={<Carpool/>}/>
                 <Route path="chat" element={<ChatHome/>}/>
+                <Route path="offers" element={<AddOffer />} />
             </Route>
         </Routes>
         )

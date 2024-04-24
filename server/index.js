@@ -2,7 +2,7 @@
 
 import express from 'express';
 import { login } from './controllers/login.js';
-import { allCarpool, onBookNow } from './controllers/carpool.js';
+import { allCarpool, onBookNow ,cancelBookNow,searchByDestination,searchByDepart,searchByPrice} from './controllers/carpool.js';
 import { signup } from './controllers/signup.js';
 import { test } from './controllers/testdb.js';
 import cors from 'cors';
@@ -47,6 +47,18 @@ app.get('/api/testdata', test);
 
 // Route for booking a carpool
 app.put('/api/carpool/book', onBookNow);
+// Route cancel a booked carpool
+app.put('/api/carpool/cancel', cancelBookNow);
+//route pour search
+app.get('/api/carpool/searchByDestination',searchByDestination);
+
+app.get('/api/carpool/searchByDepart',searchByDepart);
+
+app.get('/api/carpool/searchByPrice',searchByPrice);
+
+// Route for offers adding
+app.post('/api/AddOffer', addOffer);
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {

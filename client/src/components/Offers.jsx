@@ -1,0 +1,153 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './signup.css'; // Import your custom CSS file for additional styles
+
+const Governorates = ["Ariana", "Béja", "Ben Arous", "Bizerte", "Gabès", "Gafsa", "Jendouba", "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine", "Monastir", "Nabeul", "Sfax", "Sidi Bouzid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan"];
+
+const AddOffer = () => {
+  const [formData, setFormData] = useState({
+    depart: '',
+    destination: '',
+    schedule: '',
+    price: 0,
+    capacity: '',
+  });
+  const [error, setError] = useState(null);
+  const navigateTo = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    let errorMessage = '';
+  
+    // Basic validation for price
+    if (name === 'price') {
+      if (!Number(value) || Number(value) < 0) {
+        errorMessage = 'Price must be a positive number';
+      }
+    }
+  
+    // Basic validation for capacity
+    if (name === 'capacity') {
+      if (!Number(value) || Number(value) <= 0) {
+        errorMessage = 'Capacity must be a positive number';
+      }
+    }
+    
+    if (name === 'depart' || name === 'destination') {
+      if (!Governorates.includes(value)) {
+        errorMessage = `${name.charAt(0).toUpperCase() + name.slice(1)} must be one of the 24 governorates like "Ariana" }`;
+      }
+    }
+
+    // Set the form data and error message
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  
+    setError(errorMessage);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (formData.depart === formData.destination) {
+        throw new Error('Departure and destination must be different');
+      }
+      // Vous devez modifier l'URL et probablement gérer l'inscription dans votre backend
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/AddOffer`, formData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if (response.status >= 400) {
+        throw new Error(response.data.message || 'Adding offer failed');
+      }
+
+      navigateTo('/'); // Redirection vers la page de connexion après l'inscription
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+  return (
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <section>
+        <div className="container login-block">
+          <h2 className="text-center pb-3 mb-3 border-bottom border-primary">Add new offer</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="depart" className="form-label">Depart</label>
+              <input
+                type="text"
+                id="depart"
+                name="depart"
+                value={formData.depart}
+                onChange={handleChange}
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="destination" className="form-label">Destination</label>
+              <input
+                type="text"
+                id="destination"
+                name="destination"
+                value={formData.destination}
+                onChange={handleChange}
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="schedule" className="form-label">Temp de départ</label>
+              <input
+                type="datetime-local"
+                id="schedule"
+                name="schedule"
+                value={formData.schedule}
+                onChange={handleChange}
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="price" className="form-label">prix</label>
+              <input
+                type="number"
+                id="price"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="capacity" className="form-label">capacity</label>
+              <input
+                type="number"
+                id="capacity"
+                name="capacity"
+                value={formData.capacity}
+                onChange={handleChange}
+                placeholder='Nombre de place disponible'
+                className="form-control"
+                required
+              />
+            </div>
+            <button type="submit" className="button-5">submit</button>
+            {error && <p className="mt-3 text-danger">{error}</p>}
+          </form>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+
+export default AddOffer;

@@ -61,3 +61,95 @@ export const onBookNow=  async (req, res) => {
       client.release();
   }
 }
+// Update the carpool in the database
+const updateCarpoolOut = async (client, carpool) => {
+  await client.query('UPDATE carpool SET capacity = $1 WHERE id = $2', [carpool.capacity, carpool.id]);
+};
+
+export const cancelBookNow = async (req, res) => {
+  const client = await pool.connect();
+  const id = req.body.id;
+
+  try {
+    // Fetch the carpool from the database
+    let carpool = await getCarpoolFromDatabase(client, id);
+
+    // Increment the capacity
+    carpool.capacity++;
+
+    // Update the carpool in the database
+    await updateCarpoolOut(client, carpool);
+
+    res.send({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ success: false });
+  } finally {
+    client.release();
+  }
+}
+export async function searchByDestination(req, res) {
+  try {
+    const { destination } = req.query;
+    const query = 'SELECT * FROM carpool WHERE lower(destination) ILIKE $1 ORDER BY id';
+    const client = await pool.connect();
+    const result = await client.query(query, [`%${destination}%`]); // Add % wildcards
+    const carpools = result.rows;
+    client.release(); 
+    
+    res.status(200).json({
+      status: "success",
+      results: carpools.length,
+      data: {
+        carpools,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ status: "error", message: "Internal server error" });
+  }
+}
+
+export async function searchByDepart(req, res) {
+  try {
+    const { depart } = req.query;
+    const query = 'SELECT * FROM carpool WHERE lower(depart) ILIKE $1 ORDER BY id';
+    const client = await pool.connect();
+    const result = await client.query(query, [`%${depart}%`]); // Add % wildcards
+    const carpools = result.rows;
+    client.release(); 
+    
+    res.status(200).json({
+      status: "success",
+      results: carpools.length,
+      data: {
+        carpools,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ status: "error", message: "Internal server error" });
+  }
+}
+
+export async function searchByPrice(req, res) {
+  try {
+    const { price } = req.query;
+    const query = 'SELECT * FROM carpool WHERE price = $1 ORDER BY id';
+    const client = await pool.connect();
+    const result = await client.query(query, [price]);
+    const carpools = result.rows;
+    client.release(); 
+    
+    res.status(200).json({
+      status: "success",
+      results: carpools.length,
+      data: {
+        carpools,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ status: "error", message: "Internal server error" });
+  }
+}

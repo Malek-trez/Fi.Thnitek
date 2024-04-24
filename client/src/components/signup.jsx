@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './signup.css'; // Import your custom CSS file for additional styles
+import './signup.css';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +11,7 @@ const SignUp = () => {
     confirmPassword: '',
     email: '',
     phone: '',
-    role: 'client'  // valeur par défaut
+    role: 'client'  // Default value
   });
   const [error, setError] = useState(null);
   const navigateTo = useNavigate();
@@ -24,18 +24,48 @@ const SignUp = () => {
     });
   };
 
+  const validateEmail = (email) => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email.toLowerCase());
+  };
+
+  const validatePhone = (phone) => {
+    const re = /^\d{8}$/;  // Adjust regex as per your requirements
+    return re.test(phone);
+  };
+
+  const validatePassword = (password) => {
+    const re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;  // Minimum 8 characters, at least one letter and one number
+    return re.test(password);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
+    const { username, email, phone, password, confirmPassword } = formData;
+
+    if (!validateEmail(email)) {
+      setError('Invalid email format');
+      return;
+    }
+
+    if (!validatePhone(phone)) {
+      setError('Invalid phone number');
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setError('Password must contain at least 8 characters, including at least one number and one letter');
+      return;
+    }
+
+    if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
+
     try {
-      // Vous devez modifier l'URL et probablement gérer l'inscription dans votre backend
-      const stuff = import.meta.env.VITE_SERVER_URL;
-      console.log("env: ", stuff)
-      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/signup`, formData, {
-        //withCredentials: true,
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}:8000/api/signup`, formData, {
+        withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
         }
@@ -45,18 +75,25 @@ const SignUp = () => {
         throw new Error(response.data.message || 'Registration failed');
       }
 
-      navigateTo('/login'); // Redirection vers la page de connexion après l'inscription
+      navigateTo('/login');
     } catch (error) {
-      setError(error.message);
+      if (error.response && error.response.status === 409) {
+        // Handle 409-specific logic here
+        setError('Username already taken');
+    } else {
+        // General error handling
+        alert('An error occurred: ' + error.message);
+    }
     }
   };
+
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
       <section>
         <div className="container login-block">
           <h2 className="text-center pb-3 mb-3 border-bottom border-primary">Create new Account</h2>
           <form onSubmit={handleSubmit}>
-            <div className="mb-3">
+          <div className="mb-3">
               <label htmlFor="username" className="form-label">Username</label>
               <input
                 type="text"
@@ -138,6 +175,5 @@ const SignUp = () => {
     </div>
   );
 };
-
 
 export default SignUp;

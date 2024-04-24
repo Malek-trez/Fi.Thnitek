@@ -6,7 +6,7 @@ body {
 /* Boutons */
 .button-5 {
     align-items: center;
-    background-color: #001861;
+    background-color: #050A30;
     border: 1px solid transparent;
     border-radius: .25rem;
     box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
@@ -41,7 +41,7 @@ body {
 /* Styles spécifiques pour la zone de connexion/enregistrement */
 .login-block {
     background-color: #ffffff; /* Background color changed to white */
-    color: #0044cc; /* Text color changed to blue */
+    color: #050A30; /* Text color changed to blue */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(79, 85, 130, 0.1); /* Added shadow for better visibility */
     max-width: 500px;
@@ -50,16 +50,18 @@ body {
 }
 
 .login-block h2 {
-    color: #0044cc; /* Headers in blue */
+    color: #050A30; /* Headers in blue */
 }
 
 /* Style adjustments for input fields for better visibility and size */
 .login-block input[type="text"],
 .login-block input[type="password"],
+.login-block input[type="number"], /* added by malek to be removed later*/
+.login-block input[type="datetime-local"], /* added by malek to be removed later*/
 .login-block input[type="email"],
 .login-block input[type="tel"],
 .login-block select {
-    border: 2px solid #0044cc; /* Border color set to blue */
+    border: 2px solid #5CB6F9; /* Border color set to blue */
     border-radius: 4px;
     font-size: 18px; /* Larger font size for better readability */
     padding: 15px; /* Increased padding for larger touch area */
