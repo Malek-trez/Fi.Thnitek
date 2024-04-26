@@ -7,8 +7,7 @@ import ChatHome from "./Chat/ChatHome.jsx";
 import {AccountContext} from "../contexts/AccountContext.jsx";
 import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
-import SignUp from "./components/signup";
-
+import AddOffer from "./Offers.jsx";
 const Views = () => {
     const {user} = useContext(AccountContext);
     return user.loggedIn !== null &&

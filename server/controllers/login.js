@@ -1,16 +1,11 @@
 // login.js
 
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import { pool } from '../db/db.js'; // Import the database connection
 
 // Secret key for JWT token
 const secretKey = 'your_secret_key';
-
-// Static user data for demonstration
-const staticUser = {
-  id: 1,
-  username: 'testuser',
-  password: 'testpassword'
-};
 
 // Function to generate JWT token
 function generateToken(user) {
@@ -18,15 +13,33 @@ function generateToken(user) {
 }
 
 // Controller for handling user login
-export function login(req, res) {
+export async function login(req, res) {
   const { username, password } = req.body;
 
-  // For demonstration, checking against static user data
-  if (username === staticUser.username && password === staticUser.password) {
-    // Generate JWT token
-    const token = generateToken(staticUser);
-    res.json({ token });
-  } else {
-    res.status(401).json({ message: 'Invalid username or password' });
+  try {
+    // Query the database to fetch user details based on username
+    const query = 'SELECT * FROM users WHERE username = $1';
+    const { rows } = await pool.query(query, [username]);
+
+    if (rows.length === 1) {
+      // User found, compare hashed password
+      const user = rows[0];
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+      if (isPasswordValid) {
+        // Password matches, generate JWT token
+        const token = generateToken(user);
+        res.json({loggedIn: true , token});
+      } else {
+        // Password doesn't match
+        res.status(401).json({ message: 'Invalid password' });
+      }
+    } else {
+      // User not found
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 }

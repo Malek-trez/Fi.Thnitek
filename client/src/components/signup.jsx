@@ -64,7 +64,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}:8000/api/signup`, formData, {
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}signup`, formData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',

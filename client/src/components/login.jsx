@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,9 +9,10 @@ const Login = () => {
     username: '',
     password: ''
   });
+ 
   const [error, setError] = useState(null);
   const navigateTo = useNavigate();
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -23,7 +24,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/login`, formData, {
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}login`, formData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',

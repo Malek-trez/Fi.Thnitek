@@ -57,7 +57,7 @@ const AddOffer = () => {
         throw new Error('Departure and destination must be different');
       }
       // Vous devez modifier l'URL et probablement gérer l'inscription dans votre backend
-      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/AddOffer`, formData, {
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}AddOffer`, formData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',

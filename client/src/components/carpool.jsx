@@ -11,7 +11,7 @@ const carpool = () => {
       const fetchCarpools = async () => {
         try {
           
-          const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/carpool`);
+          const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}carpool`);
           const { data } = response.data;
           setCarpools(data.carpools);
           

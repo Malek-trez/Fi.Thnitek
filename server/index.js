@@ -11,6 +11,7 @@ import addFriend from "./controllers/socketio/addFriend.js"
 import initializeUser from "./controllers/socketio/initializeUser.js";
 import onDisconnect from "./controllers/socketio/onDisconnect.js";
 import authorizeUser from "./controllers/socketio/authorizeUser.js";
+import { addOffer } from './controllers/offer.js';
 import dm from "./controllers/socketio/dm.js";
 import http from "http";
 
@@ -19,6 +20,7 @@ app.use(cors({
   origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 }));
 const PORT = process.env.PORT || 3000;
 

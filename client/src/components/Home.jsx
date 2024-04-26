@@ -7,7 +7,7 @@ const GetDataBases = () => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_SERVER_URL}/api/testdata`)
+      .get(`${import.meta.env.VITE_SERVER_URL}testdata`)
       .then((response) => setAllUser(response.data))
       .catch((err) => {
         console.error(err);

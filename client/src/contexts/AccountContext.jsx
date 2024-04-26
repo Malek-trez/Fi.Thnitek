@@ -10,7 +10,7 @@ const UserContext = ({ children }) => {
   });
   const navigate = useNavigate();
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_SERVER_URL}/auth/login`, {
+    fetch(`${import.meta.env.VITE_SERVER_URL}login`, {
       credentials: "include",
       headers: {
         authorization: `Bearer ${user.token}`,
