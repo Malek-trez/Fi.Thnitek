@@ -44,7 +44,7 @@ const Login = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
+    <div style={{ marginTop: '100px', marginBottom: '150px' }}/*className="d-flex justify-content-center align-items-center vh-100"*/>
       <section>
         <div className="container login-block">
           <h2 className="text-center pb-3 mb-3 border-bottom border-primary">Login</h2>

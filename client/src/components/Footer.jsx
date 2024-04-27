@@ -13,9 +13,9 @@ const Footer = () => {
         </div>
         <div style={columnStyle}>
           <h3>Our Services</h3>
-          <p><a href="/service1" style={linkStyle}>Service 1</a></p>
-          <p><a href="/service2" style={linkStyle}>Service 2</a></p>
-          <p><a href="/service3" style={linkStyle}>Service 3</a></p>
+          <p><a href="/carpool" style={linkStyle}>Carpool</a></p>
+          <p><a href="/service2" style={linkStyle}>Bus</a></p>
+          <p><a href="/service3" style={linkStyle}>Train</a></p>
         </div>
         <div style={columnStyle}>
           <h3>Find Us</h3>
