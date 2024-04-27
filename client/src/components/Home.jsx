@@ -1,31 +1,30 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import React from 'react';
 
-const GetDataBases = () => {
+import MyCarousel from './MyCarousel'; // Import the MyCarousel component
+import GroupExample from './GroupExample';
 
-  const [users, setAllUser] = useState();
+import CardExample from './CardExample';
+import Messenger from './Messenger';
 
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_SERVER_URL}testdata`)
-      .then((response) => setAllUser(response.data))
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
-
+const Home = () => {
     return (
-      <>
-        <h1>All DataBases :</h1>
-        <ul>
-          {users?.map((user, index) => (
-            <li key={index}>{user.datname}</li>
-          ))}
+      <div>
+      
+      <h2  className="my-4 text-center text-dark">Experience You Can Count On</h2>
 
-        </ul>
-        
-      </>
-      );
+      <GroupExample />
+
+      <h2  className="my-4 text-center text-dark">Discover some interesting articles</h2>
+      <CardExample />
+      
+      <h2 className="my-5 text-center text-dark">Fast and Affordable Transportation</h2>
+      <MyCarousel />
+
+      <Messenger /> 
+      
+    </div>
+  );
+
   };
   
-export default GetDataBases;
+export default Home;
