@@ -5,13 +5,15 @@ import { login } from './controllers/login.js';
 import { allCarpool, onBookNow ,cancelBookNow,searchByDestination,searchByDepart,searchByPrice} from './controllers/carpool.js';
 import { signup } from './controllers/signup.js';
 import { test } from './controllers/testdb.js';
+import { addOffer } from './controllers/offer.js';
+import {payment} from './controllers/payment.js';
+
 import cors from 'cors';
 import { Server } from "socket.io";
 import addFriend from "./controllers/socketio/addFriend.js"
 import initializeUser from "./controllers/socketio/initializeUser.js";
 import onDisconnect from "./controllers/socketio/onDisconnect.js";
 import authorizeUser from "./controllers/socketio/authorizeUser.js";
-import { addOffer } from './controllers/offer.js';
 import { allCountries ,allStops, allTrips, SearchTrainTrips } from './controllers/train.js';
 import dm from "./controllers/socketio/dm.js";
 import http from "http";
@@ -40,6 +42,9 @@ app.use(express.json());
 
 // Route for user login
 app.post('/api/login', login);
+
+// Route for payment
+app.post('/api/payment', payment);
 
 // Route for user sign up
 app.post("/api/signup", signup);
