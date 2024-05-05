@@ -46,7 +46,8 @@ const NavBar = () => {
               <Nav.Link href="http://localhost:5173/train" className="text-dark nav-link">Train</Nav.Link>
               <Nav.Link href="#" className="text-dark nav-link">About Us</Nav.Link>
             </Nav>
-            <Nav className="me-3">
+            <Nav className="me-auto">
+            <Nav.Link href="http://localhost:5173/offers" className="text-dark nav-link">Add New Offer</Nav.Link>
               <NavDropdown 
                 title={<BsFillPersonFill size={40} style={iconStyle} />} 
                 id="basic-nav-dropdown" 

@@ -74,7 +74,7 @@ const AddOffer = () => {
     }
   };
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
+    <div style={{ marginTop: '60px', marginBottom: '100px' }}>
       <section>
         <div className="container login-block">
           <h2 className="text-center pb-3 mb-3 border-bottom border-primary">Add new offer</h2>
