@@ -8,6 +8,8 @@ import {AccountContext} from "../contexts/AccountContext.jsx";
 import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import AddOffer from "./Offers.jsx";
+import SearchBarTrain from "./Train/Train.jsx";
+
 const Views = () => {
     const {user} = useContext(AccountContext);
     return user.loggedIn !== null &&
@@ -20,6 +22,7 @@ const Views = () => {
                 <Route path="carpool" element={<Carpool/>}/>
                 <Route path="chat" element={<ChatHome/>}/>
                 <Route path="offers" element={<AddOffer />} />
+                <Route path="train" element={<SearchBarTrain/>}/>
             </Route>
         </Routes>
         )

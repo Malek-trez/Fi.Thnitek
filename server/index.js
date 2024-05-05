@@ -12,6 +12,7 @@ import initializeUser from "./controllers/socketio/initializeUser.js";
 import onDisconnect from "./controllers/socketio/onDisconnect.js";
 import authorizeUser from "./controllers/socketio/authorizeUser.js";
 import { addOffer } from './controllers/offer.js';
+import { allCountries ,allStops, allTrips, SearchTrainTrips } from './controllers/train.js';
 import dm from "./controllers/socketio/dm.js";
 import http from "http";
 
@@ -60,6 +61,21 @@ app.get('/api/carpool/searchByPrice',searchByPrice);
 
 // Route for offers adding
 app.post('/api/AddOffer', addOffer);
+
+// Get all Trips 
+app.get('/api/voyage', allTrips);
+
+// Get all countries 
+app.get('api/ville', allCountries);
+
+// Get all stops
+app.get('/Arret', allStops);
+
+// Search for available trips 
+app.get('/Arret/:destination/:departure/:hour', SearchTrainTrips);
+
+
+
 
 
 // Error handling middleware
