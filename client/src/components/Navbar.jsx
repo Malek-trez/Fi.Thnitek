@@ -13,9 +13,7 @@ const NavBar = () => {
             margin-right: 50px;
             font-family: 'Georgia', serif; /* Change font family */
           }
-          .home-link {
-            margin-left: 100px;
-          }
+
           .navbar-brand {
             margin-left: 20px; /* Add margin-left to the Navbar Brand */
           }
@@ -24,6 +22,10 @@ const NavBar = () => {
             border-bottom: 2px solid; /* Add a solid bottom border to the navbar */
             border-image-slice: 1; /* Ensure the border is visible */
             border-image-source: linear-gradient(45deg, #0000FF, #00FFFF, #0000FF); /* Apply gradient color to the border */
+          }
+          .dropdown-item {
+            font-size: 18px; /* Change font size */
+            font-family: 'Georgia', serif; /* Change font family */
           }
         `}
       </style>
@@ -53,7 +55,10 @@ const NavBar = () => {
                 id="basic-nav-dropdown" 
                 drop="down"
               >
+                <NavDropdown.Item href="#">Profile</NavDropdown.Item>
+                <NavDropdown.Divider />
                 <NavDropdown.Item href="http://localhost:5173/login">Log In</NavDropdown.Item>
+                <NavDropdown.Divider />
                 <NavDropdown.Item href="http://localhost:5173/signup">Sign Up</NavDropdown.Item>
               </NavDropdown>
             </Nav>

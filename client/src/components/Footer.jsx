@@ -29,7 +29,7 @@ const Footer = () => {
         </div>
       </div>
       <hr style={separatorStyle} />
-      <p style={rightsStyle}>&copy; 2024 My Website. All rights reserved.</p>
+      <p style={rightsStyle}>&copy; 2024 Fi.Thnitek. All rights reserved.</p>
     </footer>
   );
 };
