@@ -1,6 +1,7 @@
 import { pool } from '../db/db.js';
 
 export async function allCarpool(req, res) {
+  console.log(res.locals.token.username);
     try {
         const client = await pool.connect();
         const query = `
