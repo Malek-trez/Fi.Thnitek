@@ -1,0 +1,80 @@
+/* Popup.css */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure the popup is above other content */
+}
+
+.popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  color: #000; /* Ensure text color is black */
+  max-width: 400px;
+  width: 100%;
+  text-align: center; /* Center-align the text */
+}
+
+.popup-content h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333; /* Darker heading color for better readability */
+}
+
+.popup-content p {
+  margin: 10px 0; /* Add spacing between rows */
+  font-size: 16px;
+}
+
+.popup-content strong {
+  font-weight: bold;
+  color: #000; /* Stronger color for emphasis */
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px; /* Add spacing between the data and the buttons */
+}
+
+.popup-buttons .btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  flex: 1; /* Make buttons take equal width */
+  margin: 0 5px; /* Add spacing between buttons */
+  font-size: 1px;
+}
+
+.popup-buttons .btn:hover {
+  background-color: #0056b3;
+}
+
+.popup-buttons .btn:focus {
+  outline: none;
+  box-shadow: 0 0 3px #0056b3;
+}
+
+.popup-buttons .cancel-btn {
+  background-color: #dc3545; /* Red color for cancel button */
+}
+
+.popup-buttons .cancel-btn:hover {
+  background-color: #c82333;
+}
+
+.popup-buttons .cancel-btn:focus {
+  box-shadow: 0 0 3px #c82333;
+}
