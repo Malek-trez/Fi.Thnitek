@@ -16,6 +16,7 @@ const ChatHome = () => {
   const [friendIndex, setFriendIndex] = useState(0);
 
   const { user } = useContext(AccountContext);
+  console.log("user: ", user)
   const [socket, setSocket] = useState(() => socketConn(user));
   useEffect(() => {
     setSocket(() => socketConn(user));
@@ -35,7 +36,7 @@ const ChatHome = () => {
           </GridItem>
           <GridItem colSpan="7" maxH="100vh">
             <MessagesContext.Provider value={{ messages, setMessages }}>
-              <Chat userid={friendList[friendIndex]?.userid} />
+              <Chat userId={friendList[friendIndex]?.userId} />
             </MessagesContext.Provider>
           </GridItem>
         </Grid>
