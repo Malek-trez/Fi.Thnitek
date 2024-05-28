@@ -1,7 +1,7 @@
 import redisClient from "../../redis.js";
 
 const dm = async (socket, message) => {
-  message.from = socket.user.userid;
+  message.from = socket.user.userId;
   // to.from.content
   const messageString = [message.to, message.from, message.content].join(
     "."

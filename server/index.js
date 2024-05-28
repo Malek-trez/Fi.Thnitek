@@ -15,12 +15,13 @@ import { addOffer } from './controllers/offer.js';
 import { allCountries ,allStops, allTrips, SearchTrainTrips } from './controllers/train.js';
 import dm from "./controllers/socketio/dm.js";
 import http from "http";
+import handleLogin from "./controllers/socketio/handleLogin.js";
 
 const app = express();
 app.use(cors({
   origin: 'http://localhost:5173',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  //methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  //allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }));
 const PORT = process.env.PORT || 3000;
@@ -31,6 +32,7 @@ const server = http.createServer(app)
 const io = new Server(server, {
   cors: {
     origin: 'http://localhost:5173',
+    credentials: true,
   }
 });
 // Middleware to parse JSON bodies
@@ -41,6 +43,8 @@ app.post('/api/login', login);
 
 // Route for user sign up
 app.post("/api/signup", signup);
+
+app.get("/api/login", handleLogin);
 
 // Get all carpool
 app.get("/api/carpool", allCarpool);

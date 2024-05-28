@@ -1,0 +1,6 @@
+services:
+  fi_thnitek_redis:
+    container_name: fi_thnitek_redis
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"

@@ -6,7 +6,7 @@ import { useContext } from "react";
 import * as Yup from "yup";
 import { MessagesContext, SocketContext } from "./ChatHome.jsx";
 
-const ChatBox = ({ userid }) => {
+const ChatBox = ({ userId }) => {
   const { setMessages } = useContext(MessagesContext);
   const { socket } = useContext(SocketContext);
   return (
@@ -16,7 +16,7 @@ const ChatBox = ({ userid }) => {
         message: Yup.string().min(1).max(255),
       })}
       onSubmit={(values, actions) => {
-        const message = { to: userid, from: null, content: values.message };
+        const message = { to: userId, from: null, content: values.message };
         socket.emit("dm", message);
         setMessages(prevMsgs => [message, ...prevMsgs]);
         actions.resetForm();

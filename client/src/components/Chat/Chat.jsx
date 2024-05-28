@@ -4,7 +4,7 @@ import { useContext, useEffect, useRef } from "react";
 import ChatBox from "./ChatBox";
 import { FriendContext, MessagesContext } from "./ChatHome.jsx";
 
-const Chat = ({ userid }) => {
+const Chat = ({ userId }) => {
   const { friendList } = useContext(FriendContext);
   const { messages } = useContext(MessagesContext);
   const bottomDiv = useRef(null);
@@ -26,19 +26,19 @@ const Chat = ({ userid }) => {
             <div ref={bottomDiv} />
             {messages
               .filter(
-                msg => msg.to === friend.userid || msg.from === friend.userid
+                msg => msg.to === friend.userId || msg.from === friend.userId
               )
               .map((message, idx) => (
                 <Text
                   m={
-                    message.to === friend.userid
+                    message.to === friend.userId
                       ? "1rem 0 0 auto !important"
                       : "1rem auto 0 0 !important"
                   }
                   maxW="50%"
                   key={`msg:${friend.username}.${idx}`}
                   fontSize="lg"
-                  bg={message.to === friend.userid ? "blue.100" : "gray.100"}
+                  bg={message.to === friend.userId ? "blue.100" : "gray.100"}
                   color="gray.800"
                   borderRadius="10px"
                   p="0.5rem 1rem"
@@ -49,7 +49,7 @@ const Chat = ({ userid }) => {
           </VStack>
         ))}
       </TabPanels>
-      <ChatBox userid={userid} />
+      <ChatBox userId={userId} />
     </VStack>
   ) : (
     <VStack
