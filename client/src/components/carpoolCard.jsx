@@ -6,7 +6,8 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [isBooked, setIsBooked] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-  
+  const [isVisible, setIsVisible] = useState(true);
+
   const handleBookNow = async (id, event) => {
     event.preventDefault();
     try {
@@ -16,11 +17,12 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
       setCapacity(newCapacity);
       if (newCapacity === 0) {
         onEmpty(id);
+        setTimeout(() => setIsVisible(false), 10000);
       }
       setBookingSuccess(true);
       setIsBooked(true);
       setSuccessMessage('Booked with success!');
-      setTimeout(() => setBookingSuccess(false), 5000);
+      setTimeout(() => setBookingSuccess(false), 3000);
     } catch (error) {
       console.error('Error booking carpool:', error);
     }
@@ -36,15 +38,17 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
       setBookingSuccess(true);
       setIsBooked(false);
       setSuccessMessage('Canceled with success!');
-      setTimeout(() => setBookingSuccess(false), 5000);
+      setTimeout(() => setBookingSuccess(false), 3000);
     } catch (error) {
       console.error('Error cancelling carpool:', error);
     }
   };
 
+  if (!isVisible) {
+    return null;
+  }
 
   return (
-    capacity > 0 ? (
     <div className="card">
       {bookingSuccess && <div className="alert alert-success" role="alert">{successMessage}</div>}
       <div className="row">
@@ -66,7 +70,6 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
         </div>
       </div>
     </div>
-    ) : null
   );
 };
 
