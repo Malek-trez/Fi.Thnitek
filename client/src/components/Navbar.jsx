@@ -49,7 +49,16 @@ const NavBar = () => {
               <Nav.Link href="#" className="text-dark nav-link">About Us</Nav.Link>
             </Nav>
             <Nav className="me-auto">
-            <Nav.Link href="http://localhost:5173/offers" className="text-dark nav-link">Add New Offer</Nav.Link>
+            <NavDropdown 
+                title={"Offer"} 
+                id="basic-nav-dropdown" 
+                drop="down"
+              >
+                <NavDropdown.Item href="http://localhost:5173/offers">Add New Offer</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#">My Offers</NavDropdown.Item>
+              </NavDropdown>
+              
               <NavDropdown 
                 title={<BsFillPersonFill size={40} style={iconStyle} />} 
                 id="basic-nav-dropdown" 
