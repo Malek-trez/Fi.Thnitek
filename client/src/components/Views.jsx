@@ -21,7 +21,11 @@ const Views = () => {
                 <Route path="signup" element={<SignUp/>}/>
                 <Route path="login" element={<Login/>}/>
                 <Route path="carpool" element={<Carpool/>}/>
+<<<<<<< HEAD
                 <Route path="chatHome" element={<ChatHome/>}/>
+=======
+                <Route path="chat" element={<ChatHome/>}/>
+>>>>>>> 9dd6445f37de8d744325ae7f555e9cba59ca1089
                 <Route path="offers" element={<AddOffer />} />
                 <Route path="train" element={<SearchBarTrain/>}/>
                 <Route path="rating" element={<Rating/>}/>
