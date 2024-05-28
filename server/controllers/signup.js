@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { pool } from '../db/db.js'; // Import the database connection
 
-const secretKey = 'your_secret_key';
+const secretKey = process.env.JWT_SECRET;
 
 // Function to generate JWT token
 function generateToken(user) {
@@ -36,6 +36,7 @@ export async function signup(req, res) {
     const token = generateToken(newUser.rows[0]);
     res.status(201).json({ token });
   } catch (err) {
+    console.log("Error during signup", err)
     res.status(500).json({ message: 'Error registering new user', err });
   }
 }

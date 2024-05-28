@@ -5,19 +5,19 @@ const addFriend = async (socket, friendName, cb) => {
     cb({ done: false, errorMsg: "Cannot add self!" });
     return;
   }
-  const friend = await redisClient.hgetall(`userid:${friendName}`);
+  const friend = await redisClient.hgetall(`userId:${friendName}`);
   const currentFriendList = await redisClient.lrange(
     `friends:${socket.user.username}`,
     0,
     -1
   );
-  if (!friend.userid) {
+  if (!friend.userId) {
     cb({ done: false, errorMsg: "User doesn't exist!" });
     return;
   }
   if (
     currentFriendList &&
-    currentFriendList.indexOf(`${friendName}.${friend.userid}`) !== -1
+    currentFriendList.indexOf(`${friendName}.${friend.userId}`) !== -1
   ) {
     cb({ done: false, errorMsg: "Friend already added!" });
     return;
@@ -25,12 +25,12 @@ const addFriend = async (socket, friendName, cb) => {
 
   await redisClient.lpush(
     `friends:${socket.user.username}`,
-    [friendName, friend.userid].join(".")
+    [friendName, friend.userId].join(".")
   );
 
   const newFriend = {
     username: friendName,
-    userid: friend.userid,
+    userId: friend.userId,
     connected: friend.connected,
   };
   cb({ done: true, newFriend });

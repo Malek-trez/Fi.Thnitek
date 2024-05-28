@@ -3,11 +3,11 @@ import addFriend from "./addFriend.js";
 import parseFriendList from "./parseFriendList.js";
 
 const initializeUser = async socket => {
-  socket.join(socket.user.userid);
+  socket.join(socket.user.userId);
   await redisClient.hset(
-    `userid:${socket.user.username}`,
-    "userid",
-    socket.user.userid,
+    `userId:${socket.user.username}`,
+    "userId",
+    socket.user.userId,
     "connected",
     true
   );
@@ -23,7 +23,7 @@ const initializeUser = async socket => {
     -1
   );
   const parsedFriendList = await parseFriendList(friendList);
-  const friendRooms = parsedFriendList.map(friend => friend.userid);
+  const friendRooms = parsedFriendList.map(friend => friend.userId);
 
   if (friendRooms.length > 0)
     socket.to(friendRooms).emit("connected", true, socket.user.username);
@@ -31,7 +31,7 @@ const initializeUser = async socket => {
   socket.emit("friends", parsedFriendList);
 
   const msgQuery = await redisClient.lrange(
-    `chat:${socket.user.userid}`,
+    `chat:${socket.user.userId}`,
     0,
     -1
   );

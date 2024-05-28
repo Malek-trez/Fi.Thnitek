@@ -43,31 +43,6 @@ exports.attemptLogin = async (req, res) => {
         if (potentialLogin.rowCount > 0) {
             let isSamePass = false;
 
-            /*if(potentialLogin.rows[0].password.startsWith('$2')){
-                console.log("You are on bcrypt hashing!");
-                isSamePass = await bcrypt.compare(
-                    req.body.password,
-                    potentialLogin.rows[0].password
-                );
-                if(!isSamePass){
-                    return res.json({ loggedIn: false, status: "Wrong username or password!" });
-                }else {
-                    const hashedPass = await argon2.hash(req.body.password, {
-                        memoryCost: 20480, // > 19 MiB (according to OWASP cheat sheet), (this in KB)
-                        timeCost: 2,
-                        parallelism: 1,
-                    });
-
-                    const updatePasswordQuery = await pool.query(
-                        'UPDATE users SET password = $1 WHERE id = $2',
-                        [hashedPass, potentialLogin.rows[0].id]
-                    );
-                    console.log("You became on argon2id hashing!");
-                }
-            }
-            else {
-            */
-
             isSamePass = await argon2.verify(
                 potentialLogin.rows[0].password,
                 req.body.password
