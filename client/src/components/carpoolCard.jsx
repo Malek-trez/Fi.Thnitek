@@ -6,8 +6,7 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [isBooked, setIsBooked] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-  const [isVisible, setIsVisible] = useState(true);
-
+  
   const handleBookNow = async (id, event) => {
     event.preventDefault();
     try {
@@ -17,7 +16,6 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
       setCapacity(newCapacity);
       if (newCapacity === 0) {
         onEmpty(id);
-        setTimeout(() => setIsVisible(false), 10000);
       }
       setBookingSuccess(true);
       setIsBooked(true);
@@ -44,11 +42,9 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
     }
   };
 
-  if (!isVisible) {
-    return null;
-  }
 
   return (
+    capacity > 0 ? (
     <div className="card">
       {bookingSuccess && <div className="alert alert-success" role="alert">{successMessage}</div>}
       <div className="row">
@@ -63,13 +59,14 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
             <h5 className="card-title">{carpool.depart}</h5>
             <h5 className="card-title">{carpool.destination}</h5>
             <p className="card-text">{`Schedule: ${carpool.schedule}`}</p>
-            <p className="card-text">{`Capacity: ${carpool.capacity}`}</p>
+            <p className="card-text">{`Capacity: ${capacity}`}</p>
             <p className="card-text">{`Price: ${carpool.price}`}</p>
             <a href="#" className={isBooked ? "btn btn-danger" : "btn btn-primary"} onClick={(event) => isBooked ? handleCancelBook(carpool.id, event) : handleBookNow(carpool.id, event)}>{isBooked ? " Cancel " : "Book Now"}</a>
           </div>
         </div>
       </div>
     </div>
+    ) : null
   );
 };
 

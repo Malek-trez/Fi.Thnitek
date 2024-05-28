@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 import { pool } from '../db/db.js'; // Import the database connection
 
 // Secret key for JWT token
-const secretKey = 'your_secret_key';
+const secretKey = process.env.JWT_SECRET;
 
 // Function to generate JWT token
 function generateToken(user) {
