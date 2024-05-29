@@ -9,6 +9,7 @@ import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import AddOffer from "./Offers.jsx";
 import SearchBarTrain from "./Train/Train.jsx";
+import Rating from "./rating.jsx";
 
 const Views = () => {
     const {user} = useContext(AccountContext);
@@ -20,9 +21,12 @@ const Views = () => {
                 <Route path="signup" element={<SignUp/>}/>
                 <Route path="login" element={<Login/>}/>
                 <Route path="carpool" element={<Carpool/>}/>
-                <Route path="chat" element={<ChatHome/>}/>
+
+                <Route path="chatHome" element={<ChatHome/>}/>
+
                 <Route path="offers" element={<AddOffer />} />
                 <Route path="train" element={<SearchBarTrain/>}/>
+                <Route path="rating" element={<Rating/>}/>
             </Route>
         </Routes>
         )

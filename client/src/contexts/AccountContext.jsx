@@ -5,8 +5,11 @@ export const AccountContext = createContext();
 
 const UserContext = ({ children }) => {
   const [user, setUser] = useState({
+    username: localStorage.getItem("username"),
+    role : localStorage.getItem("role"),
     loggedIn: null,
     token: localStorage.getItem("token"),
+    
   });
   const navigate = useNavigate();
   useEffect(() => {
@@ -17,23 +20,24 @@ const UserContext = ({ children }) => {
       },
     })
       .catch(err => {
-        setUser({ loggedIn: false });
+        setUser({ loggedIn: false, username: null, role: null });
         return;
       })
       .then(r => {
-        if (!r || !r.ok || r.status >= 400) {
-          setUser({ loggedIn: false });
+        if ( r.status >= 400) {
+          setUser({ loggedIn: false, username: null, role: null });
           return;
         }
+        
         return r.json();
       })
       .then(data => {
         if (!data) {
-          setUser({ loggedIn: false });
+          setUser({ loggedIn: false, username: null, role: null });
           return;
         }
+        console.log(data);
         setUser({ ...data });
-        navigate("/home");
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

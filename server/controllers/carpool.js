@@ -3,7 +3,13 @@ import { pool } from '../db/db.js';
 export async function allCarpool(req, res) {
     try {
         const client = await pool.connect();
-        const result = await client.query('SELECT * FROM carpool ORDER BY id');
+        const query = `
+        SELECT carpool.*, users.username AS provider_name, users.imageUrl AS provider_image
+        FROM carpool
+        JOIN users ON carpool.provider_id = users.id
+        ORDER BY carpool.id`;
+       const result = await client.query(query);
+       //const result = await client.query('SELECT * FROM carpool ORDER BY id');
         const carpools = result.rows;
         client.release(); 
         res.status(200).json({
