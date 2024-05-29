@@ -31,15 +31,6 @@ const Home = () => {
 
   return (
     <div>
-      {/* Display user greeting if logged in */}
-      {isLoggedIn && (
-        <div className="text-center">
-          <h2 className="my-4 text-dark">{userGreeting}</h2>
-          <button onClick={() => { logout(); setIsLoggingOut(true); }} className="btn btn-primary">
-            Logout
-          </button>
-        </div>
-      )}
 
       <div style={{ position: 'relative', width: '100%', height: '580px', overflow: 'hidden' }}>
         <img src={street} alt="Travel" style={{ width: '100%', height: 'auto' }} />

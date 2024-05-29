@@ -10,12 +10,9 @@ import { Route, Routes } from "react-router-dom";
 import AddOffer from "./Offers.jsx";
 import SearchBarTrain from "./Train/Train.jsx";
 import Rating from "./rating.jsx";
-<<<<<<< Updated upstream
 import Chat from "./Chat/Chat.jsx";
-=======
 import Profile from "./Profile.jsx"; 
 
->>>>>>> Stashed changes
 
 const Views = () => {
     const {user} = useContext(AccountContext);

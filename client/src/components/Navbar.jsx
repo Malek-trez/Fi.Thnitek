@@ -1,9 +1,31 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { AccountContext } from '../contexts/AccountContext'; // Import the AccountContext
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import { BsFillPersonFill } from "react-icons/bs";
 import logo from './images/logo.png';
 
+import Logout from './logout'; // Import the Logout component
+
+
 const NavBar = () => {
+
+    // Access the user context
+    const { user, logout } = useContext(AccountContext);
+    console.log(user);
+  
+    // Check if the user is logged in
+    const isLoggedIn = user.loggedIn;
+  
+    // If user is logged in, display the username
+    const userGreeting = isLoggedIn ? ` ${localStorage.getItem("username")}` : '';
+  
+    // State to handle logout action
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+  
+    if (isLoggingOut) {
+      return <Logout />; // Render the Logout component
+    }
+
   return (
     <>
       <style>
@@ -31,7 +53,7 @@ const NavBar = () => {
       </style>
       <Navbar bg="light" variant="light" expand="lg" className="justify-content-between px-0 pr-3">
         <Container fluid className="px-10">
-        <Navbar.Brand href="#" className="d-flex align-items-center">
+        <Navbar.Brand href="http://localhost:5173/" className="d-flex align-items-center">
             <img
               src={logo}
               height="60"
@@ -39,6 +61,12 @@ const NavBar = () => {
               alt="Fi.Thnitek Logo"
             />
           </Navbar.Brand>
+              {/* Display user greeting if logged in */}
+              {isLoggedIn && (
+                <div className="text-dark nav-link home-link">
+                  <p className="my-4 text-dark">{userGreeting}</p>
+                </div>
+              )}
           <Navbar.Toggle aria-controls="navbar-nav" />
           <Navbar.Collapse id="navbar-nav">
             <Nav className="me-auto">
@@ -70,6 +98,14 @@ const NavBar = () => {
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="http://localhost:5173/signup">Sign Up</NavDropdown.Item>
               </NavDropdown>
+
+              {isLoggedIn && (
+                <div className="text-center">
+                  <button onClick={() => { logout(); setIsLoggingOut(true); }} className="btn btn-primary">
+                    Logout
+                  </button>
+                </div>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
