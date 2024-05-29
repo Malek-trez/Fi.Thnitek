@@ -1,5 +1,3 @@
-// login.js
-
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { pool } from '../db/db.js'; // Import the database connection
@@ -29,7 +27,9 @@ export async function login(req, res) {
       if (isPasswordValid) {
         // Password matches, generate JWT token
         const token = generateToken(user);
-        res.json({loggedIn: true , token});
+        // Include username in the response
+        console.log("user",user.username);
+        res.json({username: user.username , role: user.role ,loggedIn: true, token });
       } else {
         // Password doesn't match
         res.status(401).json({ message: 'Invalid password' });
