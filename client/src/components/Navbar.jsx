@@ -65,10 +65,10 @@ const NavBar = () => {
               alt="Fi.Thnitek Logo"
             />
           </Navbar.Brand>
-              {/* Display user greeting if logged in */}
+              
               {isLoggedIn && (
                 <div className="text-dark nav-link home-link">
-                  <p className="my-4 text-dark">{userGreeting}</p>
+                  <p className="my-4 font-weight-bold ">{userGreeting}</p>
                 </div>
               )}
           <Navbar.Toggle aria-controls="navbar-nav" />
@@ -99,7 +99,7 @@ const NavBar = () => {
                 drop="down"
               >
                 {isLoggedIn && (
-                <><NavDropdown.Item href="#">Profile</NavDropdown.Item><NavDropdown.Divider /></>
+                <><NavDropdown.Item href="http://localhost:5173/profile">Profile</NavDropdown.Item><NavDropdown.Divider /></>
                  )}
                
                 <NavDropdown.Item href="http://localhost:5173/login">Log In</NavDropdown.Item>
