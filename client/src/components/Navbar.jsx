@@ -18,7 +18,11 @@ const NavBar = () => {
   
     // If user is logged in, display the username
     const userGreeting = isLoggedIn ? ` ${localStorage.getItem("username")}` : '';
-  
+    console.log(userGreeting);
+    const userRole = isLoggedIn ? localStorage.getItem("role") : '';
+    console.log(userRole);
+    const isFournisseur = (userRole==="fournisseur");
+    console.log(isFournisseur);
     // State to handle logout action
     const [isLoggingOut, setIsLoggingOut] = useState(false);
   
@@ -76,7 +80,9 @@ const NavBar = () => {
               <Nav.Link href="http://localhost:5173/train" className="text-dark nav-link">Train</Nav.Link>
               <Nav.Link href="#footer" className="text-dark nav-link">About Us</Nav.Link>
             </Nav>
+            
             <Nav className="me-auto">
+            {isLoggedIn && isFournisseur &&(
             <NavDropdown 
                 title={"Offer"} 
                 id="basic-nav-dropdown" 
@@ -86,14 +92,16 @@ const NavBar = () => {
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#">My Offers</NavDropdown.Item>
               </NavDropdown>
-              
+            )}
               <NavDropdown 
                 title={<BsFillPersonFill size={40} style={iconStyle} />} 
                 id="basic-nav-dropdown" 
                 drop="down"
               >
-                <NavDropdown.Item href="#">Profile</NavDropdown.Item>
-                <NavDropdown.Divider />
+                {isLoggedIn && (
+                <><NavDropdown.Item href="#">Profile</NavDropdown.Item><NavDropdown.Divider /></>
+                 )}
+               
                 <NavDropdown.Item href="http://localhost:5173/login">Log In</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="http://localhost:5173/signup">Sign Up</NavDropdown.Item>
