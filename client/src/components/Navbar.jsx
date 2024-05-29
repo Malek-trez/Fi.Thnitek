@@ -52,7 +52,12 @@ const NavBar = () => {
           .dropdown-item {
             font-size: 18px; /* Change font size */
             font-family: 'Georgia', serif; /* Change font family */
+          
           }
+
+        .dropdown-item:hover {
+          color: blue; /* Change to the desired color */
+        }
         `}
       </style>
       <Navbar bg="light" variant="light" expand="lg" className="justify-content-between px-0 pr-3">
@@ -81,7 +86,7 @@ const NavBar = () => {
               <Nav.Link href="#footer" className="text-dark nav-link">About Us</Nav.Link>
             </Nav>
             
-            <Nav className="me-auto">
+            <Nav className="me-4">
             {isLoggedIn && isFournisseur &&(
             <NavDropdown 
                 title={"Offer"} 
@@ -101,19 +106,15 @@ const NavBar = () => {
                 {isLoggedIn && (
                 <><NavDropdown.Item href="http://localhost:5173/profile">Profile</NavDropdown.Item><NavDropdown.Divider /></>
                  )}
-               
-                <NavDropdown.Item href="http://localhost:5173/login">Log In</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="http://localhost:5173/signup">Sign Up</NavDropdown.Item>
+               {!isLoggedIn && (
+                <><NavDropdown.Item href="http://localhost:5173/login">Log In</NavDropdown.Item><NavDropdown.Divider /></>
+               )}
+            
+                <NavDropdown.Item href="http://localhost:5173/signup">Sign Up</NavDropdown.Item><NavDropdown.Divider />
+                {isLoggedIn && (
+                  <NavDropdown.Item  onClick={() => { logout(); setIsLoggingOut(true); }} > Logout</NavDropdown.Item>
+                )}
               </NavDropdown>
-
-              {isLoggedIn && (
-                <div className="text-center">
-                  <button onClick={() => { logout(); setIsLoggingOut(true); }} className="btn btn-primary">
-                    Logout
-                  </button>
-                </div>
-              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
