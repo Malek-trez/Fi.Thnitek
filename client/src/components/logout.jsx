@@ -6,6 +6,8 @@ const Logout = () => {
 
     useEffect(() => {
         const handleLogout = () => {
+            localStorage.removeItem("username");
+            localStorage.removeItem("role");
             localStorage.removeItem("token");
             navigate('/');
             window.location.reload();
