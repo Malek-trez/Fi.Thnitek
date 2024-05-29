@@ -46,7 +46,7 @@ const NavBar = () => {
               <Nav.Link href="http://localhost:5173/carpool" className="text-dark nav-link">Carpool</Nav.Link>
               <Nav.Link href="#" className="text-dark nav-link">Bus</Nav.Link>
               <Nav.Link href="http://localhost:5173/train" className="text-dark nav-link">Train</Nav.Link>
-              <Nav.Link href="#" className="text-dark nav-link">About Us</Nav.Link>
+              <Nav.Link href="#footer" className="text-dark nav-link">About Us</Nav.Link>
             </Nav>
             <Nav className="me-auto">
             <NavDropdown 
