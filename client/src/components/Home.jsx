@@ -9,7 +9,7 @@ import Messenger from './Messenger';
 import street from './images/street.jpg';
 
 
-import Logout from './logout'; // Import the Logout component
+import Logout from './Logout'; // Import the Logout component
 
 const Home = () => {
   // Access the user context
