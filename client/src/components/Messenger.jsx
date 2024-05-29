@@ -1,38 +1,40 @@
 import React, { useState } from 'react';
-import { BsChatDotsFill } from 'react-icons/bs';
+import { BsMessenger } from 'react-icons/bs';
+import { useNavigate } from 'react-router';
 import ChatBox from './ChatBox'; // Assuming you have a ChatBox component
 
 const Messenger = () => {
   const [showChatBox, setShowChatBox] = useState(false);
-
+  const navigateTo=useNavigate();
   const toggleChatBox = () => {
-    setShowChatBox(!showChatBox);
+      navigateTo('/chat')
+    //setShowChatBox(!showChatBox);
   };
 
   return (
     <div style={messengerStyle}>
       {/* Messenger icon */}
       <div onClick={toggleChatBox} style={iconStyle}>
-        <BsChatDotsFill size={50} style={{ color: 'white' }} />
+        <BsMessenger size={40} style={{ color: 'white' }} />
       </div>
       {/* Chat box */}
-      {showChatBox && <ChatBox />}
+      {/*showChatBox && <ChatBox />*/}
     </div>
   );
 };
 
 const messengerStyle = {
   position: 'fixed',
-  bottom: '20px',
-  right: '30px',
+  bottom: '40px',
+  right: '20px',
   zIndex: '1000',
 };
 
 const iconStyle = {
   cursor: 'pointer',
   background: 'linear-gradient(45deg, #00FFFF, #0000FF)',
-  borderRadius: '50%',
-  padding: '10px',
+  borderRadius: '70%',
+  padding: '7px',
 };
 
 export default Messenger;

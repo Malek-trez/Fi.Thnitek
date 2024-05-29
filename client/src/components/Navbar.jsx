@@ -99,7 +99,7 @@ const NavBar = () => {
               </NavDropdown>
             )}
               <NavDropdown 
-                title={<BsFillPersonFill size={40} style={iconStyle} />} 
+                title={<BsFillPersonFill size={45} style={iconStyle} />} 
                 id="basic-nav-dropdown" 
                 drop="down"
               >
@@ -110,9 +110,9 @@ const NavBar = () => {
                 <><NavDropdown.Item href="http://localhost:5173/login">Log In</NavDropdown.Item><NavDropdown.Divider /></>
                )}
             
-                <NavDropdown.Item href="http://localhost:5173/signup">Sign Up</NavDropdown.Item><NavDropdown.Divider />
+                <NavDropdown.Item href="http://localhost:5173/signup">Sign Up</NavDropdown.Item>
                 {isLoggedIn && (
-                  <NavDropdown.Item  onClick={() => { logout(); setIsLoggingOut(true); }} > Logout</NavDropdown.Item>
+                  <><NavDropdown.Divider /><NavDropdown.Item onClick={() => { logout(); setIsLoggingOut(true); } }> Logout</NavDropdown.Item></>
                 )}
               </NavDropdown>
             </Nav>
@@ -127,7 +127,7 @@ const NavBar = () => {
 const iconStyle = {
   background: 'linear-gradient(45deg, #00FFFF, #0000FF)',
   borderRadius: '50%',
-  padding: '5px',
+  padding: '3px',
   color: 'white',
 };
 
