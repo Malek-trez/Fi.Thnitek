@@ -13,7 +13,7 @@ const onDisconnect = async socket => {
     -1
   );
   const friendRooms = await parseFriendList(friendList).then(friends =>
-    friends.map(friend => friend.userId)
+    friends.map(friend => String(friend.userId))
   );
   socket.to(friendRooms).emit("connected", false, socket.user.username);
 };

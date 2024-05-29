@@ -4,7 +4,7 @@ import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import { BsFillPersonFill } from "react-icons/bs";
 import logo from './images/logo.png';
 
-import Logout from './logout'; // Import the Logout component
+import Logout from './Logout'; // Import the Logout component
 
 
 const NavBar = () => {
