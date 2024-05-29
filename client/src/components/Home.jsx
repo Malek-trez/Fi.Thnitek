@@ -5,7 +5,11 @@ import MyCarousel from './MyCarousel'; // Import the MyCarousel component
 import GroupExample from './GroupExample';
 import CardExample from './CardExample';
 import Messenger from './Messenger';
-import Logout from './Logout'; // Import the Logout component
+
+import street from './images/street.jpg';
+
+
+import Logout from './logout'; // Import the Logout component
 
 const Home = () => {
   // Access the user context
@@ -27,15 +31,13 @@ const Home = () => {
 
   return (
     <div>
-      {/* Display user greeting if logged in */}
-      {isLoggedIn && (
-        <div className="text-center">
-          <h2 className="my-4 text-dark">{userGreeting}</h2>
-          <button onClick={() => { logout(); setIsLoggingOut(true); }} className="btn btn-primary">
-            Logout
-          </button>
+
+      <div style={{ position: 'relative', width: '100%', height: '580px', overflow: 'hidden' }}>
+        <img src={street} alt="Travel" style={{ width: '100%', height: 'auto' }} />
+        <div style={{width: '90%' , position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', color: 'white', fontSize: '30px', fontWeight: 'bold' , fontFamily: 'Georgia, serif' }}>
+          <p>"Travel smarter with Fi.Thnitek – your ultimate companion for carpool services and seamless bus and train ticket bookings. Save time, money, and the planet with every trip!"</p>
         </div>
-      )}
+      </div>
 
       <h2 className="my-4 text-center text-dark">Experience You Can Count On</h2>
       <GroupExample />

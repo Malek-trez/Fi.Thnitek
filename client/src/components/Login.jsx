@@ -40,6 +40,8 @@ const Login = () => {
       localStorage.setItem('username', data.username);
       localStorage.setItem('role', data.role);
       navigateTo('/');
+       // Refresh the page
+      window.location.reload();
     } catch (error) {
       setError(error.message);
     }
