@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
-
+import React, {useEffect, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 const ChatBox = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/chat")
+  } )
   const [reply, setReply] = useState('');
 
   const handleChange = (e) => {

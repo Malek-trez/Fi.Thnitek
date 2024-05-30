@@ -6,7 +6,7 @@ import image3 from './images/image3.jpg';
 
 const MyCarousel = () => {
   return (
-    <Carousel className="mx-4 my-4">
+    <Carousel className="mx-5 my-5">
       <Carousel.Item>
         <img
           className="d-block w-100"

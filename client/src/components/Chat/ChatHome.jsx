@@ -1,11 +1,12 @@
-import { Grid, GridItem, Tabs } from "@chakra-ui/react";
+import { Grid, GridItem, Tabs, CSSReset, ColorModeScript } from "@chakra-ui/react";
 import { createContext, useContext, useEffect, useState } from "react";
 import socketConn from "../../socket";
 import { AccountContext } from "../../contexts/AccountContext.jsx";
 import Chat from "./Chat";
 import Sidebar from "./Sidebar";
 import useSocketSetup from "./useSocketSetup";
-
+import { ChakraProvider } from "@chakra-ui/react";
+import theme from "../../components/Chat/theme.js"
 export const FriendContext = createContext();
 export const MessagesContext = createContext();
 export const SocketContext = createContext();
@@ -16,13 +17,17 @@ const ChatHome = () => {
   const [friendIndex, setFriendIndex] = useState(0);
 
   const { user } = useContext(AccountContext);
-  console.log("user: ", user)
   const [socket, setSocket] = useState(() => socketConn(user));
   useEffect(() => {
     setSocket(() => socketConn(user));
   }, [user]);
-  //useSocketSetup(setFriendList, setMessages, socket);
+  useSocketSetup(setFriendList, setMessages, socket);
+
   return (
+
+      <ChakraProvider resetCSS={false} disableGlobalStyle={true} theme={theme}>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <div className="workspace_manager">
     <FriendContext.Provider value={{ friendList, setFriendList }}>
       <SocketContext.Provider value={{ socket }}>
         <Grid
@@ -42,6 +47,8 @@ const ChatHome = () => {
         </Grid>
       </SocketContext.Provider>
     </FriendContext.Provider>
+        </div>
+      </ChakraProvider>
   );
 };
 

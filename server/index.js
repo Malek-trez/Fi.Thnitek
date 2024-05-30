@@ -1,5 +1,3 @@
-// index.js
-
 import express from 'express';
 import { login } from './controllers/login.js';
 import { allCarpool, onBookNow ,cancelBookNow,searchByDestination,searchByDepart,searchByPrice} from './controllers/carpool.js';
@@ -9,6 +7,7 @@ import { addOffer } from './controllers/offer.js';
 import {payment} from './controllers/payment.js';
 
 import cors from 'cors';
+import { Carpool_user } from './controllers/carpool_user.js';
 import { Server } from "socket.io";
 import addFriend from "./controllers/socketio/addFriend.js"
 import initializeUser from "./controllers/socketio/initializeUser.js";
@@ -19,17 +18,16 @@ import dm from "./controllers/socketio/dm.js";
 import http from "http";
 import handleLogin from "./controllers/socketio/handleLogin.js";
 
+import { getProfile } from  './controllers/profile.js';
+
 const app = express();
 app.use(cors({
   origin: 'http://localhost:5173',
-  //methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  //allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }));
 const PORT = process.env.PORT || 3000;
 
-
-const server = http.createServer(app)
+const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
@@ -53,6 +51,9 @@ app.get("/api/login", handleLogin);
 
 // Get all carpool
 app.get("/api/carpool", allCarpool);
+
+// Get a users carpool
+app.get("/api/carpool_user", Carpool_user);
 
 // Route for testing the API
 app.get('/api/testdata', test);
@@ -83,16 +84,14 @@ app.get('/Arret', allStops);
 // Search for available trips 
 app.get('/Arret/:destination/:departure/:hour', SearchTrainTrips);
 
-
-
-
+// Mount the profile route
+app.get('/api/profile',  getProfile);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something went wrong!');
 });
-
 
 io.use(authorizeUser);
 io.on("connect", socket => {
