@@ -21,6 +21,7 @@ import handleLogin from "./controllers/socketio/handleLogin.js";
 import { getProfile } from  './controllers/profile.js';
 
 import { getProviderProfile } from './controllers/providerProfileController.js'; 
+import { submitRating } from './controllers/ratingController.js';
 
 const app = express();
 app.use(cors({
@@ -91,6 +92,10 @@ app.get('/api/profile',  getProfile);
 
 // Route to get provider profile by provider_id
 app.get('/api/users/:provider_id', getProviderProfile);
+
+
+// Route to submit rating and feedback
+app.post('/api/rating', submitRating);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

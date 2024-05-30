@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AccountContext } from '../contexts/AccountContext'; // Import the AccountContext
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const CarpoolCard = ({ carpool, onEmpty }) => {
   const { user } = useContext(AccountContext); // Access the user context
@@ -71,10 +72,16 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
       {bookingSuccess && <div className="alert alert-success" role="alert">{successMessage}</div>}
       <div className="row">
         <div className="col-md-4">
-          <a href={`/rating/${carpool.provider_id}`}>
+        {/* Render the link only if the user is logged in */}
+   
             <img src={carpool.provider_image} className="img-fluid rounded-start h-80" alt="..." />
             <p className="card-text">{`Provider: ${carpool.provider_name}`}</p>
-          </a>
+            {user.loggedIn && (
+              <Link to={`/rating/${carpool.provider_id}`}>
+                Rate 
+              </Link>
+            )}
+          
         </div>
         <div className="col-md-8">
           <div className="card-body">
