@@ -2,8 +2,8 @@ import React, { useContext, useState } from 'react';
 import { AccountContext } from '../contexts/AccountContext'; // Import the AccountContext
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import { BsFillPersonFill } from "react-icons/bs";
+import OffersModal from './OffersModal';
 import logo from './images/logo.png';
-
 import Logout from './Logout'; // Import the Logout component
 
 
@@ -93,7 +93,7 @@ const NavBar = () => {
                 id="basic-nav-dropdown" 
                 drop="down"
               >
-                <NavDropdown.Item href="http://localhost:5173/offers">Add New Offer</NavDropdown.Item>
+                <OffersModal />
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#">My Offers</NavDropdown.Item>
               </NavDropdown>
