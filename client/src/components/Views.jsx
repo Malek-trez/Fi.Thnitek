@@ -12,6 +12,7 @@ import SearchBarTrain from "./Train/Train.jsx";
 import Rating from "./rating.jsx";
 import ChatHome from "./Chat/ChatHome.jsx";
 import Profile from "./Profile.jsx";
+import UserOffers from "./UserOffers.jsx"
 
 const Views = () => {
     const {user} = useContext(AccountContext);
@@ -28,6 +29,7 @@ const Views = () => {
                 <Route path="train" element={<SearchBarTrain/>}/>
                 <Route path="rating" element={<Rating/>}/>
                 <Route path="profile" element={<Profile/>}/>
+                <Route path="Myoffers" element={<UserOffers/>}/>
             </Route>
         </Routes>
         )

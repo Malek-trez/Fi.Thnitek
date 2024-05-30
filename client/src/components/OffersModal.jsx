@@ -27,7 +27,7 @@ function OffersModal() {
           < AddOffer />
         </Modal.Body>
         <Modal.Footer style={{ display: 'flex', justifyContent: 'center' }}>
-        <button type="submit" className="button-5" onClick={handleClose} >submit</button>
+        <button type="submit" className="button-5"  form="AddOfferForm" onClick={handleClose} >submit</button>
         </Modal.Footer>
       </Modal>
     </>

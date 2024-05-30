@@ -4,6 +4,7 @@ import { allCarpool, onBookNow ,cancelBookNow,searchByDestination,searchByDepart
 import { signup } from './controllers/signup.js';
 import { test } from './controllers/testdb.js';
 import cors from 'cors';
+import { Carpool_user } from './controllers/carpool_user.js';
 import { Server } from "socket.io";
 import addFriend from "./controllers/socketio/addFriend.js"
 import initializeUser from "./controllers/socketio/initializeUser.js";
@@ -45,6 +46,9 @@ app.get("/api/login", handleLogin);
 
 // Get all carpool
 app.get("/api/carpool", allCarpool);
+
+// Get a users carpool
+app.get("/api/carpool_user", Carpool_user);
 
 // Route for testing the API
 app.get('/api/testdata', test);

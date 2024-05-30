@@ -14,7 +14,7 @@ async function checkOffersTableExists() {
     const { rows } = await pool.query(checkTableQuery);
     return rows[0].exists;
   } catch (err) {
-    console.error('Error checking offers table:', err);
+    console.error('Error checking carpool table:', err);
     throw err;
   }
 }
@@ -39,12 +39,12 @@ async function createOffersTable() {
         CONSTRAINT fk_provider FOREIGN KEY (provider_id) REFERENCES users(id)
     );  `;
       await pool.query(createTableQuery);
-      console.log('Offers table created successfully.');
+      console.log('carpool table created successfully.');
     } else {
-      console.log('Offers table already exists.');
+      console.log('carpool table already exists.');
     }
   } catch (err) {
-    console.error('Error creating offers table:', err);
+    console.error('Error creating carpool table:', err);
     throw err;
   }
 }

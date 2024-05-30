@@ -95,7 +95,7 @@ const NavBar = () => {
               >
                 <OffersModal />
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#">My Offers</NavDropdown.Item>
+                <NavDropdown.Item href="http://localhost:5173/MyOffers">My Offers</NavDropdown.Item>
               </NavDropdown>
             )}
               <NavDropdown 
