@@ -16,7 +16,7 @@ const Carpool = () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}carpool`);
                 const { data } = response.data;
-                setCarpools(data.carpools);
+                setCarpools(data.carpools.filter(carpool => carpool.capacity > 0));
             } catch (err) {
                 console.error(err);
             }
@@ -26,7 +26,8 @@ const Carpool = () => {
     }, []);
 
     const handleCarpoolEmpty = (id) => {
-        setCarpools(carpools.filter(carpool => carpool.id !== id));
+        // Log the event instead of removing the carpool from the state
+        console.log(`Carpool with id ${id} has zero capacity.`);
     };
 
     const handleFilter = async (searchField, selectedFilter) => {
@@ -36,7 +37,8 @@ const Carpool = () => {
             } else {
                 const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}carpool/searchBy${selectedFilter}?${selectedFilter}=${searchField}`);
                 const { data } = response.data;
-                setFilteredCarpools(data.carpools);
+                const filteredData = data.carpools.filter(carpool => carpool.capacity > 0);
+                setFilteredCarpools(filteredData);
                 setSearchPerformed(true);
             }
         } catch (err) {
@@ -52,6 +54,8 @@ const Carpool = () => {
 
     const pagesVisited = pageNumber * carpoolPerPage;
 
+    const displayCarpools = searchPerformed ? filteredCarpools : carpools;
+
     return (
         <div>
             <div>
@@ -59,30 +63,33 @@ const Carpool = () => {
             </div>
             <div className="container">
                 <div className="row">
-                    {(searchPerformed ? filteredCarpools : carpools).slice(pagesVisited, pagesVisited + carpoolPerPage).map((carpool) => (
-                        <div key={carpool.id} className="col-lg-4 mb-3">
-                            <CarpoolCard carpool={carpool} onEmpty={handleCarpoolEmpty} />
+                    {displayCarpools.length > 0 ? (
+                        displayCarpools.slice(pagesVisited, pagesVisited + carpoolPerPage).map((carpool) => (
+                            <div key={carpool.id} className="col-lg-4 mb-3">
+                                <CarpoolCard carpool={carpool} onEmpty={handleCarpoolEmpty} />
+                            </div>
+                        ))
+                    ) : (
+                        <div className="col-12 text-center">
+                            <strong>No results found</strong>
                         </div>
-                    ))}
+                    )}
                 </div>
                 <div className="d-flex justify-content-center">
-                <ReactPaginate
-                    previousLabel={"Previous"}
-                    nextLabel={"Next"}
-                    pageCount={pageCount}
-                    onPageChange={changePage}
-                    containerClassName={"pagination"}
-                    previousLinkClassName={"page-link"}
-                    nextLinkClassName={"page-link"}
-                    pageClassName={"page-item"}
-                    pageLinkClassName={"page-link"}
-                    disabledClassName={"disabled"}
-                    activeClassName={"active"}
-                    style={{
-                        margin: "20px 0"
-                    }}
-                />
-            </div>
+                    <ReactPaginate
+                        previousLabel={"Previous"}
+                        nextLabel={"Next"}
+                        pageCount={pageCount}
+                        onPageChange={changePage}
+                        containerClassName={"pagination"}
+                        previousLinkClassName={"page-link"}
+                        nextLinkClassName={"page-link"}
+                        pageClassName={"page-item"}
+                        pageLinkClassName={"page-link"}
+                        disabledClassName={"disabled"}
+                        activeClassName={"active"}
+                    />
+                </div>
             </div>
         </div>
     );

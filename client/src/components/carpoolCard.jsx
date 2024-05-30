@@ -10,6 +10,9 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
 
   const handleBookNow = async (id, event) => {
     event.preventDefault();
+    if (capacity === 0) {
+      return;
+    }
     try {
       const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}carpool/book`, { id });
       console.log(response.data);
@@ -17,12 +20,12 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
       setCapacity(newCapacity);
       if (newCapacity === 0) {
         onEmpty(id);
-        setTimeout(() => setIsVisible(false), 10000);
+        /*setTimeout(() => setIsVisible(false), 10000);*/
       }
       setBookingSuccess(true);
       setIsBooked(true);
       setSuccessMessage('Booked with success!');
-      setTimeout(() => setBookingSuccess(false), 3000);
+      setTimeout(() => setBookingSuccess(false), 2500);
     } catch (error) {
       console.error('Error booking carpool:', error);
     }
@@ -38,7 +41,7 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
       setBookingSuccess(true);
       setIsBooked(false);
       setSuccessMessage('Canceled with success!');
-      setTimeout(() => setBookingSuccess(false), 3000);
+      setTimeout(() => setBookingSuccess(false), 2500);
     } catch (error) {
       console.error('Error cancelling carpool:', error);
     }
@@ -54,8 +57,8 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
       <div className="row">
         <div className="col-md-4">
           <a href={`/profile/${carpool.provider_id}`}>
-            <img src={carpool.provider_image}  className="img-fluid rounded-start h-80" alt="..." />
-            <p className="card-text">{`Provider: ${carpool.provider_name}`}</p> 
+            <img src={carpool.provider_image} className="img-fluid rounded-start h-80" alt="..." />
+            <p className="card-text">{`Provider: ${carpool.provider_name}`}</p>
           </a>
         </div>
         <div className="col-md-8">
@@ -63,9 +66,19 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
             <h5 className="card-title">{carpool.depart}</h5>
             <h5 className="card-title">{carpool.destination}</h5>
             <p className="card-text">{`Schedule: ${carpool.schedule}`}</p>
-            <p className="card-text">{`Capacity: ${capacity}`}</p>
+            <p className="card-text">
+              {`Capacity: ${capacity}`}
+              {capacity === 0 && <span style={{ color: 'red', fontWeight: 'bold' }}> (Full)</span>}
+            </p>
             <p className="card-text">{`Price: ${carpool.price}`}</p>
-            <a href="#" className={isBooked ? "btn btn-danger" : "btn btn-primary"} onClick={(event) => isBooked ? handleCancelBook(carpool.id, event) : handleBookNow(carpool.id, event)}>{isBooked ? " Cancel " : "Book Now"}</a>
+            <a
+              href="#"
+              className={isBooked ? "btn btn-danger" : "btn btn-primary"}
+              onClick={(event) => isBooked ? handleCancelBook(carpool.id, event) : handleBookNow(carpool.id, event)}
+              disabled={capacity === 0 && !isBooked}
+            >
+              {isBooked ? "Cancel" : "Book Now"}
+            </a>
           </div>
         </div>
       </div>
