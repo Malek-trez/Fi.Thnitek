@@ -1,10 +1,8 @@
 
 import {pool} from '../db/db.js';
-
-const SECRET_KEY  = 'sk_test_51P84gTJev0bjP9UuzmkZr0Rmc3On6KqnnuvnFKH63Q41kYdPqBOQPKPgD1fKghoVUaYQ9SwhchCtvPhn1hwv9326005uVgaQ7J'
 import Stripe from 'stripe';
 
-const stripe = new Stripe(SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 
 
@@ -12,14 +10,14 @@ const stripe = new Stripe(SECRET_KEY);
 export async function createPayment(paymentData) {
     return stripe.customers.create({
         email: paymentData.email,
-        source: paymentData.token,
+        source: "tok_visa",
         name: paymentData.name,
         //address: paymentData.address,
     }).then((customer) => {
         return stripe.charges.create({
-            amount: paymentData.amount,
+            amount: 1000,
             description: paymentData.description,
-            currency: paymentData.currency,
+            currency: "usd",
             customer: customer.id,
         }).then((charge) => {
             return {

@@ -10,6 +10,7 @@ import { Route, Routes } from "react-router-dom";
 import AddOffer from "./Offers.jsx";
 import SearchBarTrain from "./Train/Train.jsx";
 import Rating from "./rating.jsx";
+import Paymentform from "./Payment.jsx";
 
 const Views = () => {
     const {user} = useContext(AccountContext);
@@ -27,6 +28,8 @@ const Views = () => {
                 <Route path="offers" element={<AddOffer />} />
                 <Route path="train" element={<SearchBarTrain/>}/>
                 <Route path="rating" element={<Rating/>}/>
+                <Route path="payment" element={<Paymentform/>}/>
+
             </Route>
         </Routes>
         )
