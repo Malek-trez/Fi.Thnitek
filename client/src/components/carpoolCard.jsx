@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { AccountContext } from '../contexts/AccountContext'; // Import the AccountContext
+import { useNavigate } from 'react-router';
 
 const CarpoolCard = ({ carpool, onEmpty }) => {
+  const { user } = useContext(AccountContext); // Access the user context
   const [capacity, setCapacity] = useState(carpool.capacity);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [isBooked, setIsBooked] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [isVisible, setIsVisible] = useState(true);
-
+  const navigateTo=useNavigate();
   const handleBookNow = async (id, event) => {
     event.preventDefault();
     if (capacity === 0) {
       return;
     }
     try {
+      // Check if user is logged in
+      if (!user.loggedIn) {
+        navigateTo('/login');
+        return;
+      }
+
       const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}carpool/book`, { id });
       console.log(response.data);
       const newCapacity = capacity - 1;
@@ -34,6 +43,12 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
   const handleCancelBook = async (id, event) => {
     event.preventDefault();
     try {
+      // Check if user is logged in
+      if (!user.loggedIn) {
+        navigateTo('/login');
+         return;
+      }
+
       const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}carpool/cancel`, { id });
       console.log(response.data);
       const newCapacity = capacity + 1;

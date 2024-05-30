@@ -9,8 +9,56 @@ function generateToken(user) {
   return jwt.sign({ userId: user.id, username: user.username }, secretKey, { expiresIn: '1h' });
 }
 
+async function checkOffersTableExists() {
+  try {
+    // Query to check if the offers table exists in the database
+    const checkTableQuery = `
+      SELECT EXISTS (
+        SELECT 1
+        FROM information_schema.tables 
+        WHERE table_name = 'users'
+      )
+    `;
+    const { rows } = await pool.query(checkTableQuery);
+    return rows[0].exists;
+  } catch (err) {
+    console.error('Error checking offers table:', err);
+    throw err;
+  }
+}
+
+// Function to create the offers table if it doesn't exist
+async function createOffersTable() {
+  try {
+    // Check if the offers table already exists
+    const tableExists = await checkOffersTableExists();
+
+    // If the table doesn't exist, create it
+    if (!tableExists) {
+      const createTableQuery = `
+      CREATE TABLE users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(48) UNIQUE NOT NULL,
+        password VARCHAR(256) NOT NULL,
+        email VARCHAR(254),
+        phone VARCHAR(100),
+        role VARCHAR(100),
+        imageUrl text
+      );    `;
+      await pool.query(createTableQuery);
+      console.log('Users table created successfully.');
+    } else {
+      console.log('Users table already exists.');
+    }
+  } catch (err) {
+    console.error('Error creating Users table:', err);
+    throw err;
+  }
+}
+
 // Controller for handling user signup
 export async function signup(req, res) {
+  await createOffersTable();
   const { username, password, confirmPassword, email, phone, role } = req.body;
 
   if (password !== confirmPassword) {

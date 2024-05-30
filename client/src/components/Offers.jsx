@@ -13,6 +13,7 @@ const AddOffer = () => {
     schedule: '',
     price: 0,
     capacity: '',
+    provider_id: 1
   });
   const [error, setError] = useState(null);
   const navigateTo = useNavigate();
@@ -78,7 +79,7 @@ const AddOffer = () => {
       <section>
         <div className="container login-block">
           <h2 className="text-center pb-3 mb-3 border-bottom border-primary">Add new offer</h2>
-          <form onSubmit={handleSubmit}>
+          <form id= "AddOfferForm" onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="depart" className="form-label">Depart</label>
               <input
@@ -140,7 +141,6 @@ const AddOffer = () => {
                 required
               />
             </div>
-            <button type="submit" className="button-5">submit</button>
             {error && <p className="mt-3 text-danger">{error}</p>}
           </form>
         </div>
