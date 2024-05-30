@@ -31,6 +31,8 @@ const ProfilePage = () => {
         <div>
           <p>Name: {profile.username}</p>
           <p>Email: {profile.email}</p>
+          <p>id: {profile.id}</p>
+
           {/* Add more profile information as needed */}
         </div>
       ) : (
