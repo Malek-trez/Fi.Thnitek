@@ -18,6 +18,8 @@ import handleLogin from "./controllers/socketio/handleLogin.js";
 
 import { getProfile } from  './controllers/profile.js';
 
+import { getProviderProfile } from './controllers/providerProfileController.js'; 
+
 const app = express();
 app.use(cors({
   origin: 'http://localhost:5173',
@@ -81,6 +83,9 @@ app.get('/Arret/:destination/:departure/:hour', SearchTrainTrips);
 
 // Mount the profile route
 app.get('/api/profile',  getProfile);
+
+// Route to get provider profile by provider_id
+app.get('/api/users/:provider_id', getProviderProfile);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

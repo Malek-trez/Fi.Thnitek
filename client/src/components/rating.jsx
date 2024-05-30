@@ -1,21 +1,40 @@
-import { useState } from "react";
-
-import { FaStar } from "react-icons/fa";
+import { useParams } from 'react-router-dom';
+import { useEffect, useState, useContext } from 'react';
+import axios from 'axios';
+import { FaStar } from 'react-icons/fa';
+import { AccountContext } from '../contexts/AccountContext';
 
 const colors = {
-    orange: "#FFBA5A",
-    grey: "#a9a9a9"
-    
+  orange: "#FFBA5A",
+  grey: "#a9a9a9"
 };
 
-
-
 function Rating() {
-    const [currentValue, setCurrentValue] = useState(0);
-    const [hoverValue, setHoverValue] = useState(undefined);
-    const [feedback, setFeedback] = useState('');
-    const [submittedRating, setSubmittedRating] = useState(null);
-    const [submittedFeedback, setSubmittedFeedback] = useState('');
+  const { provider_id } = useParams(); // Retrieve provider_id from URL
+  const { user } = useContext(AccountContext); // Access user data from context
+  const [currentValue, setCurrentValue] = useState(0);
+  const [hoverValue, setHoverValue] = useState(undefined);
+  const [feedback, setFeedback] = useState('');
+  const [submittedRating, setSubmittedRating] = useState(null);
+  const [submittedFeedback, setSubmittedFeedback] = useState('');
+  const [providerData, setProviderData] = useState(null); // State to hold provider data
+
+  useEffect(() => {
+    const fetchProviderData = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}users/${provider_id}`, {
+          headers: {
+            Authorization: `Bearer ${user.token}` // Add JWT token to request headers
+          }
+        });
+        setProviderData(response.data);
+      } catch (error) {
+        console.error('Error fetching provider data:', error);
+      }
+    };
+
+    fetchProviderData();
+  }, [provider_id, user.token]);
   
     const stars = Array(5).fill(0);
   
@@ -51,6 +70,15 @@ function Rating() {
   
     return (
       <div style={styles.container}>
+      {providerData && (
+        <div style={styles.providerInfo}>
+          <h3>Provider Information</h3>
+          <p><strong>Username:</strong> {providerData.username}</p>
+          <p><strong>Email:</strong> {providerData.email}</p>
+          <p><strong>Phone:</strong> {providerData.phone}</p>
+          {/* Add any other provider details you want to display */}
+        </div>
+      )}
         <h2>Rating</h2>
         <div style={styles.stars}>
           {stars.map((_, index) => {

@@ -71,7 +71,7 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
       {bookingSuccess && <div className="alert alert-success" role="alert">{successMessage}</div>}
       <div className="row">
         <div className="col-md-4">
-          <a href={`/profile/${carpool.provider_id}`}>
+          <a href={`/rating/${carpool.provider_id}`}>
             <img src={carpool.provider_image} className="img-fluid rounded-start h-80" alt="..." />
             <p className="card-text">{`Provider: ${carpool.provider_name}`}</p>
           </a>
