@@ -29,15 +29,18 @@ const Views = () => {
                 <Route path="login" element={<Login/>}/>
                 <Route path="carpool" element={<Carpool/>}/>
                 <Route path="chat" element={<ChatHome/>}/>
-
                 <Route path="offers" element={<AddOffer />} />
                 <Route path="train" element={<SearchBarTrain/>}/>
-                <Route path="rating" element={<Rating/>}/>
+                <Route path="rating/:provider_id" element={<Rating/>}/>
                 <Route path="payment" element={<Paymentform/>}/>
                 <Route path="history" element={<PaymentHistory/>}/>
 
                 <Route path="profile" element={<Profile/>}/>
+
                 <Route path="Myoffers" element={<UserOffers/>}/>
+                <Route path="profile" element={<Profile/>}/>
+                <Route path="notifications" element={<Notification/>}/>
+                <Route path="profilepage" element={<ProfilePage />} />
             </Route>
         </Routes>
         )
