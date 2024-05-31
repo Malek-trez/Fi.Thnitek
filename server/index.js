@@ -123,7 +123,7 @@ app.post('/api/changeNotifStatus', updateNotificationStatus);
 
 app.post('/api/profileEdit', profileEdit);
 app.get('/api/profilepage', getProfilee);
-app.post('/api/profiledel', deleteProfile);
+app.get('/api/profiledel', deleteProfile);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

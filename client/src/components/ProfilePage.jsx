@@ -148,7 +148,7 @@ setError(error.message);
 }
 };
   return (
-    <div className='profile-container'>
+    <div className='profile-container' >
       <h1 className='user'>User Profile</h1>
       {!buttonClicked && <button className='button-5' onClick={handleConsultProfile}>Consult Profile</button>}
       {profileData && (
