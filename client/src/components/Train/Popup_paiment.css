@@ -1,80 +1,66 @@
-/* Popup.css */
-.popup-overlay {
+/* Popup_paiment.css */
+.popup {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Ensure the popup is above other content */
 }
 
-.popup-content {
-  background: #fff;
+.popup-inner {
+  background-color: white;
+  color: black; /* Ensures text is visible */
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  color: #000; /* Ensure text color is black */
-  max-width: 400px;
-  width: 100%;
-  text-align: center; /* Center-align the text */
+  width: 400px; /* Increase width */
+  text-align: center;
 }
 
-.popup-content h2 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333; /* Darker heading color for better readability */
+.popup-inner .details {
+  margin-bottom: 15px;
 }
 
-.popup-content p {
-  margin: 10px 0; /* Add spacing between rows */
-  font-size: 16px;
-}
-
-.popup-content strong {
-  font-weight: bold;
-  color: #000; /* Stronger color for emphasis */
-}
-
-.popup-buttons {
+.popup-inner .details div {
+  margin-bottom: 10px;
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px; /* Add spacing between the data and the buttons */
+  justify-content: center;
 }
 
-.popup-buttons .btn {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  flex: 1; /* Make buttons take equal width */
-  margin: 0 5px; /* Add spacing between buttons */
-  font-size: 1px;
+.popup-inner .details label {
+  font-weight: bold; /* Make the labels bold */
 }
 
-.popup-buttons .btn:hover {
-  background-color: #0056b3;
+.popup-inner .details span {
+  font-weight: normal; /* Make the values normal weight */
+  margin-left: 5px; /* Space between label and value */
 }
 
-.popup-buttons .btn:focus {
-  outline: none;
-  box-shadow: 0 0 3px #0056b3;
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.popup-buttons .cancel-btn {
-  background-color: #dc3545; /* Red color for cancel button */
+.form-group label {
+  font-weight: bold; /* Make the label bold */
+  margin-right: 10px;
 }
 
-.popup-buttons .cancel-btn:hover {
-  background-color: #c82333;
+.form-group input {
+  width: 60px; /* Smaller input field */
 }
 
-.popup-buttons .cancel-btn:focus {
-  box-shadow: 0 0 3px #c82333;
+.button-group {
+  display: flex;
+  justify-content: center;
+}
+
+.button-group .btn {
+  margin: 0 10px; /* Add space between buttons */
+  padding: 10px 20px; /* Adjust button size */
 }

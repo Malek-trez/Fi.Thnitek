@@ -1,27 +1,58 @@
-import React from 'react';
-import './Popup_paiment.css'; 
+import React, { useState } from 'react';
+import './Popup_paiment.css';
 
-const Popup = ({ row, togglePopup }) => {
+const PopupPaiment = ({ row, onClose, onBooking, Date }) => {
+  const [reservationCount, setReservationCount] = useState(1);
 
-  const handlePayment = () => {
-    // Handle proceed to payment logic here
-    console.log('Proceed to payment');
+  const handleBookingClick = () => {
+    onBooking(row, reservationCount);
+    onClose();
   };
+
   return (
-    <div className="popup-overlay">
-      <div className="popup-content">
-        <h2>Reservation Details</h2>
-        <p><strong>Departure:</strong> {row.departure}</p>
-        <p><strong>Time of Departure:</strong> {row.Date_Sortie}</p>
-        <p><strong>Destination:</strong> {row.destination}</p>
-        <p><strong>Time of Arrival:</strong> {row.Date_Arret}</p>
-        <div className="popup-buttons">
-          <button className="btn proceed-btn" onClick={handlePayment}>Proceed to Payment</button>
-          <button className="btn cancel-btn" onClick={togglePopup}>Cancel</button>
+    <div className="popup">
+      <div className="popup-inner">
+        <h3>Booking details</h3>
+        <div className="details">
+          <div>
+            <label>Departure:</label>
+            <span>{row.departure}</span>
+          </div>
+          <div>
+            <label>Destination:</label>
+            <span>{row.destination}</span>
+          </div>
+          <div>
+            <label>Date:</label>
+            <span>{Date}</span>
+          </div>
+          <div>
+            <label>Time of Departure:</label>
+            <span>{row.Date_Sortie}</span>
+          </div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="reservationCount">Number of Reservations:</label>
+          <input
+            type="number"
+            id="reservationCount"
+            className="form-control"
+            value={reservationCount}
+            min="1"
+            onChange={(e) => setReservationCount(e.target.value)}
+          />
+        </div>
+        <div className="button-group">
+          <button className="btn btn-success" onClick={handleBookingClick}>
+            Proceed to paiment
+          </button>
+          <button className="btn btn-secondary" onClick={onClose}>
+            Close
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default Popup;
+export default PopupPaiment;
