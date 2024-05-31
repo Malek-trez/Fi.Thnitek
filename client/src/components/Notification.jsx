@@ -46,9 +46,9 @@ const Notification = () => {
 
   return (
     <div>
-        <div className="Title">
-    <h1>Notifications</h1>
-    </div>
+        
+    <h1 className="my-4 text-center text-dark">Notifications</h1>
+    
     {notifications.length === 0 ? (
       <p>No new notifications</p>
     ) : (

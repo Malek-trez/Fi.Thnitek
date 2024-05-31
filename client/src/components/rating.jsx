@@ -88,14 +88,14 @@ function Rating() {
     <div style={styles.container}>
       {providerData && (
         <div style={styles.providerInfo}>
-          <h3>Provider Information</h3>
+          <h2  className="my-4 text-center text-dark">Provider Information</h2 >
           <p><strong>Username:</strong> {providerData.username}</p>
           <p><strong>Email:</strong> {providerData.email}</p>
           <p><strong>Phone:</strong> {providerData.phone}</p>
           {/* Add any other provider details you want to display */}
         </div>
       )}
-      <h2>Rating</h2>
+      <h2 className="my-4 text-center text-dark">Rating</h2>
       <div style={styles.stars}>
         {stars.map((_, index) => {
           return (

@@ -87,8 +87,6 @@ export async function signup(req, res) {
     const notificationValues = [userId, 'Welcome!', 'Welcome to our platform!']; // Example message content
     
     await pool.query(notificationQuery, notificationValues);
-    
-    await pool.query(notificationQuery, notificationValues);
 
     // Generate JWT token
     const token = generateToken(newUser.rows[0]);
