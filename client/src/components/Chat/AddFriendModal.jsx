@@ -25,7 +25,7 @@ const AddFriendModal = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={closeModal}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Add a friend!</ModalHeader>
+        <ModalHeader>Add a connection!</ModalHeader>
         <ModalCloseButton />
         <Formik
           initialValues={{ friendName: "" }}
@@ -51,8 +51,8 @@ const AddFriendModal = ({ isOpen, onClose }) => {
                 {error}
               </Heading>
               <TextField
-                label="Friend's name"
-                placeholder="Enter friend's username.."
+                label="Connection's name"
+                placeholder="Enter connection's username.."
                 autoComplete="off"
                 name="friendName"
               />

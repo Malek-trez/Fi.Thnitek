@@ -21,7 +21,7 @@ const Sidebar = () => {
     <>
       <VStack py="1.4rem">
         <HStack justify="space-evenly" w="100%">
-          <Heading size="md">Add Friend</Heading>
+          <Heading size="md">Add Connection</Heading>
           <Button onClick={onOpen}>
             <ChatIcon />
           </Button>
