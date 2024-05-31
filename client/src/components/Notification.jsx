@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AccountContext } from '../contexts/AccountContext';
+import './Notification.css';
 
 const Notification = () => {
   const { user } = useContext(AccountContext);
@@ -45,19 +46,30 @@ const Notification = () => {
 
   return (
     <div>
-      <h1>Notifications</h1>
-      {notifications.length === 0 ? (
-        <p>No new notifications</p>
-      ) : (
-        <ul>
-          {notifications.map(notification => (
-            <li key={notification.id} style={{ backgroundColor: notification.status === 'unread' ? '#ccc' : 'transparent' }}>
-              <strong>{notification.title}</strong> - {notification.message} (Created at: {new Date(notification.created_at).toLocaleString()})
-            </li>
-          ))}
-        </ul>
-      )}
+        <div className="Title">
+    <h1>Notifications</h1>
     </div>
+    {notifications.length === 0 ? (
+      <p>No new notifications</p>
+    ) : (
+      <ul>
+        {notifications.map((notification, index) => (
+          <React.Fragment key={notification.id}>
+            <li style={{ backgroundColor: notification.status === 'unread' ? '#ccc' : 'transparent' }}>
+              <strong>{notification.title}</strong> 
+              <div className="notification-item">
+                <div>
+               {notification.message}</div><div> {new Date(notification.created_at).toLocaleString()}</div>
+               </div>
+            </li>
+            {index !== notifications.length - 1 && <hr />} 
+          </React.Fragment>
+        ))}
+      </ul>
+    )}
+  </div>
+  
+
   );
 };
 

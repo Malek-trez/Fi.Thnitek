@@ -9,7 +9,6 @@ export async function updateNotificationStatus(req, res) {
 
             // Update status to 'read' for fetched notifications
             const { rowCount } = await pool.query(updateQuery, ['read', userId, 'unread']);
-            console.log(`Updated ${rowCount} notifications to 'read' status.`);
 
             // No response needed
         });
