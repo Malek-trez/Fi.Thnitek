@@ -5,6 +5,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import OffersModal from './OffersModal';
 import logo from './images/logo.png';
 import Logout from './Logout'; // Import the Logout component
+import { MdNotifications } from "react-icons/md"; // Import the notification icon
 
 
 const NavBar = () => {
@@ -87,6 +88,8 @@ const NavBar = () => {
             </Nav>
             
             <Nav className="me-4">
+         
+            
             {isLoggedIn && isFournisseur &&(
             <NavDropdown 
                 title={"Offer"} 
@@ -115,6 +118,10 @@ const NavBar = () => {
                   <><NavDropdown.Divider /><NavDropdown.Item onClick={() => { logout(); setIsLoggingOut(true); } }> Logout</NavDropdown.Item></>
                 )}
               </NavDropdown>
+
+              <Nav.Link href="http://localhost:5173/notifications" style={notifStyle}>
+                <MdNotifications size={40} style={{ marginRight: '0px' }} />
+            </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -129,6 +136,12 @@ const iconStyle = {
   borderRadius: '50%',
   padding: '3px',
   color: 'white',
+};
+const notifStyle = {
+  color: 'linear-gradient(45deg, #00FFFF, #0000FF)',
+  borderRadius: '50%',
+  padding: '3px',
+ 
 };
 
 export default NavBar;
