@@ -15,11 +15,11 @@ export async function deleteProfile(req, res) {
       await pool.query('BEGIN');
 
       // Delete related records from notifications and other related tables
-      const deleteNotificationsQuery = 'DELETE FROM notifications WHERE user_id = (SELECT id FROM users WHERE username = $1)';
+      const deleteNotificationsQuery = 'DELETE FROM notifications WHERE id = (SELECT id FROM users WHERE username = $1)';
       await pool.query(deleteNotificationsQuery, [username]);
 
       // Add other delete queries for related tables here
-      const deleteCarpoolQuery = 'DELETE FROM carpool WHERE user_id = (SELECT id FROM users WHERE username = $1)';
+      const deleteCarpoolQuery = 'DELETE FROM carpool WHERE id = (SELECT id FROM users WHERE username = $1)';
       await pool.query(deleteCarpoolQuery, [username]);
 
       // Finally, delete the user

@@ -13,8 +13,11 @@ import Paymentform from "./Payment.jsx";
 import ChatHome from "./Chat/ChatHome.jsx";
 import Profile from "./Profile.jsx";
 import UserOffers from "./UserOffers.jsx"
-
+import PaymentHistory from "./history.jsx";
+import ProfilePage from "./ProfilePage.jsx";
+import Notification from "./Notification.jsx";
 const Views = () => {
+
     const {user} = useContext(AccountContext);
     return user.loggedIn !== null &&
         (
@@ -24,9 +27,9 @@ const Views = () => {
                 <Route path="signup" element={<SignUp/>}/>
                 <Route path="login" element={<Login/>}/>
                 <Route path="carpool" element={<Carpool/>}/>
-                <Route path="team" element={<Team/>}/>
+             
                 <Route path="chat" element={<ChatHome/>}/>
-                <Route path="contact" element={<ContactUs/>}/>
+               
                 <Route path="offers" element={<AddOffer />} />
                 <Route path="train" element={<SearchBarTrain/>}/>
                 <Route path="rating/:provider_id" element={<Rating/>}/>
