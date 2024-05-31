@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import CarpoolCard from './carpoolCard';
-import Search from './search';
+import CarpoolCard from './UserCarpoolCard';
 import ReactPaginate from 'react-paginate';
 
 const UserOffers = () => {
@@ -29,20 +28,6 @@ const UserOffers = () => {
         setCarpools(carpools.filter(carpool => carpool.id !== id));
     };
 
-    const handleFilter = async (searchField, selectedFilter) => {
-        try {
-            if (searchField === '') {
-                setFilteredCarpools(carpools);
-            } else {
-                const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}carpool/searchBy${selectedFilter}?${selectedFilter}=${searchField}`);
-                const { data } = response.data;
-                setFilteredCarpools(data.carpools);
-                setSearchPerformed(true);
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    };
 
     const pageCount = Math.ceil((searchPerformed ? filteredCarpools.length : carpools.length) / carpoolPerPage);
 
@@ -55,7 +40,7 @@ const UserOffers = () => {
     return (
         <div>
             <div>
-                <Search carpool={carpools} handleFilter={handleFilter} />
+                <br/>
             </div>
             <div className="container">
                 <div className="row">
