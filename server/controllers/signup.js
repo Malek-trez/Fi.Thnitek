@@ -79,6 +79,14 @@ export async function signup(req, res) {
     // Create a new user and store it in the database
     const insertUserQuery = 'INSERT INTO users(username, password, email, phone, role) VALUES ($1, $2, $3, $4, $5) RETURNING id, username';
     const newUser = await pool.query(insertUserQuery, [username, hashedPassword, email, phone, role]);
+    
+    // Assuming the result from the query contains the user ID in the first row and first column
+    const userId = newUser.rows[0].id;
+    
+    const notificationQuery = 'INSERT INTO notifications(user_id, title, message) VALUES ($1, $2, $3)';
+    const notificationValues = [userId, 'Welcome!', 'Welcome to our platform!']; // Example message content
+    
+    await pool.query(notificationQuery, notificationValues);
 
     // Generate JWT token
     const token = generateToken(newUser.rows[0]);

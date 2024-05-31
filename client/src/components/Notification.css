@@ -1,0 +1,12 @@
+ul {
+    list-style: none;
+  }
+  .notification-item
+  {
+    display: flex;
+  justify-content: space-between;
+  }
+  .Title
+  {
+    text-align: center;
+}

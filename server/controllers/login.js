@@ -7,7 +7,7 @@ const secretKey = process.env.JWT_SECRET;
 
 // Function to generate JWT token
 function generateToken(user) {
-  return jwt.sign({ userId: user.id, username: user.username }, secretKey, { expiresIn: '1h' });
+  return jwt.sign({ userId: user.id, username: user.username }, secretKey, { expiresIn: '10h' });
 }
 
 // Controller for handling user login
