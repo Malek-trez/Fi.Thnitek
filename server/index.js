@@ -105,7 +105,18 @@ app.get('/Arret/:destination/:departure/:hour', SearchTrainTrips);
 // Booking Details
 app.post('/train/Bookings',Booking_Train);
 
+// Mount the profile route
+app.get('/api/profile',  getProfile);
 
+// Route to get provider profile by provider_id
+app.get('/api/users/:provider_id', getProviderProfile);
+
+
+// Route to submit rating and feedback
+app.post('/api/rating', submitRating);
+
+// Route to get notifications
+app.get('/api/notifications', getNotification);
 
 // Route to update notification status
 app.post('/api/changeNotifStatus', updateNotificationStatus);
