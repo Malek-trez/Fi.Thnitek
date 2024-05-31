@@ -4,7 +4,6 @@ import { login } from './controllers/login.js';
 import { allCarpool, onBookNow ,cancelBookNow,searchByDestination,searchByDepart,searchByPrice} from './controllers/carpool.js';
 import { signup } from './controllers/signup.js';
 import { test } from './controllers/testdb.js';
-import { addOffer } from './controllers/offer.js';
 import {payment} from './controllers/payment.js';
 
 import { Carpool_user } from './controllers/carpool_user.js';
@@ -17,7 +16,7 @@ import initializeUser from "./controllers/socketio/initializeUser.js";
 import onDisconnect from "./controllers/socketio/onDisconnect.js";
 import authorizeUser from "./controllers/socketio/authorizeUser.js";
 import { addOffer } from './controllers/offer.js';
-import { allCountries ,allStops, allTrips, SearchTrainTrips } from './controllers/train.js';
+import { allCountries ,allStops, allTrips, SearchTrainTrips , Booking_Train} from './controllers/train.js';
 import dm from "./controllers/socketio/dm.js";
 import http from "http";
 import handleLogin from "./controllers/socketio/handleLogin.js";
@@ -96,6 +95,8 @@ app.get('/Arret', allStops);
 // Search for available trips 
 app.get('/Arret/:destination/:departure/:hour', SearchTrainTrips);
 
+// Booking Details
+app.post('/train/Bookings',Booking_Train);
 
 
 

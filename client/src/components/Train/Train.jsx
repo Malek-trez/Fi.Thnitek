@@ -48,7 +48,7 @@ const SearchBarTrain = () => {
     return { getCurrentDate, getMaxDate };
   };
   const { getCurrentDate, getMaxDate } = useDate();
-  
+
   useEffect(() => {
     const fetchedCities = [
       {"Ville_ID":"TUNIS"},
@@ -164,7 +164,7 @@ const SearchBarTrain = () => {
         departure: row.departure,
         temps_depart: row.Date_Sortie,
         Date_depart: departureDate,
-        Utilisateur_ID: '123',
+        Utilisateur_ID: '1',
         Nombre_reservation: reservationCount,
         prix:40
       };
