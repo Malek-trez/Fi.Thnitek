@@ -28,6 +28,10 @@ import { submitRating } from './controllers/ratingController.js';
 import { getNotification } from './controllers/notification.js';
 import {updateNotificationStatus} from './controllers/updateNotificationStatus.js';
 
+import { getProfilee } from './controllers/ProfilePage.js';
+import { profileEdit} from './controllers/profileEdit.js';
+import { deleteProfile} from './controllers/profiledel.js';
+
 const app = express();
 app.use(cors({
   origin: 'http://localhost:5173',
@@ -102,6 +106,10 @@ app.post('/train/Bookings',Booking_Train);
 
 // Route to update notification status
 app.post('/api/changeNotifStatus', updateNotificationStatus);
+
+app.post('/api/profileEdit', profileEdit);
+app.get('/api/profilepage', getProfilee);
+app.post('/api/profiledel', deleteProfile);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
