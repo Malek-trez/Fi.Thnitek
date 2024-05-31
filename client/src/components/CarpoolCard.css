@@ -1,0 +1,26 @@
+.carpool-card {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    background-color: #fff;
+  }
+  
+  .rate-link {
+    display: inline-block;
+    padding: 5px 10px;
+    color: #007bff;
+    border: none;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .rate-link:hover {
+    color: #0056b3;
+    border-color: #0056b3;
+  }

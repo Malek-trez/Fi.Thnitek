@@ -14,6 +14,8 @@ import ChatHome from "./Chat/ChatHome.jsx";
 import Profile from "./Profile.jsx";
 import UserOffers from "./UserOffers.jsx"
 import PaymentHistory from "./history.jsx";
+import Notification  from "./Notification.jsx";
+import ProfilePage from "./ProfilePage.jsx";
 
 
 const Views = () => {
