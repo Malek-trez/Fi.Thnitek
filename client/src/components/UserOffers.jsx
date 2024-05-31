@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+//UserOffers.jsx
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import CarpoolCard from './UserCarpoolCard';
 import ReactPaginate from 'react-paginate';
+import { AccountContext } from '../contexts/AccountContext';
 
 const UserOffers = () => {
+    const { user } = useContext(AccountContext);
     const [carpools, setCarpools] = useState([]);
     const [filteredCarpools, setFilteredCarpools] = useState([]);
     const [searchPerformed, setSearchPerformed] = useState(false);
@@ -13,7 +16,11 @@ const UserOffers = () => {
     useEffect(() => {
         const fetchCarpools = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}carpool_user`);
+                const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}carpool_user`, {
+                    headers: {
+                      Authorization: `Bearer ${user.token}` // Add JWT token to request headers
+                    }
+                  });
                 const { data } = response.data;
                 setCarpools(data.carpools);
             } catch (err) {

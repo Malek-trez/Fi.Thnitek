@@ -4,7 +4,6 @@ import { login } from './controllers/login.js';
 import { allCarpool, onBookNow ,cancelBookNow,searchByDestination,searchByDepart,searchByPrice} from './controllers/carpool.js';
 import { signup } from './controllers/signup.js';
 import { test } from './controllers/testdb.js';
-import { addOffer } from './controllers/offer.js';
 import {payment} from './controllers/payment.js';
 
 import { Carpool_user } from './controllers/carpool_user.js';
@@ -16,7 +15,8 @@ import addFriend from "./controllers/socketio/addFriend.js"
 import initializeUser from "./controllers/socketio/initializeUser.js";
 import onDisconnect from "./controllers/socketio/onDisconnect.js";
 import authorizeUser from "./controllers/socketio/authorizeUser.js";
-import { allCountries ,allStops, allTrips, SearchTrainTrips } from './controllers/train.js';
+import { addOffer } from './controllers/offer.js';
+import { allCountries ,allStops, allTrips, SearchTrainTrips , Booking_Train} from './controllers/train.js';
 import dm from "./controllers/socketio/dm.js";
 import http from "http";
 import handleLogin from "./controllers/socketio/handleLogin.js";
@@ -99,18 +99,10 @@ app.get('/Arret', allStops);
 // Search for available trips 
 app.get('/Arret/:destination/:departure/:hour', SearchTrainTrips);
 
-// Mount the profile route
-app.get('/api/profile',  getProfile);
-
-// Route to get provider profile by provider_id
-app.get('/api/users/:provider_id', getProviderProfile);
+// Booking Details
+app.post('/train/Bookings',Booking_Train);
 
 
-// Route to submit rating and feedback
-app.post('/api/rating', submitRating);
-
-// Route to get notifications
-app.get('/api/notifications', getNotification);
 
 // Route to update notification status
 app.post('/api/changeNotifStatus', updateNotificationStatus);
