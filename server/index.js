@@ -5,6 +5,7 @@ import { signup } from './controllers/signup.js';
 import { test } from './controllers/testdb.js';
 import { addOffer } from './controllers/offer.js';
 import {payment} from './controllers/payment.js';
+import {getPayments} from './controllers/paymentRepository.js';
 
 import cors from 'cors';
 import { Carpool_user } from './controllers/carpool_user.js';
@@ -43,6 +44,8 @@ app.post('/api/login', login);
 
 // Route for payment
 app.post('/api/payment', payment);
+app.get('/api/payments', getPayments);
+
 
 // Route for user sign up
 app.post("/api/signup", signup);

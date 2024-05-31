@@ -1,5 +1,7 @@
 import { pool } from '../db/db.js';
 import Stripe from 'stripe';
+import { requireAuth } from './middle.js';
+
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -52,5 +54,35 @@ export async function insertPayment(paymentData, status, userId) {
         return { id: paymentId };
     } catch (error) {
         throw error;
+    }
+}
+
+
+
+export async function getPayments(req, res) {
+    try {
+        await requireAuth(req, res, async () => {
+            const { username } = res.locals.token;
+            const queryUser = 'SELECT * FROM users WHERE username = $1';
+            const { rows: userRows } = await pool.query(queryUser, [username]);
+
+            if (userRows.length > 0) {
+                const user = userRows[0];
+
+                // Fetch payment history data from the database
+                const queryPayment = 'SELECT * FROM payment WHERE user_id = $1 ORDER BY created_at DESC';
+                const userId = user.id; 
+                const { rows: paymentRows } = await pool.query(queryPayment, [userId]);
+                const payments = paymentRows;
+            
+                // Send the payment history data in the response
+                res.json({ payments });
+            } else {
+                return res.status(404).json({ error: 'User not found' });
+            }
+        });    
+    } catch (error) {
+        console.error('Error fetching payment history:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }
