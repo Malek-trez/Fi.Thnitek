@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { login } from './controllers/login.js';
 import { allCarpool, onBookNow ,cancelBookNow,searchByDestination,searchByDepart,searchByPrice} from './controllers/carpool.js';
 import { signup } from './controllers/signup.js';
@@ -6,8 +7,10 @@ import { test } from './controllers/testdb.js';
 import { addOffer } from './controllers/offer.js';
 import {payment} from './controllers/payment.js';
 
-import cors from 'cors';
 import { Carpool_user } from './controllers/carpool_user.js';
+import { deleteCarpoolFromDB } from './controllers/carpool_user.js';
+import { UpdateCarpoolOffer } from './controllers/carpool_user.js';
+
 import { Server } from "socket.io";
 import addFriend from "./controllers/socketio/addFriend.js"
 import initializeUser from "./controllers/socketio/initializeUser.js";
@@ -43,6 +46,9 @@ const io = new Server(server, {
 // Middleware to parse JSON bodies
 app.use(express.json());
 
+// Route for testing the API
+app.get('/api/testdata', test);
+
 // Route for user login
 app.post('/api/login', login);
 
@@ -54,15 +60,15 @@ app.post("/api/signup", signup);
 
 app.get("/api/login", handleLogin);
 
-// Get all carpool
-app.get("/api/carpool", allCarpool);
-
 // Get a users carpool
 app.get("/api/carpool_user", Carpool_user);
+// Route Delete a carpool
+app.put('/api/carpool_user/delete', deleteCarpoolFromDB);
+// Route Delete a carpool
+app.post('/api/carpool_user/update', UpdateCarpoolOffer);
 
-// Route for testing the API
-app.get('/api/testdata', test);
-
+// Get all carpool
+app.get("/api/carpool", allCarpool);
 // Route for booking a carpool
 app.put('/api/carpool/book', onBookNow);
 // Route cancel a booked carpool
