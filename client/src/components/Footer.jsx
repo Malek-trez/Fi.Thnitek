@@ -3,7 +3,7 @@ import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer style={footerStyle}>
+    <footer  id="footer" style={footerStyle}>
       <div style={columnsContainer}>
         <div style={columnStyle}>
           <h3>Our Company</h3>
@@ -29,12 +29,13 @@ const Footer = () => {
         </div>
       </div>
       <hr style={separatorStyle} />
-      <p style={rightsStyle}>&copy; 2024 My Website. All rights reserved.</p>
+      <p style={rightsStyle}>&copy; 2024 Fi.Thnitek. All rights reserved.</p>
     </footer>
   );
 };
 
 const footerStyle = {
+  marginTop: '15rem',
   backgroundColor: ' #000080',
   color: '#fff',
   textAlign: 'center',

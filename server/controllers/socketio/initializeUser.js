@@ -3,19 +3,15 @@ import addFriend from "./addFriend.js";
 import parseFriendList from "./parseFriendList.js";
 
 const initializeUser = async socket => {
-  socket.join(socket.user.userid);
+  socket.join(String(socket.user.userId));
+//  console.log("User ", socket.user.username, " is member of room: ", String(socket.user.userId));
   await redisClient.hset(
-    `userid:${socket.user.username}`,
-    "userid",
-    socket.user.userid,
+    `userId:${socket.user.username}`,
+    "userId",
+    socket.user.userId,
     "connected",
     true
   );
-
-  // always have lester as a friend
-  // this is because this project serves as a demo
-  // therefore I want people to be able to test it out quickly
-  await addFriend(socket, "lester", () => {});
 
   const friendList = await redisClient.lrange(
     `friends:${socket.user.username}`,
@@ -23,7 +19,7 @@ const initializeUser = async socket => {
     -1
   );
   const parsedFriendList = await parseFriendList(friendList);
-  const friendRooms = parsedFriendList.map(friend => friend.userid);
+  const friendRooms = parsedFriendList.map(friend => friend.userId);
 
   if (friendRooms.length > 0)
     socket.to(friendRooms).emit("connected", true, socket.user.username);
@@ -31,7 +27,7 @@ const initializeUser = async socket => {
   socket.emit("friends", parsedFriendList);
 
   const msgQuery = await redisClient.lrange(
-    `chat:${socket.user.userid}`,
+    `chat:${socket.user.userId}`,
     0,
     -1
   );
@@ -45,6 +41,7 @@ const initializeUser = async socket => {
   if (messages && messages.length > 0) {
     socket.emit("messages", messages);
   }
+  //console.log("done initializing ", socket.user.username);
 };
 
 export default initializeUser;

@@ -5,50 +5,50 @@ const useSocketSetup = (setFriendList, setMessages, socket) => {
   const { setUser } = useContext(AccountContext);
 
   useEffect(() => {
+    if (!socket) return;
+
+    console.log("Connecting socket...");
     socket.connect();
 
-    const handleFriends = (friendList) => {
+    socket.on("friends", friendList => {
       setFriendList(friendList);
-    };
+    });
 
-    const handleMessages = (messages) => {
+    socket.on("messages", messages => {
+      console.log("Received messages:", messages);
       setMessages(messages);
-    };
+    });
 
-    const handleDM = (message) => {
+    socket.on("dm", message => {
+      console.log("DM:", message);
       setMessages(prevMsgs => [message, ...prevMsgs]);
-    };
+    });
 
-    const handleConnected = (status, username) => {
+    socket.on("connected", (status, username) => {
       setFriendList(prevFriends => {
-        return prevFriends.map(friend => {
+        return [...prevFriends].map(friend => {
           if (friend.username === username) {
             friend.connected = status;
           }
           return friend;
         });
       });
-    };
+    });
 
-    const handleConnectError = () => {
-      setUser({ loggedIn: false });
-    };
+    socket.on("connect_error", () => {
+      console.log("Socket connection error");
+      // setUser({ loggedIn: false });
+    });
 
-    socket.on("friends", handleFriends);
-    socket.on("messages", handleMessages);
-    socket.on("dm", handleDM);
-    socket.on("connected", handleConnected);
-    socket.on("connect_error", handleConnectError);
-
-    // Cleanup function
     return () => {
-      socket.off("friends", handleFriends);
-      socket.off("messages", handleMessages);
-      socket.off("dm", handleDM);
-      socket.off("connected", handleConnected);
-      socket.off("connect_error", handleConnectError);
+      console.log("Disconnecting socket...");
+      socket.off("connect_error");
+      socket.off("connected");
+      socket.off("friends");
+      socket.off("messages");
+      socket.off("dm");
     };
-  }, [setUser, setFriendList, setMessages, socket]);
+  }, [socket, setUser, setFriendList, setMessages]);
 };
 
 export default useSocketSetup;

@@ -3,7 +3,13 @@ import { pool } from '../db/db.js';
 export async function allCarpool(req, res) {
     try {
         const client = await pool.connect();
-        const result = await client.query('SELECT * FROM carpool ORDER BY id');
+        const query = `
+        SELECT carpool.*, users.username AS provider_name, users.imageUrl AS provider_image
+        FROM carpool
+        JOIN users ON carpool.provider_id = users.id
+        ORDER BY carpool.id`;
+       const result = await client.query(query);
+       //const result = await client.query('SELECT * FROM carpool ORDER BY id');
         const carpools = result.rows;
         client.release(); 
         res.status(200).json({
@@ -34,7 +40,7 @@ const updateCarpoolIn = async (client, carpool) => {
   await client.query('UPDATE carpool SET capacity = $1 WHERE id = $2', [carpool.capacity, carpool.id]);
 };
 
-export const onBookNow=  async (req, res) => {
+export const onBookNow = async (req, res) => {
   const client = await pool.connect();
   const id = req.body.id;
 
@@ -43,17 +49,14 @@ export const onBookNow=  async (req, res) => {
       let carpool = await getCarpoolFromDatabase(client, id);
 
       // Decrement the capacity
-      carpool.capacity--;
-
-      // If the capacity is zero, delete the carpool
-      if (carpool.capacity === 0) {
-          await deleteCarpoolFromDatabase(client, id);
-      } else {
-          // Otherwise, update the carpool in the database
-          await updateCarpoolIn(client, carpool);
+      if (carpool.capacity > 0) {
+          carpool.capacity--;
       }
 
-      res.send({ success: true });
+      // Update the carpool in the database regardless of its capacity
+      await updateCarpoolIn(client, carpool);
+
+      res.send({ success: true, carpool });
   } catch (error) {
       console.error(error);
       res.status(500).send({ success: false });

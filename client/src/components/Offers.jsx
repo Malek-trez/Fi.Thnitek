@@ -1,19 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './signup.css'; // Import your custom CSS file for additional styles
+import { AccountContext } from '../contexts/AccountContext';
+
 
 const Governorates = ["Ariana", "Béja", "Ben Arous", "Bizerte", "Gabès", "Gafsa", "Jendouba", "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine", "Monastir", "Nabeul", "Sfax", "Sidi Bouzid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan"];
 
 const AddOffer = () => {
+
+const { user } = useContext(AccountContext); // Access user data from context
+const [profile, setProfile] = useState(null);
+
+console.log(localStorage.getItem("username"));
+useEffect(() => {
+  const fetchProfileData = async () => {
+    try {
+      // Make an HTTP request to fetch user profile data
+      const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}profile`, {
+        headers: {
+          Authorization: `Bearer ${user.token}` // Add JWT token to request headers
+        }
+      });
+      setProfile(response.data); // Assuming the response contains profile data
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
+
+  fetchProfileData();
+}, []); 
+
   const [formData, setFormData] = useState({
     depart: '',
     destination: '',
     schedule: '',
     price: 0,
     capacity: '',
+    provider_id:  null // Initialize provider_id as null
   });
+
+  useEffect(() => {
+    if (profile) {
+      // Update the formData with the profile id once the profile is fetched
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        provider_id: profile.id
+      }));
+    }
+  }, [profile]);
+
   const [error, setError] = useState(null);
   const navigateTo = useNavigate();
 
@@ -42,10 +79,10 @@ const AddOffer = () => {
     }
 
     // Set the form data and error message
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value
-    });
+    }));
   
     setError(errorMessage);
   };
@@ -73,12 +110,16 @@ const AddOffer = () => {
       setError(error.message);
     }
   };
+
+
+
+
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
+    <div style={{ marginTop: '60px', marginBottom: '100px' }}>
       <section>
         <div className="container login-block">
           <h2 className="text-center pb-3 mb-3 border-bottom border-primary">Add new offer</h2>
-          <form onSubmit={handleSubmit}>
+          <form id= "AddOfferForm" onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="depart" className="form-label">Depart</label>
               <input
@@ -140,7 +181,6 @@ const AddOffer = () => {
                 required
               />
             </div>
-            <button type="submit" className="button-5">submit</button>
             {error && <p className="mt-3 text-danger">{error}</p>}
           </form>
         </div>

@@ -3,7 +3,7 @@ import parseFriendList from "./parseFriendList.js";
 
 const onDisconnect = async socket => {
   await redisClient.hset(
-    `userid:${socket.user.username}`,
+    `userId:${socket.user.username}`,
     "connected",
     false
   );
@@ -13,7 +13,7 @@ const onDisconnect = async socket => {
     -1
   );
   const friendRooms = await parseFriendList(friendList).then(friends =>
-    friends.map(friend => friend.userid)
+    friends.map(friend => String(friend.userId))
   );
   socket.to(friendRooms).emit("connected", false, socket.user.username);
 };
