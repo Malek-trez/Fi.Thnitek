@@ -22,6 +22,8 @@ import { getProfile } from  './controllers/profile.js';
 
 import { getProviderProfile } from './controllers/providerProfileController.js'; 
 import { submitRating } from './controllers/ratingController.js';
+import { getNotification } from './controllers/notification.js';
+import {updateNotificationStatus} from './controllers/updateNotificationStatus.js';
 
 const app = express();
 app.use(cors({
@@ -96,6 +98,12 @@ app.get('/api/users/:provider_id', getProviderProfile);
 
 // Route to submit rating and feedback
 app.post('/api/rating', submitRating);
+
+// Route to get notifications
+app.get('/api/notifications', getNotification);
+
+// Route to update notification status
+app.post('/api/changeNotifStatus', updateNotificationStatus);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

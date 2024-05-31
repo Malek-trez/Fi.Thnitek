@@ -5,7 +5,6 @@ import { AccountContext } from '../contexts/AccountContext'; // Import the Accou
 const ProfilePage = () => {
   const { user } = useContext(AccountContext); // Access user data from context
   const [profile, setProfile] = useState(null);
-  console.log(localStorage.getItem("username"));
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
