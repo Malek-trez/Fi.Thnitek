@@ -1,8 +1,9 @@
-import React, { useEffect, useState , useMemo} from "react";
+import React, { useEffect, useState , useMemo,useContext} from "react";
 import "./Train.css"; // Import custom CSS file for styling
 import axios from 'axios';
 import Select from 'react-select';
 import Popup from './Popup_paiment.jsx';
+import { AccountContext } from "../../contexts/AccountContext.jsx"; 
 
 const SearchBarTrain = () => {
   const customStyles = {
@@ -156,6 +157,26 @@ const SearchBarTrain = () => {
     setPopupVisible(!isPopupVisible);
   };
 
+  const { user } = useContext(AccountContext); // Access user data from context
+  const [profile, setProfile] = useState(null);
+  console.log(localStorage.getItem("username"));
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        // Make an HTTP request to fetch user profile data
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}profile`, {
+          headers: {
+            Authorization: `Bearer ${user.token}` // Add JWT token to request headers
+          }
+        });
+        setProfile(response.data); // Assuming the response contains profile data
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+    fetchProfileData();
+  }, []); 
+
   const handleBooking = async (row, reservationCount) => {
     // Handle booking logic, including saving the number of reservations
     try {
@@ -164,7 +185,7 @@ const SearchBarTrain = () => {
         departure: row.departure,
         temps_depart: row.Date_Sortie,
         Date_depart: departureDate,
-        Utilisateur_ID: '1',
+        Utilisateur_ID: profile.id,
         Nombre_reservation: reservationCount,
         prix:40
       };
