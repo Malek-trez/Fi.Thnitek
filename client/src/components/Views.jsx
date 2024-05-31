@@ -14,6 +14,8 @@ import ChatHome from "./Chat/ChatHome.jsx";
 import Profile from "./Profile.jsx";
 import UserOffers from "./UserOffers.jsx"
 import Notification  from "./Notification.jsx";
+import ProfilePage from "./ProfilePage.jsx";
+
 
 const Views = () => {
     const {user} = useContext(AccountContext);
@@ -33,6 +35,7 @@ const Views = () => {
                 <Route path="Myoffers" element={<UserOffers/>}/>
                 <Route path="profile" element={<Profile/>}/>
                 <Route path="notifications" element={<Notification/>}/>
+                <Route path="profilepage" element={<ProfilePage />} />
             </Route>
         </Routes>
         )

@@ -107,7 +107,7 @@ const NavBar = () => {
                 drop="down"
               >
                 {isLoggedIn && (
-                <><NavDropdown.Item href="http://localhost:5173/profile">Profile</NavDropdown.Item><NavDropdown.Divider /></>
+                <><NavDropdown.Item href="http://localhost:5173/profilepage">Profile</NavDropdown.Item><NavDropdown.Divider /></>
                  )}
                {!isLoggedIn && (
                 <><NavDropdown.Item href="http://localhost:5173/login">Log In</NavDropdown.Item><NavDropdown.Divider /></>
@@ -118,10 +118,11 @@ const NavBar = () => {
                   <><NavDropdown.Divider /><NavDropdown.Item onClick={() => { logout(); setIsLoggingOut(true); } }> Logout</NavDropdown.Item></>
                 )}
               </NavDropdown>
-
+              {isLoggedIn && (
               <Nav.Link href="http://localhost:5173/notifications" style={notifStyle}>
-                <MdNotifications size={40} style={{ marginRight: '0px' }} />
+                <MdNotifications size={35} style={{ marginRight: '0px' }} />
             </Nav.Link>
+            )}
             </Nav>
           </Navbar.Collapse>
         </Container>
