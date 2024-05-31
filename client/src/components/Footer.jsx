@@ -7,7 +7,7 @@ const Footer = () => {
       <div style={columnsContainer}>
         <div style={columnStyle}>
           <h3>Our Company</h3>
-          <p><a href="/about" style={linkStyle}>About Us</a></p>
+          <p><a href="#" style={linkStyle}>About Us</a></p>
           <p><a href="/team" style={linkStyle}>Our Team</a></p>
           <p><a href="/contact" style={linkStyle}>Contact Us</a></p>
         </div>
@@ -15,7 +15,7 @@ const Footer = () => {
           <h3>Our Services</h3>
           <p><a href="/carpool" style={linkStyle}>Carpool</a></p>
           <p><a href="/service2" style={linkStyle}>Bus</a></p>
-          <p><a href="/service3" style={linkStyle}>Train</a></p>
+          <p><a href="/train" style={linkStyle}>Train</a></p>
         </div>
         <div style={columnStyle}>
           <h3>Find Us</h3>
