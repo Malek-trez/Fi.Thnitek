@@ -19,6 +19,7 @@ import Team from "./Team.jsx";
 import ContactUs from "./ContactUs.jsx";
 import ProfilePage from "./ProfilePage.jsx";
 import SearchBarBus from "./Bus/Bus.jsx";
+import History from "./History_reservation.jsx";
 
 const Views = () => {
     const {user} = useContext(AccountContext);
@@ -38,7 +39,7 @@ const Views = () => {
                 <Route path="rating/:provider_id" element={<Rating/>}/>
                 <Route path="payment" element={<Paymentform/>}/>
                 <Route path="history" element={<PaymentHistory/>}/>
-
+                <Route path="Booking/history" element={<History/>}/>
                 <Route path="profile" element={<Profile/>}/>
 
                 <Route path="Myoffers" element={<UserOffers/>}/>

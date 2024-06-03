@@ -45,3 +45,16 @@ export async function SearchBusTrips(req, res) {
       res.status(500).json({ error: 'Internal server error' });
     }
   };
+
+  // Get Booking Details
+export async function getBusBookings(req, res) {
+  try {
+    const result = await pool.query('SELECT *, \'bus\' as type FROM reservation_bus');
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching bus bookings:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
