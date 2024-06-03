@@ -5,6 +5,7 @@ import { allCarpool, onBookNow ,cancelBookNow,searchByDestination,searchByDepart
 import { signup } from './controllers/signup.js';
 import { test } from './controllers/testdb.js';
 import {payment} from './controllers/payment.js';
+import {getPayments} from './controllers/paymentRepository.js';
 
 import { Carpool_user } from './controllers/carpool_user.js';
 import { deleteCarpoolFromDB } from './controllers/carpool_user.js';
@@ -31,6 +32,7 @@ import {updateNotificationStatus} from './controllers/updateNotificationStatus.j
 import { getProfilee } from './controllers/ProfilePage.js';
 import { profileEdit} from './controllers/profileEdit.js';
 import { deleteProfile} from './controllers/profiledel.js';
+import {SearchBusTrips, Booking_Bus,SearchBus} from "./controllers/Bus.js";
 
 const app = express();
 app.use(cors({
@@ -58,6 +60,8 @@ app.post('/api/login', login);
 
 // Route for payment
 app.post('/api/payment', payment);
+app.get('/api/payments', getPayments);
+
 
 // Route for user sign up
 app.post("/api/signup", signup);
@@ -96,13 +100,36 @@ app.get('api/ville', allCountries);
 // Get all stops
 app.get('/Arret', allStops);
 
-// Search for available trips 
+// Search for available train trips 
 app.get('/Arret/:destination/:departure/:hour', SearchTrainTrips);
 
-// Booking Details
+// Booking train Details
 app.post('/train/Bookings',Booking_Train);
 
 
+// Search for availabe bus trips 
+app.get('/Bus/:destination/:departure',SearchBusTrips);
+
+// Bookig Bus Details
+app.post('/Bus/Bookings',Booking_Bus);
+
+// Search 
+app.get('/Bus',SearchBus)
+
+
+
+// Mount the profile route
+app.get('/api/profile',  getProfile);
+
+// Route to get provider profile by provider_id
+app.get('/api/users/:provider_id', getProviderProfile);
+
+
+// Route to submit rating and feedback
+app.post('/api/rating', submitRating);
+
+// Route to get notifications
+app.get('/api/notifications', getNotification);
 
 // Route to update notification status
 app.post('/api/changeNotifStatus', updateNotificationStatus);

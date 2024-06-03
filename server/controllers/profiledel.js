@@ -2,20 +2,17 @@ import { pool } from '../db/db.js';
 
 export async function deleteProfile(req, res) {
   try {
-    const { Userid,name  } = req.body;
-    console.log(req.body);
-    console.log(name);
-    console.log(Userid);
+  
 
-
+    const { username } = res.locals.token;
     // Vérifier que l'ID utilisateur est fourni
-    if (!Userid) {
+    if (!username ) {
       return res.status(400).json({ message: 'User ID is required' });
     }
 
     // Exécuter la requête de suppression
-    const delQuery = 'DELETE FROM users WHERE id = $1';
-    const result = await pool.query(delQuery, [Userid]);
+    const delQuery = 'DELETE FROM users WHERE username = $1';
+    const result = await pool.query(delQuery, [username ]);
 
     // Vérifier si l'utilisateur a été supprimé
     if (result.rowCount === 0) {

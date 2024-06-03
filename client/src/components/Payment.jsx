@@ -1,13 +1,18 @@
-import React, { useContext, useEffect,useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import  {AccountContext} from "../contexts/AccountContext.jsx";
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { AccountContext } from "../contexts/AccountContext.jsx";
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Payment.css';
+import SuccessPage from './success.jsx'
 
 const PaymentForm = () => {
   const { user } = useContext(AccountContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const carpoolId = params.get('carpoolId');
+  const price = params.get('price');
 
   useEffect(() => {
     if (user.loggedIn === false) {
@@ -18,7 +23,7 @@ const PaymentForm = () => {
   const [formData, setFormData] = useState({
     email: '',
     cardNumber: '',
-    cardHolderName: '',
+    Name: '',
     expirationDate: '',
     cvv: ''
   });
@@ -26,9 +31,16 @@ const PaymentForm = () => {
   const [emailError, setEmailError] = useState(null);
   const [cardNumberError, setCardNumberError] = useState(null);
   const [expirationDateError, setExpirationDateError] = useState(null);
+  const [paymentSuccess, setPaymentSuccess] = useState(false); // State to track payment success
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'cardNumber' && value.length > 16) {
+      return;
+    }
+    if (name === 'expirationDate' && value.length > 7) {
+      return;
+    }
     setFormData({
       ...formData,
       [name]: value
@@ -78,12 +90,20 @@ const PaymentForm = () => {
       setExpirationDateError(null);
     }
 
+    // Include carpoolId and price in the request payload
+    const paymentData = {
+      ...formData,
+      carpoolId:carpoolId,
+      amount: price
+    };
+
     // Proceed with form submission if all fields are valid
     try {
-      const response = await axios.post(`http://localhost:3000/api/payment`, formData, {
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}payment`, paymentData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`, // Add JWT token to request headers
         }
       });
 
@@ -91,15 +111,24 @@ const PaymentForm = () => {
         throw new Error(response.data.message || 'Payment failed');
       }
 
-      // Handle success scenario
-      console.log('Payment successful!');
+      // Handle success scenario and set payment success state
+      setPaymentSuccess(true);
+
+      // After a delay, navigate back to carpool page
+      setTimeout(() => {
+        navigate(`/carpool`);
+      }, 4000); // 3 seconds delay before navigation
+
+
     } catch (error) {
       // Handle error scenario
       console.error('An error occurred:', error.message);
       setError('Payment failed. Please try again.');
     }
   };
-
+  if (paymentSuccess) {
+    return <SuccessPage />;
+  }
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
       <section>
@@ -128,17 +157,18 @@ const PaymentForm = () => {
                 value={formData.cardNumber}
                 onChange={handleChange}
                 className="form-control"
+                maxLength="16"
                 required
               />
               {cardNumberError && <p className="text-danger">{cardNumberError}</p>}
             </div>
             <div className="mb-3">
-              <label htmlFor="cardHolderName" className="form-label">Card Holder Name</label>
+              <label htmlFor="Name" className="form-label">Card Holder Name</label>
               <input
                 type="text"
-                id="cardHolderName"
-                name="cardHolderName"
-                value={formData.cardHolderName}
+                id="Name"
+                name="Name"
+                value={formData.Name}
                 onChange={handleChange}
                 className="form-control"
                 required
@@ -155,6 +185,7 @@ const PaymentForm = () => {
                   onChange={handleChange}
                   className="form-control"
                   placeholder="MM/YYYY"
+                  maxLength="7"
                   required
                 />
                 {expirationDateError && <p className="text-danger">{expirationDateError}</p>}
@@ -168,6 +199,7 @@ const PaymentForm = () => {
                   value={formData.cvv}
                   onChange={handleChange}
                   className="form-control"
+                  maxLength="3"
                   required
                 />
               </div>

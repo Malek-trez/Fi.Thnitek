@@ -1,36 +1,42 @@
+//carpoll_user.js
 import { pool } from '../db/db.js';
+import { requireAuth } from './middle.js';
 
 export async function Carpool_user(req, res) {
-    try {
-        const client = await pool.connect();
-        const query = `
-        SELECT carpool.*, users.username AS provider_name
-        FROM carpool
-        JOIN users ON carpool.provider_id = users.id
-        Where users.id=1
-        ORDER BY carpool.id`;
-       const result = await client.query(query);
-       //const result = await client.query('SELECT * FROM carpool ORDER BY id');
-        const carpools = result.rows;
-        client.release(); 
-        res.status(200).json({
-            status: "success",
-            results: carpools.length,
-            data: {
-              carpools,
-            },
-          });
-        } catch (err) {
-          console.log(err);
-        }
+  try {
+      requireAuth(req, res, async () => {
+          const { username } = res.locals.token;
+          const query = 'SELECT id FROM users WHERE username = $1';
+          const { rows } = await pool.query(query, [username]);
+
+          if (rows.length > 0) {
+              const user = rows[0];
+              const client = await pool.connect();
+              const carpoolQuery = `
+                  SELECT carpool.*, users.username AS provider_name
+                  FROM carpool
+                  JOIN users ON carpool.provider_id = users.id
+                  WHERE users.id = $1
+                  ORDER BY carpool.id`;
+              const result = await client.query(carpoolQuery, [user.id]);
+              const carpools = result.rows;
+              client.release(); 
+              res.status(200).json({
+                  status: "success",
+                  results: carpools.length,
+                  data: {
+                      carpools,
+                  },
+              });
+          } else {
+              res.status(404).json({ error: 'User not found' });
+          }
+      });
+  } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
 }
-
-// Fetch the carpool from the database
-const getCarpoolFromDatabase = async (client, id) => {
-  const carpool = await client.query('SELECT * FROM carpool WHERE id = $1', [id]);
-  return carpool.rows[0];
-};
-
 
 export async function deleteCarpoolFromDB(req, res) {
   try {

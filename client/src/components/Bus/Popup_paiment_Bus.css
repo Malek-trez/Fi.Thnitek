@@ -1,0 +1,67 @@
+/* Popup_paiment.css */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup-inner {
+    background-color: white;
+    color: black; /* Ensures text is visible */
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px; /* Increase width */
+    text-align: center;
+  }
+  
+  .popup-inner .details {
+    margin-bottom: 15px;
+  }
+  
+  .popup-inner .details div {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .popup-inner .details label {
+    font-weight: bold; /* Make the labels bold */
+  }
+  
+  .popup-inner .details span {
+    font-weight: normal; /* Make the values normal weight */
+    margin-left: 5px; /* Space between label and value */
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .form-group label {
+    font-weight: bold; /* Make the label bold */
+    margin-right: 10px;
+  }
+  
+  .form-group input {
+    width: 60px; /* Smaller input field */
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .button-group .btn {
+    margin: 0 10px; /* Add space between buttons */
+    padding: 10px 20px; /* Adjust button size */
+  }
+  

@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './ProfilePage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { AccountContext } from '../contexts/AccountContext'; 
 
 
 const ProfilePage = () => {
@@ -23,14 +25,21 @@ const ProfilePage = () => {
   const [Userid, setUserid] = useState('2');
 
 
+  const { user } = useContext(AccountContext); 
+
   const handleConsultProfile = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}profilepage`);
+    // Make an HTTP request to fetch user profile data
+    const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}profilepage`, {
+      headers: {
+        Authorization: `Bearer ${user.token}` // Add JWT token to request headers
+      }
+    });
       setProfileData(response.data);
-      setName(response.data.name);
+      setName(response.data.username);
       setPhone(response.data.phone);
       setEmail(response.data.email);
-      setImageUrl(response.data.image)
+      setImageUrl(response.data.imageurl)
       setError(null);
       setButtonClicked(true);
     } catch (error) {
@@ -79,6 +88,8 @@ const ProfilePage = () => {
       const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}profileEdit`, formData, {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}` // Add JWT token to request headers
+
         }
       });
 
@@ -113,14 +124,13 @@ const ProfilePage = () => {
 
   const handleDeleteProfile = async (e) => {
     e.preventDefault();
-    const formData = new FormData(); // Créer un objet FormData
-    formData.append('Userid', Userid);
-    formData.append('name', name);
+
     try {
-      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}profiledel`, formData, {
+      const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}profiledel`, {
         headers: {
-          'Content-Type': 'application/json',
-        }});
+          Authorization: `Bearer ${user.token}` // Add JWT token to request headers
+        }
+      });
 
       if (response.status >= 400) {
         throw new Error(response.data.message || 'Deletion failed');

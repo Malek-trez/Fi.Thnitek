@@ -1,33 +1,29 @@
-import React, { useEffect, useState , useMemo,useContext} from "react";
-import "./Train.css"; // Import custom CSS file for styling
+import React, { useEffect, useState, useMemo , useContext } from "react";
 import axios from 'axios';
 import Select from 'react-select';
-import Popup from './Popup_paiment.jsx';
+import Popup from './Popup_paiment_Bus.jsx';
+import "./Bus.css"; // Import custom CSS file for styling
 import { AccountContext } from "../../contexts/AccountContext.jsx"; 
 
-const SearchBarTrain = () => {
+const SearchBarBus = () => {
   const customStyles = {
     option: (provided, state) => ({
       ...provided,
       fontSize: 14,
       color: 'black',
-      backgroundColor: state.isFocused ? 'lightsteelblue'  : 'white',                  
+      backgroundColor: state.isFocused ? 'lightsteelblue' : 'white',
     }),
   };
 
   const [searchResults, setSearchResults] = useState([]);
   const [destination, setDestination] = useState("");
   const [departure, setDeparture] = useState("");
-  const [cities, setCities] = useState([]);
   const [departureDate, setDepartureDate] = useState(null);
   const [departureTime, setDepartureTime] = useState(null);
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [cities, setCities] = useState([]);
 
-  let hour = null;
-  if (departureTime !== null) {
-    hour = departureTime.split(":")[0];
-  }
   const useDate = () => {
     const getCurrentDate = useMemo(() => {
       const today = new Date();
@@ -36,7 +32,7 @@ const SearchBarTrain = () => {
       const day = String(today.getDate()).padStart(2, '0');
       return `${year}-${month}-${day}`;
     }, []);
-  
+
     const getMaxDate = useMemo(() => {
       const today = new Date();
       today.setMonth(today.getMonth() + 2); // Add 2 months
@@ -45,118 +41,76 @@ const SearchBarTrain = () => {
       const day = String(today.getDate()).padStart(2, '0');
       return `${year}-${month}-${day}`;
     }, []);
-  
+
     return { getCurrentDate, getMaxDate };
   };
+
   const { getCurrentDate, getMaxDate } = useDate();
 
   useEffect(() => {
     const fetchedCities = [
-      {"Ville_ID":"TUNIS"},
-      {"Ville_ID":"HAMMAM LIF"},
-      {"Ville_ID":"BORJ CEDRIA"},
-      {"Ville_ID":"GROMBALIA"},
-      {"Ville_ID":"BOU ARGOUB"},
-      {"Ville_ID":"BOUFICHA"},
-      {"Ville_ID":"ENFIDHA"},
-      {"Ville_ID":"KALAA KEBIRA"},
-      {"Ville_ID":"KALAA SEGHIRA"},
-      {"Ville_ID":"SOUSSE"},
-      {"Ville_ID":"MESSADINE"},
-      {"Ville_ID":"MONASTIR"},
-      {"Ville_ID":"MAHDIA"},
-      {"Ville_ID":"KERKER"},
-      {"Ville_ID":"EL JEM"},
-      {"Ville_ID":"EL HENCHA"},
-      {"Ville_ID":"DOKHANE"},
-      {"Ville_ID":"SAKIET EZZIT"},
-      {"Ville_ID":"SFAX"},
-      {"Ville_ID":"MAHARES"},
-      {"Ville_ID":"GABES"},
-      {"Ville_ID":"SENED"},
-      {"Ville_ID":"GAFSA"},
-      {"Ville_ID":"METLAOUI"},
-      {"Ville_ID":"MANOUBA"},
-      {"Ville_ID":"JEDEIDA"},
-      {"Ville_ID":"TEBOURBA"},
-      {"Ville_ID":"BORJ TOUM"},
-      {"Ville_ID":"MEJEZ EL BAB"},
-      {"Ville_ID":"OUED ZARGA"},
-      {"Ville_ID":"SIDI MHIMECH"},
-      {"Ville_ID":"BEJA"},
-      {"Ville_ID":"MASTOUTA"},
-      {"Ville_ID":"SIDI SMAIL"},
-      {"Ville_ID":"BOU SALEM"},
-      {"Ville_ID":"BEN BECHIR"},
-      {"Ville_ID":"JENDOUBA"},
-      {"Ville_ID":"OUED MELIZ"},
-      {"Ville_ID":"GHARDIMAOU"},
-      {"Ville_ID":"KALAA KHASBA"},
-      {"Ville_ID":"OUED SARRATH"},
-      {"Ville_ID":"GOURAÏA"},
-      {"Ville_ID":"FEJ ET TAMEUR"},
-      {"Ville_ID":"AIN MESRIA"},
-      {"Ville_ID":"LE KEF"},
-      {"Ville_ID":"DAHMANI"},
-      {"Ville_ID":"LES ZOUARINES"},
-      {"Ville_ID":"LES SALINES"},
-      {"Ville_ID":"LE SERS"},
-      {"Ville_ID":"TRIKA"},
-      {"Ville_ID":"SIDI BOU ROUIS"},
-      {"Ville_ID":"EL KRIB"},
-      {"Ville_ID":"EL AKHOUAT"},
-      {"Ville_ID":"GAAFOUR"},
-      {"Ville_ID":"SIDI AYED"},
-      {"Ville_ID":"EL AROUSSA"},
-      {"Ville_ID":"BOU ARADA"},
-      {"Ville_ID":"PONT DU FAHS"},
-      {"Ville_ID":"DEPIENNE"},
-      {"Ville_ID":"BIR M'CHERGA"},
-      {"Ville_ID":"CHEYLUS"},
-      {"Ville_ID":"OUDNA"},
-      {"Ville_ID":"KHELIDIA"},
-      {"Ville_ID":"NAASSEN"},
-      {"Ville_ID":"BIR KASSAA"},
-      {"Ville_ID":"JEBEL JELLOUD"},
-      {"Ville_ID":"CHAOUAT"},
-      {"Ville_ID":"SIDI OTHMAN"},
-      {"Ville_ID":"AIN GHELAL"},
-      {"Ville_ID":"MATEUR"},
-      {"Ville_ID":"TINJA"},
-      {"Ville_ID":"LA PECHERIE"},
-      {"Ville_ID":"BIZERTE"},
-      {"Ville_ID":"FOUNDOUK JEDID"},
-      {"Ville_ID":"TURKI"},
-      {"Ville_ID":"BELLI"},
-      {"Ville_ID":"HAMMAMET"},
-      {"Ville_ID":"OMAR KHAYEM"},
-      {"Ville_ID":"NABEUL"},
-      {"Ville_ID":"BIR BOU REGBA"},
-      {"Ville_ID":"GHRAIBA"},
-      {"Ville_ID":"MAKNASSY"},
-      {"Ville_ID":"MRAZGA"},
-      {"Ville_ID":"KHANGUET"}
+      { "Ville_ID": "Tunis" },
+      { "Ville_ID": "Gafsa" },
+      { "Ville_ID": "Las" },
+      { "Ville_ID": "Al-Sammar" },
+      { "Ville_ID": "Beni Khedache" },
+      { "Ville_ID": "Ben Guerdane" },
+      { "Ville_ID": "Djerba" },
+      { "Ville_ID": "Tozeur" },
+      { "Ville_ID": "Al Fawar" },
+      { "Ville_ID": "Siliana" },
+      { "Ville_ID": "Médenine" },
+      { "Ville_ID": "Tameghza" },
+      { "Ville_ID": "Degache" },
+      { "Ville_ID": "Kasserine" },
+      { "Ville_ID": "Sidi Bouzid" },
+      { "Ville_ID": "Nefta" },
+      { "Ville_ID": "Souk Lahad" },
+      { "Ville_ID": "Sabiba" },
+      { "Ville_ID": "Dahmani" },
+      { "Ville_ID": "Al-Alaa" },
+      { "Ville_ID": "Oueslatia" },
+      { "Ville_ID": "Dhahiba" },
+      { "Ville_ID": "Redeyef" },
+      { "Ville_ID": "Gbili" },
+      { "Ville_ID": "Tataouine" },
+      { "Ville_ID": "Zarzis" },
+      { "Ville_ID": "Douz" },
+      { "Ville_ID": "Matmata" },
+      { "Ville_ID": "Bizerte" },
+      { "Ville_ID": "Sfax" },
+      { "Ville_ID": "Sousse" },
+      { "Ville_ID": "Lksour" },
+      { "Ville_ID": "Ouyoun" },
+      { "Ville_ID": "Ain Draham" },
+      { "Ville_ID": "Tbarka" },
+      { "Ville_ID": "Lkef" },
+      { "Ville_ID": "Fousena" },
+      { "Ville_ID": "Touiref" },
+      { "Ville_ID": "Kaleet Snen" },
+      { "Ville_ID": "Malouma" },
+      { "Ville_ID": "Tela" },
+      { "Ville_ID": "Jendouba" },
+      { "Ville_ID": "Feryena" }
     ];
     setCities(fetchedCities);
   }, []);
-
+  
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/Arret/${destination}/${departure}/${hour}`);
+      const response = await axios.get(`http://localhost:3000/Bus/${destination}/${departure}`);
+      console.log("API Response:", response); // Log the API response
       setSearchResults(response.data.rows);
-      console.log(response.data.rows);
     } catch (error) {
       console.error('Error searching for trips:', error);
     }
   };
 
-
   const togglePopup = (row = null) => {
     setSelectedRow(row);
     setPopupVisible(!isPopupVisible);
   };
-
   const { user } = useContext(AccountContext); // Access user data from context
   const [profile, setProfile] = useState(null);
   console.log(localStorage.getItem("username"));
@@ -177,20 +131,22 @@ const SearchBarTrain = () => {
     fetchProfileData();
   }, []); 
 
+ 
   const handleBooking = async (row, reservationCount) => {
     // Handle booking logic, including saving the number of reservations
     try {
       const bookingDetails = {
         destination: row.destination,
-        departure: row.departure,
-        temps_depart: row.Date_Sortie,
+        departure: row.sortie,
+        temps_depart: row.temps_sortie,
         Date_depart: departureDate,
         Utilisateur_ID: profile.id,
         Nombre_reservation: reservationCount,
         prix:40
       };
+      console.log(bookingDetails);
 
-      const response = await axios.post('http://localhost:3000/train/Bookings', bookingDetails);
+      const response = await axios.post('http://localhost:3000/Bus/Bookings', bookingDetails);
       console.log('Booking successful:', response.data);
       // You can add further logic here if needed (e.g., show a confirmation message)
     } catch (error) {
@@ -212,8 +168,6 @@ const SearchBarTrain = () => {
             filterOption={({ label }, inputValue) =>
               label.toLowerCase().startsWith(inputValue.toLowerCase())
             }
-            onFocus={() => setDeparture("")}
-            onMouseDown={(e) => { e.target.select(); setDeparture("") }}
           />
         </div>
         <div>
@@ -227,8 +181,6 @@ const SearchBarTrain = () => {
             filterOption={({ label }, inputValue) =>
               label.toLowerCase().startsWith(inputValue.toLowerCase())
             }
-            onFocus={() => setDestination("")}
-            onMouseDown={(e) => { e.target.select(); setDestination("") }}
           />
         </div>
         <div>
@@ -240,13 +192,6 @@ const SearchBarTrain = () => {
             onChange={(e) => setDepartureDate(e.target.value)}
           />
         </div>
-        <div>
-          <input
-            type="time"
-            className="form-control mb-3"
-            onChange={(e) => setDepartureTime(e.target.value)}
-          />
-        </div>
         <div className="text-center">
           <button className="btn btn-primary" onClick={handleSearch}>
             Search
@@ -254,6 +199,7 @@ const SearchBarTrain = () => {
         </div>
       </div>
       <div>
+
         <h2>Available trips</h2>
         <table className="table">
           <thead>
@@ -265,33 +211,34 @@ const SearchBarTrain = () => {
               <th>Reservation</th>
             </tr>
           </thead>
+          
           <tbody>
             {searchResults && searchResults.map((data, index) => (
               <tr key={index}>
-                <td>{data.departure}</td>
-                <td>{data.Date_Sortie}</td>
+                <td>{data.sortie}</td>
+                <td>{data.temps_sortie}</td>
                 <td>{data.destination}</td>
-              <td>{data.Date_Arret}</td>
-              <td>
-                <button className="btn btn-primary" onClick={() => togglePopup(data)}>
-                  Book
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {isPopupVisible && selectedRow && (
-        <Popup
-          row={selectedRow}
-          onClose={togglePopup}
-          onBooking={handleBooking}
-          Date={departureDate}
-        />
-      )}
+                <td>{data.temps_arrivé}</td>
+                <td>
+                  <button className="btn btn-primary" onClick={() => togglePopup(data)}>
+                    Book
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {isPopupVisible && selectedRow && (
+          <Popup
+            row={selectedRow}
+            onClose={togglePopup}
+            onBooking={handleBooking}
+            Date={departureDate}
+          />
+        )}
+      </div>
     </div>
-  </div>
   );
 };
 
-export default SearchBarTrain;
+export default SearchBarBus;

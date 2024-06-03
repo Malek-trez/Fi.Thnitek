@@ -71,7 +71,7 @@ const Chat = ({ userId }) => {
       <VStack justify="center" pt="5rem" w="100%" textAlign="center" fontSize="lg">
         <TabPanels>
           <TabPanel>
-            <Text>No friend :( Click add friend to start chatting</Text>
+            <Text>No connections! Click add connection to start chatting</Text>
           </TabPanel>
         </TabPanels>
       </VStack>
