@@ -28,6 +28,7 @@ const ProfilePage = () => {
   return (
     <div>
       <h1>Profile Page</h1>
+      <Link to="/Booking/history" className="btn btn-primary">View Booking History</Link>
       {profile ? (
         <div>
           <p>Name: {profile.username}</p>
@@ -35,6 +36,7 @@ const ProfilePage = () => {
           <p>id: {profile.id}</p>
 
           {/* Add more profile information as needed */}
+          
         </div>
       ) : (
         <p>Loading...</p>

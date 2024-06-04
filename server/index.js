@@ -17,7 +17,7 @@ import initializeUser from "./controllers/socketio/initializeUser.js";
 import onDisconnect from "./controllers/socketio/onDisconnect.js";
 import authorizeUser from "./controllers/socketio/authorizeUser.js";
 import { addOffer } from './controllers/offer.js';
-import { allCountries ,allStops, allTrips, SearchTrainTrips , Booking_Train} from './controllers/train.js';
+import { allCountries ,allStops, allTrips, SearchTrainTrips , Booking_Train, getTrainBookings} from './controllers/train.js';
 import dm from "./controllers/socketio/dm.js";
 import http from "http";
 import handleLogin from "./controllers/socketio/handleLogin.js";
@@ -32,6 +32,7 @@ import {updateNotificationStatus} from './controllers/updateNotificationStatus.j
 import { getProfilee } from './controllers/ProfilePage.js';
 import { profileEdit} from './controllers/profileEdit.js';
 import { deleteProfile} from './controllers/profiledel.js';
+import {SearchBusTrips, Booking_Bus,SearchBus, getBusBookings} from "./controllers/Bus.js";
 
 const app = express();
 app.use(cors({
@@ -99,11 +100,28 @@ app.get('api/ville', allCountries);
 // Get all stops
 app.get('/Arret', allStops);
 
-// Search for available trips 
+// Search for available train trips 
 app.get('/Arret/:destination/:departure/:hour', SearchTrainTrips);
 
-// Booking Details
+// Booking train Details
 app.post('/train/Bookings',Booking_Train);
+
+// Get train Booking Details
+app.get('/train/bookings',getTrainBookings)
+
+// Search for availabe bus trips 
+app.get('/Bus/:destination/:departure',SearchBusTrips);
+
+// Bookig Bus Details
+app.post('/Bus/Bookings',Booking_Bus);
+
+// Get bus Booking Details
+app.get('/Bus/Bookings', getBusBookings);
+
+// Search 
+app.get('/Bus',SearchBus)
+
+
 
 // Mount the profile route
 app.get('/api/profile',  getProfile);
