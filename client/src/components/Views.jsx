@@ -13,9 +13,12 @@ import Paymentform from "./Payment.jsx";
 import ChatHome from "./Chat/ChatHome.jsx";
 import Profile from "./Profile.jsx";
 import UserOffers from "./UserOffers.jsx"
-import PaymentHistory from "./history.jsx";
-import ProfilePage from "./ProfilePage.jsx";
 import Notification from "./Notification.jsx";
+import PaymentHistory from "./history.jsx";
+import Team from "./Team.jsx";
+import ContactUs from "./ContactUs.jsx";
+import ProfilePage from "./ProfilePage.jsx";
+
 const Views = () => {
 
     const {user} = useContext(AccountContext);

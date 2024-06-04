@@ -5,7 +5,7 @@ import parseFriendList from "./parseFriendList.js";
 const initializeUser = async socket => {
   socket.join(String(socket.user.userId));
 //  console.log("User ", socket.user.username, " is member of room: ", String(socket.user.userId));
-  await redisClient.hset(
+  await redisClient.set(
     `userId:${socket.user.username}`,
     "userId",
     socket.user.userId,
