@@ -20,6 +20,8 @@ const ProfilePage = () => {
   const [avatar, setAvatar] = useState('');
   const [successMessage, setSuccessMessage] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
+  const [deletePassword, setDeletePassword] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 
   const { user } = useContext(AccountContext); 
@@ -76,7 +78,6 @@ const ProfilePage = () => {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${user.token}` // Add JWT token to request headers
-
         }
       });
 
@@ -112,8 +113,15 @@ const ProfilePage = () => {
   const handleDeleteProfile = async (e) => {
     e.preventDefault();
 
+    if (!deletePassword) {
+      setError('Password is required for profile deletion.');
+      return;
+    }
+
     try {
-      const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}profiledel`, {
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}profiledel`, {
+        password: deletePassword, // Send password in the body
+      }, {
         headers: {
           Authorization: `Bearer ${user.token}` // Add JWT token to request headers
         }
@@ -123,16 +131,31 @@ const ProfilePage = () => {
         throw new Error(response.data.message || 'Deletion failed');
       }
 
- // Définir la fonction navigateTo pour rediriger l'utilisateur vers une autre URL
- const navigateTo = (url) => {
-  window.location.href = url; // Rediriger vers l'URL spécifiée
+    // Définir la fonction navigateTo pour rediriger l'utilisateur vers une autre URL
+    const navigateTo = (url) => {
+      window.location.href = url; // Rediriger vers l'URL spécifiée
+    };
+    // Rediriger l'utilisateur après la suppression réussie
+    navigateTo('http://localhost:5173/');
+    } 
+
+catch (error) {
+  if (error.response && error.response.data && error.response.data.message) {
+    setError(error.response.data.message);
+  } else {
+    setError('Deletion failed');
+  }
+}
 };
 
-// Rediriger l'utilisateur après la suppression réussie
-navigateTo('http://localhost:5173/');
-} catch (error) {
-setError(error.message);
-}
+
+const handleDeleteClick = () => {
+  setShowDeleteModal(true);
+};
+
+const handleModalClose = () => {
+  setShowDeleteModal(false);
+  setDeletePassword('');
 };
 
   return (
@@ -194,16 +217,38 @@ setError(error.message);
               <button className='button-6' onClick={handleDeleteProfile}> Delete</button>
             </div>
           ) : (
-            <div>
-              <h1 className='details'> {name} </h1>
-              <p className='details'> {phone}</p>
-              <p className='details'> {email}</p>
-              <div>
+            <div style={{}}>
+              <h1 className='details'>  {name} </h1>
+              <p className='details' style={{fontSize:'20px',textAlign: 'left',marginTop:'20px'}}> Phone Number: {phone}</p>
+              <p className='details' style={{fontSize:'20px',textAlign: 'left'}}> Email: {email}</p>
+              <div style={{marginTop:'20px'}}>
                 <button className='button-5' onClick={handleEdit}>Edit</button>
-                <button className='button-6' onClick={handleDeleteProfile}>  Delete</button>
+                <button className='button-6' onClick={handleDeleteClick}> Delete</button>
               </div>
             </div>
           )}
+        </div>
+      )}
+
+{showDeleteModal && (
+        <div className='delete-modal' style={{marginTop:'20px'}}>
+          <div className='delete-modal-content'>
+            <h3>Confirm Deletion</h3>
+            <p>Please enter your password to confirm deletion:</p>
+            <input
+              type="password"
+              className="form-control mb-2"
+              placeholder="Password"
+              value={deletePassword}
+              onChange={(e) => setDeletePassword(e.target.value)}
+            />
+            {error && <p className="error-message">{error}</p>}
+            <div className='modal-buttons'>
+              <button className='button-5' onClick={handleModalClose} >Cancel</button>
+              <button className='button-6' onClick={handleDeleteProfile} >Delete</button>
+
+            </div>
+          </div>
         </div>
       )}
      
