@@ -59,6 +59,11 @@ export async function addOffer(req, res) {
     // Create a new offer and store it in the database
     const insertOfferQuery = 'INSERT INTO carpool(depart, destination, schedule, price, capacity, provider_id) VALUES ($1, $2, $3, $4, $5 ,$6) RETURNING id';
     const newOffer = await pool.query(insertOfferQuery, [depart, destination, schedule, price, capacity, provider_id]);
+    // Create a notification for adding the offer
+    const notificationQuery = 'INSERT INTO notifications(user_id, title, message) VALUES ($1, $2, $3)';
+    const notificationValues = [provider_id, 'New Offer Added', 'You have successfully added a new carpool offer.']; // Example message content
+
+    await pool.query(notificationQuery, notificationValues);
 
     res.status(201).json({ message: 'Offer added successfully', offerId: newOffer.rows[0].id });
   } catch (err) {

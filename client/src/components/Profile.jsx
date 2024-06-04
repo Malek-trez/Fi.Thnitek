@@ -3,9 +3,11 @@ import axios from 'axios';
 import { AccountContext } from '../contexts/AccountContext'; // Import the AccountContext to access user data
 
 const ProfilePage = () => {
+  
   const { user } = useContext(AccountContext); // Access user data from context
   const [profile, setProfile] = useState(null);
-  console.log(localStorage.getItem("username"));
+
+
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -20,18 +22,21 @@ const ProfilePage = () => {
         console.error('Error fetching user profile:', error);
       }
     };
-
     fetchProfileData();
   }, []); // Fetch profile data once when the component mounts
 
   return (
     <div>
       <h1>Profile Page</h1>
+      <Link to="/Booking/history" className="btn btn-primary">View Booking History</Link>
       {profile ? (
         <div>
           <p>Name: {profile.username}</p>
           <p>Email: {profile.email}</p>
+          <p>id: {profile.id}</p>
+
           {/* Add more profile information as needed */}
+          
         </div>
       ) : (
         <p>Loading...</p>

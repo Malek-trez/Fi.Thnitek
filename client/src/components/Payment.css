@@ -1,0 +1,32 @@
+/* Styles for the payment form */
+.payment-block {
+    background-color: #ffffff;
+    color: #050A30;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(79, 85, 130, 0.1);
+    max-width: 500px;
+    padding: 30px;
+    width: 100%;
+}
+
+.payment-block h2 {
+    color: #050A30;
+}
+
+.payment-block input[type="text"],
+.payment-block input[type="number"],
+.payment-block select {
+    border: 2px solid #5CB6F9;
+    border-radius: 4px;
+    font-size: 18px;
+    padding: 15px;
+    width: 100%;
+}
+
+/* Responsive Design for smaller devices */
+@media (max-width: 600px) {
+    .payment-block {
+        margin: 20px;
+        padding: 20px;
+    }
+}
