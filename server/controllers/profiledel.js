@@ -1,5 +1,5 @@
 import { pool } from '../db/db.js';
-import { requireAuth } from './middle.js'; 
+import { requireAuth } from './middle.js';
 
 export async function deleteProfile(req, res) {
   try {
@@ -14,16 +14,29 @@ export async function deleteProfile(req, res) {
       // Start a transaction
       await pool.query('BEGIN');
 
-      // Delete related records from notifications and other related tables
-      const deleteNotificationsQuery = 'DELETE FROM notifications WHERE id = (SELECT id FROM users WHERE username = $1)';
-      await pool.query(deleteNotificationsQuery, [username]);
+      // Find the user ID based on the username
+      const userQuery = 'SELECT id FROM users WHERE username = $1';
+      const userResult = await pool.query(userQuery, [username]);
+      
+      if (userResult.rowCount === 0) {
+        await pool.query('ROLLBACK');
+        return res.status(404).json({ message: 'User not found' });
+      }
 
-      const deleteCarpoolQuery = 'DELETE FROM carpool WHERE id = (SELECT id FROM users WHERE username = $1)';
-      await pool.query(deleteCarpoolQuery, [username]);
+      const userId = userResult.rows[0].id;
+
+      // Delete related records from notifications and other related tables
+      const deleteNotificationsQuery = 'DELETE FROM notifications WHERE user_id = $1';
+      await pool.query(deleteNotificationsQuery, [userId]);
+
+      const deleteCarpoolQuery = 'DELETE FROM carpool WHERE provider_id = $1';
+      await pool.query(deleteCarpoolQuery, [userId]);
+
+      // Add additional delete queries for other tables that reference the user
 
       // Finally, delete the user
-      const deleteUserQuery = 'DELETE FROM users WHERE username = $1';
-      const result = await pool.query(deleteUserQuery, [username]);
+      const deleteUserQuery = 'DELETE FROM users WHERE id = $1';
+      const result = await pool.query(deleteUserQuery, [userId]);
 
       if (result.rowCount === 0) {
         await pool.query('ROLLBACK');
