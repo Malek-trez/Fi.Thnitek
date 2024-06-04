@@ -1,0 +1,23 @@
+.search-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .search-row > * {
+    margin-right: 8px; /* Adjust the spacing between fields */
+    margin-bottom: 8px; /* Adjust the vertical spacing between rows */
+  }
+  td {
+    text-align: center; /* Center horizontally */
+    vertical-align: middle; /* Center vertically */
+  }
+  th {
+    vertical-align: middle;
+    text-align: center;
+  }
+  h2 {
+    color: black;
+    margin: 20px;
+  }
+ 

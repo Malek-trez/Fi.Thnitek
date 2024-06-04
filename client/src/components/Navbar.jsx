@@ -82,7 +82,7 @@ const NavBar = () => {
             <Nav className="me-auto">
               <Nav.Link href="http://localhost:5173/" className="text-dark nav-link home-link">Home</Nav.Link>
               <Nav.Link href="http://localhost:5173/carpool" className="text-dark nav-link">Carpool</Nav.Link>
-              <Nav.Link href="#" className="text-dark nav-link">Bus</Nav.Link>
+              <Nav.Link href="http://localhost:5173/bus" className="text-dark nav-link">Bus</Nav.Link>
               <Nav.Link href="http://localhost:5173/train" className="text-dark nav-link">Train</Nav.Link>
               <Nav.Link href="#footer" className="text-dark nav-link">About Us</Nav.Link>
             </Nav>

@@ -18,7 +18,6 @@ export async function deleteProfile(req, res) {
       const deleteNotificationsQuery = 'DELETE FROM notifications WHERE id = (SELECT id FROM users WHERE username = $1)';
       await pool.query(deleteNotificationsQuery, [username]);
 
-      // Add other delete queries for related tables here
       const deleteCarpoolQuery = 'DELETE FROM carpool WHERE id = (SELECT id FROM users WHERE username = $1)';
       await pool.query(deleteCarpoolQuery, [username]);
 

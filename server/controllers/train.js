@@ -73,6 +73,16 @@ export async function SearchTrainTrips(req, res) {
   }
 };
 
+ // Get Booking Details
+ export async function getTrainBookings(req, res) {
+  try {
+    const result = await pool.query('SELECT *, \'train\' as type FROM reservation_train');
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching train bookings:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 
  

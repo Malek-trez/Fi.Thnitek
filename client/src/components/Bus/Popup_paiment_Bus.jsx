@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Popup_paiment.css';
+import './Popup_paiment_Bus.css';
 
 const PopupPaiment = ({ row, onClose, onBooking, Date }) => {
   const [reservationCount, setReservationCount] = useState(1);
@@ -16,7 +16,7 @@ const PopupPaiment = ({ row, onClose, onBooking, Date }) => {
         <div className="details">
           <div>
             <label>Departure:</label>
-            <span>{row.departure}</span>
+            <span>{row.sortie}</span>
           </div>
           <div>
             <label>Destination:</label>
@@ -28,7 +28,7 @@ const PopupPaiment = ({ row, onClose, onBooking, Date }) => {
           </div>
           <div>
             <label>Time of Departure:</label>
-            <span>{row.Date_Sortie}</span>
+            <span>{row.temps_sortie}</span>
           </div>
         </div>
         <div className="form-group">
