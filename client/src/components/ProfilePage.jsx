@@ -62,7 +62,6 @@ const ProfilePage = () => {
         console.error('Error fetching profile data:', error);
       }
     };
-
     fetchProfileData();
   }, []);
 
@@ -147,6 +146,7 @@ navigateTo('http://localhost:5173/');
 setError(error.message);
 }
 };
+
   return (
     <div className='profile-container' >
       <h1 className='user'>User Profile</h1>

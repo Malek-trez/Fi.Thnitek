@@ -32,7 +32,20 @@ export async function deleteProfile(req, res) {
       const deleteCarpoolQuery = 'DELETE FROM carpool WHERE provider_id = $1';
       await pool.query(deleteCarpoolQuery, [userId]);
 
-      // Add additional delete queries for other tables that reference the user
+      const deleteratingsQuery = 'DELETE FROM ratings WHERE provider_id = $1';
+      await pool.query(deleteratingsQuery, [userId]);
+
+      const deletefeedbackQuery = 'DELETE FROM feedback WHERE provider_id = $1';
+      await pool.query(deletefeedbackQuery, [userId]);
+
+      const deletepaymentQuery = 'DELETE FROM payment WHERE user_id = $1';
+      await pool.query(deletepaymentQuery, [userId]);
+
+      const deletebusQuery = 'DELETE FROM Reservation_bus WHERE  Utilisateur_ID = $1';
+      await pool.query(deletebusQuery, [userId]);
+
+      const deletetrainQuery = 'DELETE FROM Reservation_train WHERE  Utilisateur_ID = $1';
+      await pool.query(deletetrainQuery, [userId]);
 
       // Finally, delete the user
       const deleteUserQuery = 'DELETE FROM users WHERE id = $1';
