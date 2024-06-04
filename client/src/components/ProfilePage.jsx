@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './ProfilePage.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -22,7 +20,6 @@ const ProfilePage = () => {
   const [avatar, setAvatar] = useState('');
   const [successMessage, setSuccessMessage] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
-  const [Userid, setUserid] = useState('2');
 
 
   const { user } = useContext(AccountContext); 
@@ -50,20 +47,11 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}profileEdit`);
-        const { name, phone, email, imageUrl } = response.data;
-        setName(name);
-        setPhone(phone);
-        setEmail(email);
-        setImageUrl(imageUrl);
-      } catch (error) {
-        console.error('Error fetching profile data:', error);
-      }
-    };
-    fetchProfileData();
-  }, []);
+    // Call handleConsultProfile when the component mounts
+    handleConsultProfile();
+  }, []); 
+
+
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -149,15 +137,14 @@ setError(error.message);
 
   return (
     <div className='profile-container' >
-      <h1 className='user'>User Profile</h1>
-      {!buttonClicked && <button className='button-5' onClick={handleConsultProfile}>Consult Profile</button>}
+      <h1 className='user'>Profile Details</h1>
       {profileData && (
         <div >
           <img className='profile-picture' src={imageUrl} alt="Profile" />
           {isEditing ? (
             <div className="edit-form">
-              <label htmlFor="avatarInput" className="icon-button">
-                <i className="fas fa-pencil-alt"></i>
+              <label htmlFor="avatarInput" className="icon-button" style={{marginBottom:'20px'}}>
+                 Edit Profile Picture
               </label>
               <input
                 type="text"
@@ -183,9 +170,10 @@ setError(error.message);
               <input
                 type="password"
                 className="form-control mb-2"
-                placeholder="Current Password        *"
+                placeholder="Current Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
               <input
                 type="password"
@@ -203,7 +191,7 @@ setError(error.message);
               {error && <p className="error-message">{error}</p>}
               {successMessage && <p className="success-message">{successMessage}</p>}
               <button className='button-5' onClick={handleSave}>Save</button>
-              <button className='button-6' onClick={handleDeleteProfile}> <FontAwesomeIcon icon={faTrash} className="delete-icon" /></button>
+              <button className='button-6' onClick={handleDeleteProfile}> Delete</button>
             </div>
           ) : (
             <div>
@@ -211,8 +199,8 @@ setError(error.message);
               <p className='details'> {phone}</p>
               <p className='details'> {email}</p>
               <div>
-                <button className='button-5' onClick={handleEdit}><i className="fas fa-pencil-alt"></i></button>
-                <button className='button-6' onClick={handleDeleteProfile}> <FontAwesomeIcon icon={faTrash} /></button>
+                <button className='button-5' onClick={handleEdit}>Edit</button>
+                <button className='button-6' onClick={handleDeleteProfile}>  Delete</button>
               </div>
             </div>
           )}
