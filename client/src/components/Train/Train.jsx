@@ -4,6 +4,8 @@ import axios from 'axios';
 import Select from 'react-select';
 import Popup from './Popup_paiment.jsx';
 import { AccountContext } from "../../contexts/AccountContext.jsx"; 
+import { useNavigate } from 'react-router';
+
 
 const SearchBarTrain = () => {
   const customStyles = {
@@ -151,8 +153,12 @@ const SearchBarTrain = () => {
     }
   };
 
-
+  const navigate = useNavigate();
   const togglePopup = (row = null) => {
+    if (!user.loggedIn) {
+      navigate('/login');
+      return;
+    }
     setSelectedRow(row);
     setPopupVisible(!isPopupVisible);
   };

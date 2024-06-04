@@ -4,6 +4,8 @@ import Select from 'react-select';
 import Popup from './Popup_paiment_Bus.jsx';
 import "./Bus.css"; // Import custom CSS file for styling
 import { AccountContext } from "../../contexts/AccountContext.jsx"; 
+import { useNavigate } from 'react-router';
+
 
 const SearchBarBus = () => {
   const customStyles = {
@@ -107,7 +109,12 @@ const SearchBarBus = () => {
     }
   };
 
+  const navigate = useNavigate();
   const togglePopup = (row = null) => {
+    if (!user.loggedIn) {
+      navigate('/login');
+      return;
+    }
     setSelectedRow(row);
     setPopupVisible(!isPopupVisible);
   };
