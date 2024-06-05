@@ -123,7 +123,7 @@ const NavBar = () => {
                   <MdNotifications size={35} style={{ marginRight: '0px' }} />
                 </Nav.Link><Nav.Link href="http://localhost:5173/Booking/history" style={notifStyle}>
                     <MdHistory size={35} style={{ marginRight: '0px' }} />
-                  </Nav.Link></>
+                </Nav.Link></>
             )}
             </Nav>
           </Navbar.Collapse>
