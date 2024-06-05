@@ -1,4 +1,4 @@
-/*import { pool } from '../db/db.js';
+import { pool } from '../db/db.js';
 import { requireAuth } from './middle.js'; // Ensure this path is correct
 import bcrypt from 'bcrypt';
 
@@ -90,4 +90,3 @@ export async function deleteProfile(req, res) {
     res.status(500).json({ message: 'Error deleting user profile' });
   }
 }
-*/

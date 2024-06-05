@@ -31,7 +31,7 @@ import {updateNotificationStatus} from './controllers/updateNotificationStatus.j
 
 import { getProfilee } from './controllers/ProfilePage.js';
 import { profileEdit} from './controllers/profileEdit.js';
-//import { deleteProfile} from './controllers/profiledel.js';
+import { deleteProfile} from './controllers/profiledel.js';
 import {SearchBusTrips, Booking_Bus,SearchBus, getBusBookings} from "./controllers/Bus.js";
 
 
@@ -154,7 +154,7 @@ app.post('/api/changeNotifStatus', updateNotificationStatus);
 
 app.post('/api/profileEdit', profileEdit);
 app.get('/api/profilepage', getProfilee);
-//app.post('/api/profiledel', deleteProfile);
+app.post('/api/profiledel', deleteProfile);
 
 
 // Error handling middleware
