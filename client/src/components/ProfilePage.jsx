@@ -223,8 +223,8 @@ const handleModalClose = () => {
           ) : (
             <div style={{}}>
               <h1 className='details'>  {name} </h1>
-              <p className='details' style={{fontSize:'20px',textAlign: 'left',marginTop:'20px'}}> Phone Number: {phone}</p>
-              <p className='details' style={{fontSize:'20px',textAlign: 'left'}}> Email: {email}</p>
+              <p className='details' style={{fontSize:'20px',textAlign: 'left',marginTop:'20px'}}><strong>Phone Number:</strong>  {phone}</p>
+              <p className='details' style={{fontSize:'20px',textAlign: 'left'}}><strong>Email:</strong>   {email}</p>
               <div style={{marginTop:'20px'}}>
                 <button className='button-5' onClick={handleEdit}>Edit</button>
                 <button className='button-6' onClick={handleDeleteClick}> Delete</button>
@@ -248,7 +248,7 @@ const handleModalClose = () => {
             />
             {error && <p className="error-message">{error}</p>}
             <div className='modal-buttons'>
-              <button className='button-5' onClick={handleModalClose} >Cancel</button>
+              <button className='button-5' onClick={handleModalClose}style={{backgroundColor:"green"}} >Cancel</button>
               <button className='button-6' onClick={handleDeleteProfile} >Delete</button>
 
             </div>
