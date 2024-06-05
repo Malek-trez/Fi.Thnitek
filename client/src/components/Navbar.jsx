@@ -5,7 +5,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import OffersModal from './OffersModal';
 import logo from './images/logo.png';
 import Logout from './Logout'; // Import the Logout component
-import { MdNotifications } from "react-icons/md"; // Import the notification icon
+import { MdNotifications, MdHistory } from "react-icons/md"; // Import the notification icon
 
 
 const NavBar = () => {
@@ -119,9 +119,11 @@ const NavBar = () => {
                 )}
               </NavDropdown>
               {isLoggedIn && (
-              <Nav.Link href="http://localhost:5173/notifications" style={notifStyle}>
-                <MdNotifications size={35} style={{ marginRight: '0px' }} />
-            </Nav.Link>
+              <><Nav.Link href="http://localhost:5173/notifications" style={notifStyle}>
+                  <MdNotifications size={35} style={{ marginRight: '0px' }} />
+                </Nav.Link><Nav.Link href="http://localhost:5173/Booking/history" style={notifStyle}>
+                    <MdHistory size={35} style={{ marginRight: '0px' }} />
+                  </Nav.Link></>
             )}
             </Nav>
           </Navbar.Collapse>
