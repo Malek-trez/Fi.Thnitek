@@ -86,7 +86,7 @@ const handleBooking = async (row, reservationCount, user) => {
         navigate('/login');
         return;
       }
-      await handleBooking(carpool, 1); // Assuming 1 reservation count for bookings
+      await handleBooking(carpool, 1); // Assuming 1 reservation count for bookings      await handleBooking(carpool, 1); // Assuming 1 reservation count for bookings
       const token = localStorage.getItem('token'); // Retrieve the token from localStorage or another appropriate source
       const paymentData = {
         type: 'carpool',
