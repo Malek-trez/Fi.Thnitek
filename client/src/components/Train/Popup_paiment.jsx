@@ -1,12 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { AccountContext } from '../../contexts/AccountContext'; // Adjust the import based on your project structure
 import './Popup_paiment.css';
 
 const PopupPaiment = ({ row, onClose, onBooking, Date }) => {
+  const { user } = useContext(AccountContext); // Access user data from context
   const [reservationCount, setReservationCount] = useState(1);
+  const navigate = useNavigate();
 
-  const handleBookingClick = () => {
-    onBooking(row, reservationCount);
-    onClose();
+  const handleBookingClick = async () => {
+    if (!user || !user.token) {
+      navigate('/login');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token'); // Retrieve the token from localStorage or another appropriate source
+
+      const paymentData = {
+        type: 'train',
+        amount: 40 * reservationCount, // Using the hard-coded price from Train.jsx
+        name: `Train from ${row.departure} to ${row.destination}`,
+        items: [{ id: row.id, name: `${row.departure} to ${row.destination}`, price: 40 * reservationCount }]
+      };
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}payment`, // Update the URL to match your server configuration
+        paymentData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      window.location.href = response.data.url;
+    } catch (error) {
+      console.error('Error processing payment:', error);
+    }
   };
 
   return (
@@ -44,7 +76,7 @@ const PopupPaiment = ({ row, onClose, onBooking, Date }) => {
         </div>
         <div className="button-group">
           <button className="btn btn-success" onClick={handleBookingClick}>
-            Proceed to paiment
+            Proceed to Payment
           </button>
           <button className="btn btn-secondary" onClick={onClose}>
             Close
