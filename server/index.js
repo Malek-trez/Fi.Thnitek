@@ -1,11 +1,11 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import { login } from './controllers/login.js';
 import { allCarpool, onBookNow ,cancelBookNow,searchByDestination,searchByDepart,searchByPrice ,getCarpoolBookings,Booking_Carpool} from './controllers/carpool.js';
 import { signup } from './controllers/signup.js';
 import { test } from './controllers/testdb.js';
-import {payment} from './controllers/payment.js';
-import {getPayments} from './controllers/paymentRepository.js';
+import {createPayment} from './controllers/paymentRepository.js';
 
 import { Carpool_user } from './controllers/carpool_user.js';
 import { deleteCarpoolFromDB } from './controllers/carpool_user.js';
@@ -34,7 +34,13 @@ import { profileEdit} from './controllers/profileEdit.js';
 import { deleteProfile} from './controllers/profiledel.js';
 import {SearchBusTrips, Booking_Bus,SearchBus, getBusBookings} from "./controllers/Bus.js";
 
+
 const app = express();
+
+// Increase the limit to 10MB (adjust as needed)
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+
 app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true,
@@ -59,8 +65,9 @@ app.get('/api/testdata', test);
 app.post('/api/login', login);
 
 // Route for payment
-app.post('/api/payment', payment);
-app.get('/api/payments', getPayments);
+//app.get('/api/payments', getPayments);
+app.post('/api/payment', createPayment);
+
 
 
 // Route for user sign up
@@ -147,7 +154,8 @@ app.post('/api/changeNotifStatus', updateNotificationStatus);
 
 app.post('/api/profileEdit', profileEdit);
 app.get('/api/profilepage', getProfilee);
-app.get('/api/profiledel', deleteProfile);
+app.post('/api/profiledel', deleteProfile);
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {

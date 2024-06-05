@@ -1,88 +1,96 @@
 import { pool } from '../db/db.js';
-import Stripe from 'stripe';
+import stripePackage from 'stripe';
 import { requireAuth } from './middle.js';
+import 'dotenv/config';
 
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-export async function createPayment(paymentData) {
-    const amountInCents = parseFloat(paymentData.amount) * 100; // Convert to integer (cents)
 
-    return stripe.customers.create({
-        email: paymentData.email,
-        source: "tok_visa",
-        name: paymentData.Name,
-        //address: paymentData.address,
-    }).then((customer) => {
-        return stripe.charges.create({
-            amount: amountInCents,
-            description: "carpool"+paymentData.carpoolId.toString(), // Ensure it's a string
-            currency: "usd",
-            customer: customer.id,
-        }).then((charge) => {
+
+
+// Insert a new payment into the database
+async function insertPayment(amount, description, status, userId) {
+    try {
+      const query = `INSERT INTO payment (amount, description, status, user_id, created_at) 
+                     VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP) 
+                     RETURNING id`;
+      const values = [amount, description, status, userId];
+      const { rows } = await pool.query(query, values);
+      return rows[0].id;
+    } catch (error) {
+      console.error('Error inserting payment:', error);
+      throw new Error('Failed to insert payment');
+    }
+  }
+  
+
+
+const stripe = stripePackage(process.env.STRIPE_SECRET_KEY);
+
+
+export async function createPayment(req, res) {
+  try {
+    // Use requireAuth middleware to ensure user is authenticated
+    await requireAuth(req, res, async () => {
+      // Ensure the request body is defined
+      if (!req.body) {
+        return res.status(400).json({ error: 'Request body is missing' });
+      }
+      const { username } = res.locals.token;
+      const query = 'SELECT * FROM users WHERE username = $1';
+      const { rows } = await pool.query(query, [username]);
+      let user;
+      if (rows.length > 0) {
+         user = rows[0];
+        } else {
+        res.status(404).json({ error: 'User not found' });
+    }
+      const { type,amount, name, items } = req.body;
+      const amountInCents = parseFloat(amount) * 100; // Convert to integer (cents)
+
+      try {
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ["card"],
+          mode: "payment",
+          line_items: items.map(item => {
             return {
-                id: charge.id,
-                amount: charge.amount,
-                description: charge.description,
-                status: charge.status,
+              price_data: {
+                currency: "usd",
+                product_data: {
+                  name: name,
+                },
+                unit_amount: amountInCents,
+              },
+              quantity: 1,
             };
+          }),
+          success_url: `http://localhost:5173/success?type=${type}`,
+          cancel_url: `http://localhost:5173/`,
         });
-    });
-}
-
-export async function insertPayment(paymentData, status, userId) {
-    try {
-        // Insert payment data into the payment table using pool.query()
-        const query = `
-            INSERT INTO payment (amount, description, status, email, name, token, user_id)
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
-            RETURNING id
-        `;
-        const values = [
-            paymentData.amount,
-            "carpool:"+paymentData.carpoolId.toString(),
-            status,
-            paymentData.email,
-            paymentData.Name,
-            "tok_visa",
-            userId,
-        ];
-
-        const { rows } = await pool.query(query, values);
-        const paymentId = rows[0].id;
-
-        return { id: paymentId };
-    } catch (error) {
-        throw error;
-    }
-}
 
 
-
-export async function getPayments(req, res) {
-    try {
-        await requireAuth(req, res, async () => {
-            const { username } = res.locals.token;
-            const queryUser = 'SELECT * FROM users WHERE username = $1';
-            const { rows: userRows } = await pool.query(queryUser, [username]);
-
-            if (userRows.length > 0) {
-                const user = userRows[0];
-
-                // Fetch payment history data from the database
-                const queryPayment = 'SELECT * FROM payment WHERE user_id = $1 ORDER BY created_at DESC';
-                const userId = user.id; 
-                const { rows: paymentRows } = await pool.query(queryPayment, [userId]);
-                const payments = paymentRows;
+        if (session.payment_status === 'unpaid') {
             
-                // Send the payment history data in the response
-                res.json({ payments });
-            } else {
-                return res.status(404).json({ error: 'User not found' });
-            }
-        });    
-    } catch (error) {
-        console.error('Error fetching payment history:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+          const paymentId = await insertPayment(session.amount_total, session.description, session.payment_status,user.id);
+
+          res.json({ url: session.url, paymentId: paymentId });
+        } else {
+          res.json({ url: session.url });
+        }
+      } catch (e) {
+        console.error('Error creating payment session:', e);
+        res.status(500).json({ error: e.message });
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
 }
+
+      
+
+      
+  
+
+

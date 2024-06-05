@@ -20,6 +20,8 @@ import ContactUs from "./ContactUs.jsx";
 import ProfilePage from "./ProfilePage.jsx";
 import SearchBarBus from "./Bus/Bus.jsx";
 import History from "./History_reservation.jsx";
+import SuccessPage from "./success.jsx";
+
 
 const Views = () => {
     const {user} = useContext(AccountContext);
@@ -41,12 +43,12 @@ const Views = () => {
                 <Route path="history" element={<PaymentHistory/>}/>
                 <Route path="Booking/history" element={<History/>}/>
                 <Route path="profile" element={<Profile/>}/>
-
                 <Route path="Myoffers" element={<UserOffers/>}/>
                 <Route path="profile" element={<Profile/>}/>
                 <Route path="notifications" element={<Notification/>}/>
                 <Route path="profilepage" element={<ProfilePage />} />
                 <Route path="bus" element={<SearchBarBus/>}/>
+                <Route path="success" element={<SuccessPage/>}/>
             </Route>
         </Routes>
         )

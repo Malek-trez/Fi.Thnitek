@@ -1,13 +1,13 @@
 import React, { useState, useContext , useEffect } from 'react';
 import axios from 'axios';
-import { AccountContext } from '../contexts/AccountContext'; // Import the AccountContext
+import { AccountContext } from '../contexts/AccountContext';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import './CarpoolCard.css';
 
 
 const CarpoolCard = ({ carpool, onEmpty }) => {
-  const { user } = useContext(AccountContext); // Move useContext inside the functional component
+  const { user } = useContext(AccountContext);
   const [capacity, setCapacity] = useState(carpool.capacity);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [isBooked, setIsBooked] = useState(false);
@@ -82,27 +82,33 @@ const handleBooking = async (row, reservationCount, user) => {
       return;
     }
     try {
-      // Check if user is logged in
       if (!user.loggedIn) {
         navigate('/login');
         return;
       }
-      console.log('Inside handleBookNow'); // Add this line
-      await handleBooking(carpool, 1, user); // Pass the user context here
-      // Navigate to the payment page with carpoolId and price as URL parameters
-      navigate(`/payment?carpoolId=${id}&price=${price}`, { replace: true });
-      // Rest of the book code continues execution
-      const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}carpool/book`, { id });
-      console.log(response.data);
-      const newCapacity = capacity ;
-      setCapacity(newCapacity);
-      if (newCapacity === 0) {
-        onEmpty(id);
-      }
-      setBookingSuccess(true);
-      setIsBooked(true);
-      setSuccessMessage('Booked with success!');
-      setTimeout(() => setBookingSuccess(false), 2500);
+
+      const token = localStorage.getItem('token'); // Retrieve the token from localStorage or another appropriate source
+
+      const paymentData = {
+        type: 'carpool',
+        amount: price,
+        name: `Carpool from ${carpool.depart} to ${carpool.destination}`,
+        items: [{ id, name: carpool.depart, price }],
+        id: id
+      };
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}payment`,
+        paymentData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      window.location.href = response.data.url;
+
     } catch (error) {
       console.error('Error booking carpool:', error);
     }
@@ -111,13 +117,21 @@ const handleBooking = async (row, reservationCount, user) => {
   const handleCancelBook = async (id, event) => {
     event.preventDefault();
     try {
-      // Check if user is logged in
       if (!user.loggedIn) {
         navigate('/login');
         return;
       }
-      // Rest of the cancel code continues execution
-      const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}carpool/cancel`, { id });
+      const token = localStorage.getItem('token'); // Retrieve the token from localStorage or another appropriate source
+
+      const response = await axios.put(
+        `${import.meta.env.VITE_SERVER_URL}/carpool/cancel`,
+        { id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
       console.log(response.data);
       const newCapacity = capacity + 1;
       setCapacity(newCapacity);
@@ -139,16 +153,13 @@ const handleBooking = async (row, reservationCount, user) => {
       {bookingSuccess && <div className="alert alert-success" role="alert">{successMessage}</div>}
       <div className="row">
         <div className="col-md-4">
-        {/* Render the link only if the user is logged in */}
-   
-            <img src={carpool.provider_image} className="img-fluid rounded-start h-80" alt="..." />
-            <p className="card-text">{`Provider: ${carpool.provider_name}`}</p>
-            {user.loggedIn && (
-              <Link  to={`/rating/${carpool.provider_id}`} className="rate-link">
-                Rate 
-              </Link>
-            )}
-          
+          <img src={carpool.provider_image} className="img-fluid rounded-start h-80" alt="..." />
+          <p className="card-text">{`Provider: ${carpool.provider_name}`}</p>
+          {user.loggedIn && (
+            <Link to={`/rating/${carpool.provider_id}`} className="rate-link">
+              Rate 
+            </Link>
+          )}
         </div>
         <div className="col-md-8">
           <div className="card-body">

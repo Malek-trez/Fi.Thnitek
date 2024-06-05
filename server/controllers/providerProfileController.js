@@ -7,8 +7,34 @@ export async function getProviderProfile(req, res) {
         // Call requireAuth middleware to ensure authentication
         requireAuth(req, res, async () => {
             const { provider_id } = req.params; // Get provider_id from URL parameters
-            const query = 'SELECT * FROM users WHERE id = $1';
+            const query = `
+            SELECT 
+                u.*, 
+                ROUND(COALESCE(AVG(r.rating), 0), 2) AS average_rating, 
+                ARRAY(
+                    SELECT 
+                        json_build_object(
+                            'username', f.username, 
+                            'feedback', f.feedback
+                        ) 
+                    FROM 
+                        feedback f 
+                    WHERE 
+                        f.provider_id = $1
+                ) AS feedback
+                FROM 
+                users u
+                LEFT JOIN 
+                ratings r ON u.id = r.provider_id
+                WHERE 
+                u.id = $1
+                GROUP BY 
+                u.id;
+
+          `;
+          
             const { rows } = await pool.query(query, [provider_id]);
+            //console.log(rows);
 
             if (rows.length > 0) {
                 const user = rows[0];

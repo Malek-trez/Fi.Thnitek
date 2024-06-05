@@ -1,12 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AccountContext } from '../../contexts/AccountContext';
 import './Popup_paiment_Bus.css';
+
 
 const PopupPaiment = ({ row, onClose, onBooking, Date }) => {
   const [reservationCount, setReservationCount] = useState(1);
+  const { user } = useContext(AccountContext); // Access user data from context
 
-  const handleBookingClick = () => {
-    onBooking(row, reservationCount);
-    onClose();
+  const handleBookingClick = async () => {
+    if (!user.loggedIn) {
+      navigate('/login');
+      return;
+    }
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}payment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+
+        },
+        body: JSON.stringify({
+          type: 'bus',
+          amount: 40 * reservationCount, // Adjust this according to your pricing logic
+          name: `${row.sortie} to ${row.destination}`,
+          items: [{ name: `${row.sortie} to ${row.destination}`, amount: row.price * reservationCount, quantity: reservationCount }],
+        
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create payment session');
+      }
+
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error('Payment URL not found');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -44,7 +80,7 @@ const PopupPaiment = ({ row, onClose, onBooking, Date }) => {
         </div>
         <div className="button-group">
           <button className="btn btn-success" onClick={handleBookingClick}>
-            Proceed to paiment
+            Proceed to payment
           </button>
           <button className="btn btn-secondary" onClick={onClose}>
             Close

@@ -15,8 +15,8 @@ import PropTypes from "prop-types";
 const Team = () => {
     const teamMembers = [
         {
-            picture: "https://scontent.ftun16-1.fna.fbcdn.net/v/t39.30808-1/420366456_3656347737968120_1315087482167273469_n.jpg?stp=c0.58.200.200a_dst-jpg_p200x200&_nc_cat=106&ccb=1-7&_nc_sid=5f2048&_nc_ohc=kAdL40EY1kYQ7kNvgHvArP8&_nc_ht=scontent.ftun16-1.fna&oh=00_AYCewRjYkyWz1w68QrUu4w1_BVXlMVTwAZTQ7OeIHTKhYg&oe=665F920A",
-            fullName: "Nour Elhouda BHJ",
+            picture: "https://scontent.ftun14-1.fna.fbcdn.net/v/t39.30808-6/320752647_1218314282093315_8717626016763896633_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_ohc=uPfwSTlJ7VUQ7kNvgECu0kt&_nc_ht=scontent.ftun14-1.fna&oh=00_AYALiiMN8p1suf_R0gPYgDlTp8hfdO_K15scv0X5PaYqeA&oe=66659906",
+            fullName: "Nour ElHouda Bhf",
             designation: "Graphic Designer",
             
             socialLinks: [

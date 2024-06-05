@@ -1,14 +1,35 @@
 import { pool } from '../db/db.js';
-import { requireAuth } from './middle.js';
+import { requireAuth } from './middle.js'; // Ensure this path is correct
+import bcrypt from 'bcrypt';
 
 export async function deleteProfile(req, res) {
+  const { password } = req.body; // Get password from request body
+
   try {
     requireAuth(req, res, async () => {
       const { username } = res.locals.token;
-      console.log(username);
 
       if (!username) {
-        return res.status(400).json({ message: 'User ID is required' });
+        return res.status(400).json({ message: 'Username is required' });
+      }
+
+      if (!password) {
+        return res.status(400).json({ message: 'Password is required' });
+      }
+
+      // Get the current password hash from the database
+      const getPasswordQuery = 'SELECT password FROM users WHERE username = $1';
+      const passwordResult = await pool.query(getPasswordQuery, [username]);
+      
+      if (passwordResult.rowCount === 0) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      const currentPassword = passwordResult.rows[0].password;
+      const passwordMatch = await bcrypt.compare(password, currentPassword);
+
+      if (!passwordMatch) {
+        return res.status(400).json({ message: 'Incorrect  password' });
       }
 
       // Start a transaction
@@ -32,20 +53,20 @@ export async function deleteProfile(req, res) {
       const deleteCarpoolQuery = 'DELETE FROM carpool WHERE provider_id = $1';
       await pool.query(deleteCarpoolQuery, [userId]);
 
-      const deleteratingsQuery = 'DELETE FROM ratings WHERE provider_id = $1';
-      await pool.query(deleteratingsQuery, [userId]);
+      const deleteRatingsQuery = 'DELETE FROM ratings WHERE provider_id = $1';
+      await pool.query(deleteRatingsQuery, [userId]);
 
-      const deletefeedbackQuery = 'DELETE FROM feedback WHERE provider_id = $1';
-      await pool.query(deletefeedbackQuery, [userId]);
+      const deleteFeedbackQuery = 'DELETE FROM feedback WHERE provider_id = $1';
+      await pool.query(deleteFeedbackQuery, [userId]);
 
-      const deletepaymentQuery = 'DELETE FROM payment WHERE user_id = $1';
-      await pool.query(deletepaymentQuery, [userId]);
+      const deletePaymentQuery = 'DELETE FROM payment WHERE user_id = $1';
+      await pool.query(deletePaymentQuery, [userId]);
 
-      const deletebusQuery = 'DELETE FROM Reservation_bus WHERE  Utilisateur_ID = $1';
-      await pool.query(deletebusQuery, [userId]);
+      const deleteBusQuery = 'DELETE FROM Reservation_bus WHERE Utilisateur_ID = $1';
+      await pool.query(deleteBusQuery, [userId]);
 
-      const deletetrainQuery = 'DELETE FROM Reservation_train WHERE  Utilisateur_ID = $1';
-      await pool.query(deletetrainQuery, [userId]);
+      const deleteTrainQuery = 'DELETE FROM Reservation_train WHERE Utilisateur_ID = $1';
+      await pool.query(deleteTrainQuery, [userId]);
 
       // Finally, delete the user
       const deleteUserQuery = 'DELETE FROM users WHERE id = $1';
