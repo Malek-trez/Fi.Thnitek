@@ -86,9 +86,8 @@ const handleBooking = async (row, reservationCount, user) => {
         navigate('/login');
         return;
       }
-
+      await handleBooking(carpool, 1); // Assuming 1 reservation count for bookings
       const token = localStorage.getItem('token'); // Retrieve the token from localStorage or another appropriate source
-
       const paymentData = {
         type: 'carpool',
         amount: price,
@@ -96,22 +95,34 @@ const handleBooking = async (row, reservationCount, user) => {
         items: [{ id, name: carpool.depart, price }],
         id: id
       };
-
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}payment`,
-        paymentData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
+      const [response1, response2] = await Promise.all([
+        await axios.post(
+          `${import.meta.env.VITE_SERVER_URL}payment`,
+          paymentData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
           }
-        }
-      );
-
-      window.location.href = response.data.url;
-
-    } catch (error) {
-      console.error('Error booking carpool:', error);
-    }
+          
+        ),
+        await axios.put(`${import.meta.env.VITE_SERVER_URL}carpool/book`, { id })
+      ]);
+       window.location.href = response1.data.url;
+       // Rest of the book code continues execution
+       console.log(response2.data);
+       const newCapacity = capacity -1 ;
+       setCapacity(newCapacity);
+       if (newCapacity === 0) {
+         onEmpty(id);
+       }
+       setBookingSuccess(true);
+       setIsBooked(true);
+       setSuccessMessage('Booked with success!');
+       setTimeout(() => setBookingSuccess(false), 2500);
+     } catch (error) {
+       console.error('Error booking carpool:', error);
+     }
   };
 
   const handleCancelBook = async (id, event) => {
@@ -124,14 +135,8 @@ const handleBooking = async (row, reservationCount, user) => {
       const token = localStorage.getItem('token'); // Retrieve the token from localStorage or another appropriate source
 
       const response = await axios.put(
-        `${import.meta.env.VITE_SERVER_URL}/carpool/cancel`,
-        { id },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
+        `${import.meta.env.VITE_SERVER_URL}carpool/cancel`,
+        { id });
       console.log(response.data);
       const newCapacity = capacity + 1;
       setCapacity(newCapacity);
