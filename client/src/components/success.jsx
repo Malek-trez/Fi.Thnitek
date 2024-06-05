@@ -1,7 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './success.css'; // Import CSS for styling
 
 const SuccessPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Function to parse query parameters
+    const getQueryParams = (search) => {
+      return new URLSearchParams(search);
+    };
+
+    const queryParams = getQueryParams(location.search);
+    const type = queryParams.get('type');
+
+    // Redirect to the specified URL after 3 seconds
+    const redirectTimer = setTimeout(() => {
+      navigate(`/${type}`);
+    }, 3000);
+
+    // Clear the timeout when the component unmounts
+    return () => clearTimeout(redirectTimer);
+  }, [navigate, location.search]);
+
   return (
     <div className="success-page">
       <div className="success-content">

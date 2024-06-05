@@ -5,8 +5,7 @@ import { login } from './controllers/login.js';
 import { allCarpool, onBookNow ,cancelBookNow,searchByDestination,searchByDepart,searchByPrice} from './controllers/carpool.js';
 import { signup } from './controllers/signup.js';
 import { test } from './controllers/testdb.js';
-import {payment} from './controllers/payment.js';
-import {getPayments} from './controllers/paymentRepository.js';
+import {createPayment} from './controllers/paymentRepository.js';
 
 import { Carpool_user } from './controllers/carpool_user.js';
 import { deleteCarpoolFromDB } from './controllers/carpool_user.js';
@@ -34,6 +33,7 @@ import { getProfilee } from './controllers/ProfilePage.js';
 import { profileEdit} from './controllers/profileEdit.js';
 import { deleteProfile} from './controllers/profiledel.js';
 import {SearchBusTrips, Booking_Bus,SearchBus, getBusBookings} from "./controllers/Bus.js";
+
 
 const app = express();
 
@@ -65,8 +65,9 @@ app.get('/api/testdata', test);
 app.post('/api/login', login);
 
 // Route for payment
-app.post('/api/payment', payment);
-app.get('/api/payments', getPayments);
+//app.get('/api/payments', getPayments);
+app.post('/api/payment', createPayment);
+
 
 
 // Route for user sign up
