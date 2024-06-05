@@ -1,6 +1,6 @@
 import React from 'react';
 import './Team.css';
-import photo from "./images/gh.jpg"
+import photo from "./images/gh1.jpg"
 import { Col, Container, Row } from "react-bootstrap";
 import {
     faFacebookF,
