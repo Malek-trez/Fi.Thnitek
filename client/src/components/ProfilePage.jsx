@@ -153,6 +153,10 @@ const handleDeleteClick = () => {
   setShowDeleteModal(true);
 };
 
+const handleCancel = () => {
+  window.location.reload();
+};
+
 const handleModalClose = () => {
   setShowDeleteModal(false);
   setDeletePassword('');
@@ -214,7 +218,7 @@ const handleModalClose = () => {
               {error && <p className="error-message">{error}</p>}
               {successMessage && <p className="success-message">{successMessage}</p>}
               <button className='button-5' onClick={handleSave}>Save</button>
-              <button className='button-6' onClick={handleDeleteProfile}> Delete</button>
+              <button className='button-6'onClick={handleCancel}style={{backgroundColor:"green"}} > Cancel</button>
             </div>
           ) : (
             <div style={{}}>
