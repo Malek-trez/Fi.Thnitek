@@ -16,6 +16,8 @@ const PopupPaiment = ({ row, onClose, onBooking, Date }) => {
     }
 
     try {
+      onBooking(row, reservationCount);
+      onClose();
       const token = localStorage.getItem('token'); // Retrieve the token from localStorage or another appropriate source
 
       const paymentData = {
@@ -40,6 +42,7 @@ const PopupPaiment = ({ row, onClose, onBooking, Date }) => {
       console.error('Error processing payment:', error);
     }
   };
+
 
   return (
     <div className="popup">
