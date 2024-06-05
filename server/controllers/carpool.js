@@ -156,3 +156,39 @@ export async function searchByPrice(req, res) {
     res.status(500).json({ status: "error", message: "Internal server error" });
   }
 }
+
+
+
+export async function Booking_Carpool(req, res) {
+  try {
+    const { destination, departure, temps_depart, Date_depart, Utilisateur_ID, Nombre_reservation, prix } = req.body;
+
+    // Validate the data (you can add more validation if needed)
+    if (!destination || !departure || !temps_depart || !Date_depart || !Nombre_reservation || !prix) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Insert the reservation into the database
+    const query = 'INSERT INTO reservation_carpool (Destination, Depart, Temps_depart, Date_depart, Utilisateur_ID, Nombre_reservation, Prix) VALUES ($1, $2, $3, $4, $5, $6, $7)';
+    const values = [destination, departure, temps_depart, Date_depart, Utilisateur_ID, Nombre_reservation, prix];
+    await pool.query(query, values);
+
+    // Respond with success
+    res.status(201).json({ message: 'Reservation saved successfully' });
+  } catch (error) {
+    console.error('Error saving reservation:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+
+// Get Booking Details
+export async function getCarpoolBookings(req, res) {
+try {
+  const result = await pool.query('SELECT *, \'carpool\' as type FROM reservation_carpool');
+  res.json(result.rows);
+} catch (error) {
+  console.error('Error fetching carpool bookings:', error);
+  res.status(500).json({ error: 'Internal server error' });
+}
+};

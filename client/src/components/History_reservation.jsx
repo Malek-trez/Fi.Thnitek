@@ -9,7 +9,8 @@ const History = () => {
   const [filteredBookings, setFilteredBookings] = useState([]);
   const [filter, setFilter] = useState('all');
   const [selectedDate, setSelectedDate] = useState('');
-
+  
+  
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -49,9 +50,19 @@ const History = () => {
       }
     };
 
+    const fetchCarpoolBookings = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/carpool/Bookings');
+        return response.data.map(booking => ({ ...booking, type: 'Carpool' }));
+      } catch (error) {
+        console.error('Error fetching carpool bookings:', error);
+        return [];
+      }
+    };
+
     const fetchAllBookings = async () => {
-      const [busBookings, trainBookings] = await Promise.all([fetchBusBookings(), fetchTrainBookings()]);
-      const combinedBookings = [...busBookings, ...trainBookings];
+      const [busBookings, trainBookings, carpoolBooking] = await Promise.all([fetchBusBookings(), fetchTrainBookings(),fetchCarpoolBookings()]);
+      const combinedBookings = [...busBookings, ...trainBookings, ...carpoolBooking];
 
       // Sort bookings by date in descending order
       combinedBookings.sort((a, b) => new Date(b.date_depart) - new Date(a.date_depart));
@@ -96,7 +107,6 @@ const History = () => {
     const filtered = allBookings.filter(booking => new Date(booking.date_depart) <= new Date(selectedDate));
     setFilteredBookings(filtered);
   };
-
   return (
     <div className="container mt-4">
       <h2>Booking History</h2>
@@ -121,6 +131,13 @@ const History = () => {
           onClick={() => setFilter('train')}
         >
           Train
+        </button>
+        <button
+          type="button"
+          className={`btn ${filter === 'carpool' ? 'btn-primary' : 'btn-secondary'}`}
+          onClick={() => setFilter('carpool')}
+        >
+          Carpool
         </button>
       </div>
       <div className="input-group mb-3">
@@ -149,7 +166,7 @@ const History = () => {
             <tr key={index}>
               <td>{booking.type}</td>
               <td>{capitalizeFirstLetter(booking.destination)}</td>
-              <td>{capitalizeFirstLetter(booking.departure)}</td>
+              <td>{capitalizeFirstLetter(booking.depart)}</td>
               <td>{booking.temps_depart}</td>
               <td>{formatDate(booking.date_depart)}</td>
               <td>{booking.nombre_reservation}</td>

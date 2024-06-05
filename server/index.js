@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { login } from './controllers/login.js';
-import { allCarpool, onBookNow ,cancelBookNow,searchByDestination,searchByDepart,searchByPrice} from './controllers/carpool.js';
+import { allCarpool, onBookNow ,cancelBookNow,searchByDestination,searchByDepart,searchByPrice ,getCarpoolBookings,Booking_Carpool} from './controllers/carpool.js';
 import { signup } from './controllers/signup.js';
 import { test } from './controllers/testdb.js';
 import {payment} from './controllers/payment.js';
@@ -120,6 +120,12 @@ app.get('/Bus/Bookings', getBusBookings);
 
 // Search 
 app.get('/Bus',SearchBus)
+
+// Get carpool Booking Details
+app.get('/carpool/Bookings', getCarpoolBookings);
+
+app.post('/carpool/Bookings',Booking_Carpool);
+
 
 
 
