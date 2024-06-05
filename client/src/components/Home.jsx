@@ -4,7 +4,6 @@ import { AccountContext } from '../contexts/AccountContext'; // Import the Accou
 import MyCarousel from './MyCarousel'; // Import the MyCarousel component
 import GroupExample from './GroupExample';
 import CardExample from './CardExample';
-import Messenger from './Messenger';
 
 import street from './images/street.jpg';
 
@@ -48,7 +47,6 @@ const Home = () => {
       <h2 className="my-5 text-center text-dark">Fast and Affordable Transportation</h2>
       <MyCarousel />
       
-      <Messenger /> 
     </div>
   );
 };
