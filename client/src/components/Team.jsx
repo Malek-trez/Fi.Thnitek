@@ -90,7 +90,7 @@ const Team = () => {
             ],
         },
         {
-            picture: "https://cdn.easyfrontend.com/pictures/users/user7.jpg",
+            picture: "https://scontent.ftun16-1.fna.fbcdn.net/v/t39.30808-1/244433347_1276204732812947_7721108711367677047_n.jpg?stp=dst-jpg_s200x200&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=i3UTpRQDDbEQ7kNvgETrMaS&_nc_ht=scontent.ftun16-1.fna&oh=00_AYDHRHekCTaZXAWxYy98vt_LYO9-GvctCroEikI2erYg3Q&oe=6666AF85",
             fullName: "Mehdi Ben rejeb",
             designation: "Backend Developer",
             socialLinks: [
