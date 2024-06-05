@@ -95,7 +95,8 @@ useEffect(() => {
       if (response.status >= 400) {
         throw new Error(response.data.message || 'Updating offer failed');
       }
-
+      // Refresh the page
+      window.location.reload();
     } catch (error) {
       setError(error.message);
     }

@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import { login } from './controllers/login.js';
 import { allCarpool, onBookNow ,cancelBookNow,searchByDestination,searchByDepart,searchByPrice} from './controllers/carpool.js';
@@ -35,6 +36,11 @@ import {SearchBusTrips, Booking_Bus,SearchBus, getBusBookings} from "./controlle
 
 
 const app = express();
+
+// Increase the limit to 10MB (adjust as needed)
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+
 app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true,
@@ -122,8 +128,6 @@ app.get('/Bus/Bookings', getBusBookings);
 // Search 
 app.get('/Bus',SearchBus)
 
-
-
 // Mount the profile route
 app.get('/api/profile',  getProfile);
 
@@ -143,6 +147,7 @@ app.post('/api/changeNotifStatus', updateNotificationStatus);
 app.post('/api/profileEdit', profileEdit);
 app.get('/api/profilepage', getProfilee);
 app.post('/api/profiledel', deleteProfile);
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {

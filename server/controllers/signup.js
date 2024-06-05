@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { pool } from '../db/db.js'; // Import the database connection
 
 const secretKey = process.env.JWT_SECRET;
+const DEFAULT_PROFILE_IMAGE = '/src/components/images/profile.png'
 
 // Function to generate JWT token
 function generateToken(user) {
@@ -43,7 +44,7 @@ async function createOffersTable() {
         email VARCHAR(254),
         phone VARCHAR(100),
         role VARCHAR(100),
-        imageUrl text
+        imageurl text
       );    `;
       await pool.query(createTableQuery);
       console.log('Users table created successfully.');
@@ -75,11 +76,13 @@ export async function signup(req, res) {
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
-
-    // Create a new user and store it in the database
-    const insertUserQuery = 'INSERT INTO users(username, password, email, phone, role) VALUES ($1, $2, $3, $4, $5) RETURNING id, username';
-    const newUser = await pool.query(insertUserQuery, [username, hashedPassword, email, phone, role]);
     
+    // Set default profile image URL
+    const imageUrl = DEFAULT_PROFILE_IMAGE ;
+  
+    // Create a new user and store it in the database
+    const insertUserQuery = 'INSERT INTO users(username, password, email, phone, role, imageUrl) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, username';
+    const newUser = await pool.query(insertUserQuery, [username, hashedPassword, email, phone, role, imageUrl]);
     // Assuming the result from the query contains the user ID in the first row and first column
     const userId = newUser.rows[0].id;
     

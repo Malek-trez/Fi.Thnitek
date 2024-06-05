@@ -105,7 +105,8 @@ useEffect(() => {
         throw new Error(response.data.message || 'Adding offer failed');
       }
 
-      navigateTo('/'); // Redirection vers la page de connexion après l'inscription
+      navigateTo('/Myoffers'); 
+      window.location.reload();
     } catch (error) {
       setError(error.message);
     }
@@ -115,9 +116,9 @@ useEffect(() => {
 
 
   return (
-    <div style={{ marginTop: '60px', marginBottom: '100px' }}>
+    <div >
       <section>
-        <div className="container login-block">
+        <div className="container login-block" >
           <h2 className="text-center pb-3 mb-3 border-bottom border-primary">Add new offer</h2>
           <form id= "AddOfferForm" onSubmit={handleSubmit}>
             <div className="mb-3">

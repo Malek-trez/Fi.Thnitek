@@ -21,7 +21,7 @@ function OffersModal() {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Modal title</Modal.Title>
+          <Modal.Title>Add New Offer</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           < AddOffer />

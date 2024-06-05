@@ -4,8 +4,8 @@ import axios from 'axios';
 import { FaStar } from 'react-icons/fa';
 import { AccountContext } from '../contexts/AccountContext';
 import { useNavigate } from 'react-router-dom';
-
-
+import './ProfilePage.css';
+import './login.css'
 const colors = {
   orange: "#FFBA5A",
   grey: "#a9a9a9"
@@ -18,8 +18,6 @@ function Rating() {
   const [currentValue, setCurrentValue] = useState(0);
   const [hoverValue, setHoverValue] = useState(undefined);
   const [feedback, setFeedback] = useState('');
-  const [submittedRating, setSubmittedRating] = useState(null);
-  const [submittedFeedback, setSubmittedFeedback] = useState('');
   const [providerData, setProviderData] = useState(null); // State to hold provider data
 
   useEffect(() => {
@@ -65,12 +63,10 @@ function Rating() {
         feedback,
       }, {
         headers: {
-          Authorization: `Bearer ${user.token}` // Add JWT token to request headers
+          Authorization: `Bearer ${user.token}`
         }
       });
 
-      setSubmittedRating(currentValue);
-      setSubmittedFeedback(feedback);
 
       // Reset the current rating and feedback text
       setCurrentValue(0);
@@ -85,17 +81,23 @@ function Rating() {
   };
 
   return (
-    <div style={styles.container}>
+    <div className='delete-modal-content'style={{marginTop:'30px',alignItems:"center",justifyContent:'center',maxWidth:'700px'}}>
       {providerData && (
         <div style={styles.providerInfo}>
           <h2  className="my-4 text-center text-dark">Provider Information</h2 >
           <p><strong>Username:</strong> {providerData.username}</p>
           <p><strong>Email:</strong> {providerData.email}</p>
           <p><strong>Phone:</strong> {providerData.phone}</p>
-          {/* Add any other provider details you want to display */}
+          <p><strong>Average Rating:</strong> {providerData.average_rating}</p>
+         <p><strong>Other feedback:</strong></p>
+         <ul>
+      {providerData.feedback.map((fb, index) => (
+        <li key={index}>{fb.username}: {fb.feedback}</li>
+      ))}
+    </ul>
         </div>
       )}
-      <h2 className="my-4 text-center text-dark">Rating</h2>
+      <h2 className="my-4 text-center text-dark">Your Rating & Feedback</h2>
       <div style={styles.stars}>
         {stars.map((_, index) => {
           return (
@@ -115,61 +117,48 @@ function Rating() {
         })}
       </div>
       <textarea
-        placeholder="What's your experience?"
+        placeholder="How was your experience?"
         style={styles.textarea}
         value={feedback}
         onChange={handleFeedbackChange}
+        
+
       />
       <button
+      className='button-5'
         style={styles.button}
         onClick={handleSubmit}
       >
         Submit
       </button>
-
-      {/* {submittedRating !== null && (
-        <div style={styles.submittedContainer}>
-          <h3>Submitted Rating</h3>
-          <div style={styles.stars}>
-            {stars.map((_, index) => (
-              <FaStar
-                key={index}
-                size={24}
-                color={submittedRating > index ? colors.orange : colors.grey}
-                style={{ marginRight: 10 }}
-              />
-            ))}
-          </div>
-          <p style={ styles.submittedText}>{submittedFeedback}</p>
-        </div>
-      )} */}
     </div>
   );
 };
 
 const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
-  },
+
   stars: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "center", // Center horizontally
+    alignItems: "center" // Center vertically
   },
   textarea: {
     border: "1px solid #a9a9a9",
     borderRadius: 5,
     padding: 10,
-    margin: "20px 0",
+    margin: "20px auto", // Center horizontally with auto margin
     minHeight: 100,
-    width: 300
+    width: 660,
+    
   },
   button: {
     border: "1px solid #a9a9a9",
     borderRadius: 5,
-    width: 300,
+    width: 660,
     padding: 10,
+    margin: "20px auto", // Center horizontally with auto margin
+    textAlign: "center" // Center text horizontally
   }
 };
 

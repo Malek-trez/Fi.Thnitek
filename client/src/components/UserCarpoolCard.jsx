@@ -27,6 +27,8 @@ const CarpoolCard = ({ carpool, onEmpty }) => {
       console.log(response.data);
       setSuccessMessage('Deleted with success!');
       setTimeout(() => setBookingSuccess(false), 2500);
+            // Refresh the page
+            window.location.reload();
     } catch (error) {
       console.error('Error Deleting Offer:', error);
     }

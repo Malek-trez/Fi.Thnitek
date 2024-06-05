@@ -35,7 +35,7 @@ const Footer = () => {
 };
 
 const footerStyle = {
-  marginTop: '15rem',
+  marginTop: '17rem',
   backgroundColor: ' #000080',
   color: '#fff',
   textAlign: 'center',
