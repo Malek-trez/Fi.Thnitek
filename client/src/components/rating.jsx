@@ -13,7 +13,7 @@ const colors = {
   blue: "#007BFF"
 };
 
-function Rating({ carpool, onEmpty }) {
+function Rating() {
   const navigateTo = useNavigate();
   const { provider_id } = useParams(); // Retrieve provider_id from URL
   const { user } = useContext(AccountContext);
@@ -137,8 +137,8 @@ function Rating({ carpool, onEmpty }) {
         style={styles.feedbackPhoto} />
         <div style={styles.feedbackContent}>
         <strong>{fb.username}:</strong> {fb.feedback}
-        <div style={styles.likeDislikeButtons}>
-
+        
+        {/* <div style={styles.likeDislikeButtons}>
         <button
           onClick={() => handleLike(fb.id)}
           onMouseEnter={() => setHoveredLike(index)}
@@ -163,7 +163,7 @@ function Rating({ carpool, onEmpty }) {
         >
         <FaThumbsDown />
         </button>
-        </div>
+        </div> */}
         </div>
     </li>
     ))}
@@ -195,10 +195,10 @@ function Rating({ carpool, onEmpty }) {
       onChange={handleFeedbackChange}
       />
       <button
-      className='button-5'
-      style={styles.button}
-      onClick={handleSubmit}>
-          Submit
+        className='button-5'
+        style={styles.button}
+        onClick={handleSubmit}>
+      Submit
       </button>
     </div>
     );
@@ -279,12 +279,12 @@ function Rating({ carpool, onEmpty }) {
     padding: 10,
     margin: "20px auto", // Center horizontally with auto margin
     minHeight: 100,
-    width: '90%',
+    width: '100%',
   },
   button: {
     border: "1px solid #a9a9a9",
     borderRadius: 5,
-    width: '90%',
+    width: '100%',
     padding: 10,
     margin: "20px auto", // Center horizontally with auto margin
     textAlign: "center" // Center text horizontally
