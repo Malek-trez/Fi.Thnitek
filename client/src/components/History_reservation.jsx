@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from 'axios';
 import { AccountContext } from "../contexts/AccountContext.jsx";
+import { Link } from "react-router-dom";
 
 const History = () => {
   const { user } = useContext(AccountContext); // Access user data from context
@@ -154,6 +155,11 @@ const History = () => {
         >
           Carpool
         </button>
+
+        <Link to="/history" className="btn btn-secondary" style={{ marginLeft: 'auto' }}>
+         Payment History
+        </Link>
+
       </div>
       <div className="input-group mb-3">
         <span className="input-group-text">Filter by Date:</span>

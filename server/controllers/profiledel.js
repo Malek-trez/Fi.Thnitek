@@ -2,6 +2,7 @@ import { pool } from '../db/db.js';
 import { requireAuth } from './middle.js'; // Ensure this path is correct
 import bcrypt from 'bcrypt';
 
+
 export async function deleteProfile(req, res) {
   const { password } = req.body; // Get password from request body
 
@@ -67,6 +68,9 @@ export async function deleteProfile(req, res) {
 
       const deleteTrainQuery = 'DELETE FROM Reservation_train WHERE Utilisateur_ID = $1';
       await pool.query(deleteTrainQuery, [userId]);
+
+      const deletecarpoolResQuery = 'DELETE FROM Reservation_carpool WHERE Utilisateur_ID = $1';
+      await pool.query(deletecarpoolResQuery , [userId]);
 
       // Finally, delete the user
       const deleteUserQuery = 'DELETE FROM users WHERE id = $1';

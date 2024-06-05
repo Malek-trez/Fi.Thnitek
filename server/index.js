@@ -5,7 +5,7 @@ import { login } from './controllers/login.js';
 import { allCarpool, onBookNow ,cancelBookNow,searchByDestination,searchByDepart,searchByPrice ,getCarpoolBookings,Booking_Carpool} from './controllers/carpool.js';
 import { signup } from './controllers/signup.js';
 import { test } from './controllers/testdb.js';
-import {createPayment} from './controllers/paymentRepository.js';
+import {createPayment,getPayments} from './controllers/paymentRepository.js';
 
 import { Carpool_user } from './controllers/carpool_user.js';
 import { deleteCarpoolFromDB } from './controllers/carpool_user.js';
@@ -65,7 +65,7 @@ app.get('/api/testdata', test);
 app.post('/api/login', login);
 
 // Route for payment
-//app.get('/api/payments', getPayments);
+app.get('/api/payments', getPayments);
 app.post('/api/payment', createPayment);
 
 

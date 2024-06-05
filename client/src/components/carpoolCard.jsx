@@ -86,7 +86,7 @@ const handleBooking = async (row, reservationCount, user) => {
         navigate('/login');
         return;
       }
-      await handleBooking(carpool, 1); // Assuming 1 reservation count for bookings
+      await handleBooking(carpool, 1); // Assuming 1 reservation count for bookings      await handleBooking(carpool, 1); // Assuming 1 reservation count for bookings
       const token = localStorage.getItem('token'); // Retrieve the token from localStorage or another appropriate source
       const paymentData = {
         type: 'carpool',
@@ -136,7 +136,13 @@ const handleBooking = async (row, reservationCount, user) => {
 
       const response = await axios.put(
         `${import.meta.env.VITE_SERVER_URL}carpool/cancel`,
-        { id });
+        { id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
       console.log(response.data);
       const newCapacity = capacity + 1;
       setCapacity(newCapacity);
