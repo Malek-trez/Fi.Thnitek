@@ -25,7 +25,7 @@ function CardExample() {
               <Card.Text>
                 Carpooling brings benefits to carpool participants and the environment and society. Literature has called for a better understanding of psychological factors encouraging people to carpool however current research does not provide an in-depth psychological understanding of carpooling behaviour. This paper provides a review....
               </Card.Text>
-              <Button variant="primary" className="see-more-btn">See more</Button>
+              <Button variant="primary" className="see-more-btn" href='https://www.sciencedirect.com/science/article/pii/S2590198221001986'>See more</Button>
             </Card.Body>
           </Card>
         </Col>

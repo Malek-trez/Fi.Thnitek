@@ -22,12 +22,12 @@ function GroupExample() {
           <Card.Body>
             <Card.Title>Carpool </Card.Title>
             <Card.Text>
-              This is a wider card with supporting text below as a natural lead-in
-              to additional content. This content is a little bit longer.
+            Our carpool service facilitates cost-effective and environmentally friendly travel by connecting users with nearby drivers, 
+            allowing them to share rides to common destinations, reducing traffic congestion and carbon emissions.
             </Card.Text>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Last updated 3 mins ago</small>
+            <small className="text-muted">Share the Ride</small>
           </Card.Footer>
         </Card>
 
@@ -36,12 +36,12 @@ function GroupExample() {
           <Card.Body>
             <Card.Title>Bus</Card.Title>
             <Card.Text>
-              This card has supporting text below as a natural lead-in to
-              additional content.
+            With our bus ticket booking feature, users can conveniently browse bus routes, select preferred seats, and secure tickets seamlessly, 
+            ensuring hassle-free travel and enabling access to a wide range of destinations.
             </Card.Text>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Last updated 3 mins ago</small>
+            <small className="text-muted">Bus Travel Simplified</small>
           </Card.Footer>
         </Card>
 
@@ -50,13 +50,12 @@ function GroupExample() {
           <Card.Body>
             <Card.Title>Train</Card.Title>
             <Card.Text>
-              This is a wider card with supporting text below as a natural lead-in
-              to additional content. This card has even longer content than the
-              first to show that equal height action.
+            Our train ticket booking service offers users a convenient platform to search for train schedules, reserve seats, and purchase tickets effortlessly, 
+            providing reliable and efficient transportation options for both short and long-distance travel.
             </Card.Text>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Last updated 3 mins ago</small>
+            <small className="text-muted">Board and Go</small>
           </Card.Footer>
         </Card>
       </CardGroup>

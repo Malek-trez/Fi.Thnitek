@@ -72,11 +72,11 @@ const NavBar = () => {
             />
           </Navbar.Brand>
               
-              {isLoggedIn && (
+            {/*   {isLoggedIn && (
                 <div className="text-dark nav-link home-link">
                   <p className="my-4 font-weight-bold ">{userGreeting}</p>
                 </div>
-              )}
+              )} */}
           <Navbar.Toggle aria-controls="navbar-nav" />
           <Navbar.Collapse id="navbar-nav">
             <Nav className="me-auto">
