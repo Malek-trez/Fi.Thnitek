@@ -71,7 +71,7 @@ export async function createPayment(req, res) {
 
         if (session.payment_status === 'unpaid') {
             
-          const paymentId = await insertPayment(session.amount_total, session.description, session.payment_status,user.id);
+          const paymentId = await insertPayment(amount, name, session.payment_status,user.id);
 
           res.json({ url: session.url, paymentId: paymentId });
         } else {
@@ -87,6 +87,30 @@ export async function createPayment(req, res) {
     res.status(500).json({ error: err.message });
   }
 }
+export const getPayments = async (req, res) => {
+  try {
+    await requireAuth(req, res, async () => {
+      const { username } = res.locals.token;
+
+      const queryUser = 'SELECT id FROM users WHERE username = $1';
+      const userResult = await pool.query(queryUser, [username]);
+
+      if (userResult.rows.length === 0) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      const userId = userResult.rows[0].id;
+
+      const queryPayments = 'SELECT id, amount, description, status, created_at FROM payment WHERE user_id = $1 ORDER BY created_at DESC';
+      const paymentsResult = await pool.query(queryPayments, [userId]);
+
+      res.status(200).json({ payments: paymentsResult.rows });
+    });
+  } catch (error) {
+    console.error('Error fetching payment history:', error);
+    res.status(500).json({ error: 'Failed to fetch payment history' });
+  }
+};
 
       
 
