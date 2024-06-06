@@ -87,7 +87,7 @@ app.get("/api/carpool", allCarpool);
 // Route for booking a carpool
 app.put('/api/carpool/book', onBookNow);
 // Route cancel a booked carpool
-app.put('/api/carpool/cancel', cancelBookNow);
+app.delete('/api/carpool/cancel/:Reservation_ID', cancelBookNow);
 //route pour search
 app.get('/api/carpool/searchByDestination',searchByDestination);
 

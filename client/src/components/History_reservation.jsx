@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from 'axios';
 import { AccountContext } from "../contexts/AccountContext.jsx";
+import { Link } from "react-router-dom";
 
 const History = () => {
   const { user } = useContext(AccountContext); // Access user data from context
@@ -9,8 +10,22 @@ const History = () => {
   const [filteredBookings, setFilteredBookings] = useState([]);
   const [filter, setFilter] = useState('all');
   const [selectedDate, setSelectedDate] = useState('');
-  
-  
+
+  const handleCancel = async (id) => {
+    try {
+      const response = await axios.delete(`http://localhost:3000/api/carpool/cancel/${id}`);
+      console.log(response);
+      if (response.status !== 200) {
+        throw new Error('Error cancelling booking');
+      } else {
+        // Remove the cancelled booking from the state
+        const updatedBookings = allBookings.filter(booking => booking.reservation_id !== id);
+        setAllBookings(updatedBookings);
+      }
+    } catch (error) {
+      console.error('There has been a problem with your delete operation:', error);
+    }
+  };
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -107,6 +122,7 @@ const History = () => {
     const filtered = allBookings.filter(booking => new Date(booking.date_depart) <= new Date(selectedDate));
     setFilteredBookings(filtered);
   };
+   console.log(filteredBookings);
   return (
     <div className="container mt-4">
       <h2>Booking History</h2>
@@ -139,6 +155,11 @@ const History = () => {
         >
           Carpool
         </button>
+
+        <Link to="/history" className="btn btn-secondary" style={{ marginLeft: 'auto' }}>
+         Payment History
+        </Link>
+
       </div>
       <div className="input-group mb-3">
         <span className="input-group-text">Filter by Date:</span>
@@ -163,6 +184,7 @@ const History = () => {
         </thead>
         <tbody>
           {filteredBookings.map((booking, index) => (
+
             <tr key={index}>
               <td>{booking.type}</td>
               <td>{capitalizeFirstLetter(booking.destination)}</td>
@@ -171,6 +193,11 @@ const History = () => {
               <td>{formatDate(booking.date_depart)}</td>
               <td>{booking.nombre_reservation}</td>
               <td>{booking.prix}</td>
+              <td>
+              {booking.type === 'Carpool' && new Date(booking.date_depart) > new Date() && (
+                <button className="btn btn-danger" onClick={() => handleCancel(booking.reservation_id)}>Cancel</button>
+              )}
+            </td>
             </tr>
           ))}
         </tbody>

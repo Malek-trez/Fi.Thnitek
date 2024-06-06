@@ -69,6 +69,9 @@ export async function deleteProfile(req, res) {
       const deleteTrainQuery = 'DELETE FROM Reservation_train WHERE Utilisateur_ID = $1';
       await pool.query(deleteTrainQuery, [userId]);
 
+      const deletecarpoolResQuery = 'DELETE FROM Reservation_carpool WHERE Utilisateur_ID = $1';
+      await pool.query(deletecarpoolResQuery , [userId]);
+
       // Finally, delete the user
       const deleteUserQuery = 'DELETE FROM users WHERE id = $1';
       const result = await pool.query(deleteUserQuery, [userId]);

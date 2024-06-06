@@ -43,7 +43,11 @@ const Login = () => {
        // Refresh the page
       window.location.reload();
     } catch (error) {
-      setError(error.message);
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError('Deletion failed');
+      }
     }
   };
 

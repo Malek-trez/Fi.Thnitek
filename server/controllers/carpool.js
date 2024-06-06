@@ -70,23 +70,19 @@ const updateCarpoolOut = async (client, carpool) => {
 };
 
 export const cancelBookNow = async (req, res) => {
+  const { Reservation_ID } = req.params;
   const client = await pool.connect();
-  const id = req.body.id;
 
   try {
-    // Fetch the carpool from the database
-    let carpool = await getCarpoolFromDatabase(client, id);
+    const result = await client.query('DELETE FROM reservation_carpool WHERE Reservation_ID = $1', [Reservation_ID]);
 
-    // Increment the capacity
-    carpool.capacity++;
+    if (result.rowCount === 0) {
+      return res.status(404).send({ message: 'No booking found with the provided ID.' });
+    }
 
-    // Update the carpool in the database
-    await updateCarpoolOut(client, carpool);
-
-    res.send({ success: true });
+    res.status(200).send({ message: 'Booking cancelled successfully.' });
   } catch (error) {
-    console.error(error);
-    res.status(500).send({ success: false });
+    res.status(500).send({ message: 'Error cancelling booking.', error });
   } finally {
     client.release();
   }
