@@ -9,7 +9,6 @@ export async function createBookingRequest(req, res) {
             const quer = 'SELECT * FROM users WHERE username = $1';
             const result = await pool.query(quer, [username]);
             
-
             let user;
             if (result.rows && result.rows.length > 0) {
                 user = result.rows[0];
@@ -17,13 +16,17 @@ export async function createBookingRequest(req, res) {
                 res.status(404).json({ error: 'User not found' });
                 return;
             }
+            
             const { carpool_id, owner_id } = req.body;
-
             const query = `INSERT INTO booking_request (carpool_id, client_id, owner_id, status) 
                            VALUES ($1, $2, $3, 'pending') RETURNING id`;
             const values = [carpool_id, user.id, owner_id];
             const { rows } = await pool.query(query, values);
-           
+            
+            // Add notification for the supplier
+            const notificationQuery = 'INSERT INTO notifications(user_id, title, message) VALUES ($1, $2, $3)';
+            const notificationValues = [owner_id, 'New Booking Request', `You have a new booking request from ${username}`];
+            await pool.query(notificationQuery, notificationValues);
 
             res.status(201).json({ bookingRequestId: rows[0].id });
         });
@@ -32,10 +35,10 @@ export async function createBookingRequest(req, res) {
         res.status(500).json({ error: 'Failed to create booking request' });
     }
 }
+
 export async function getPendingRequests(req, res) {
     try {
         await requireAuth(req, res, async () => {
-
             const { username } = res.locals.token;
             const userQuery = 'SELECT * FROM users WHERE username = $1';
             const userResult = await pool.query(userQuery, [username]);
@@ -66,8 +69,6 @@ export async function getPendingRequests(req, res) {
     }
 }
 
-
-
 export async function updateBookingRequestStatus(req, res) {
     try {
         await requireAuth(req, res, async () => {
@@ -82,13 +83,30 @@ export async function updateBookingRequestStatus(req, res) {
                 res.status(404).json({ error: 'User not found' });
                 return;
             }
+            
             const query = `UPDATE booking_request SET status = $1 
                            WHERE id = $2 AND owner_id = $3 RETURNING *`;
             const values = [status, requestId, user.id];
             const { rows } = await pool.query(query, values);
 
             if (rows.length > 0) {
-                res.status(200).json({ updatedRequest: rows[0] });
+                const updatedRequest = rows[0];
+                
+                // Fetch client details
+                const clientQuery = 'SELECT username FROM users WHERE id = $1';
+                const clientResult = await pool.query(clientQuery, [updatedRequest.client_id]);
+                const clientUsername = clientResult.rows[0].username;
+                
+                // Add notification for the client
+                const notificationQuery = 'INSERT INTO notifications(user_id, title, message) VALUES ($1, $2, $3)';
+                const notificationValues = [
+                    updatedRequest.client_id,
+                    'Booking Request Update',
+                    `Your booking request has been ${status}`
+                ];
+                await pool.query(notificationQuery, notificationValues);
+
+                res.status(200).json({ updatedRequest });
             } else {
                 res.status(404).json({ error: 'Request not found or not authorized' });
             }
