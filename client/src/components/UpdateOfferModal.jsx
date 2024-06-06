@@ -37,7 +37,7 @@ useEffect(() => {
     carpoolid:id,
     depart: carpool.depart,
     destination: carpool.destination,
-    schedule: '',
+    schedule: carpool.schedule,
     price: carpool.price,
     capacity: carpool.capacity,
   });

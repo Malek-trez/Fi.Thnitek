@@ -19,7 +19,14 @@ export async function Carpool_user(req, res) {
                   WHERE users.id = $1
                   ORDER BY carpool.id`;
               const result = await client.query(carpoolQuery, [user.id]);
-              const carpools = result.rows;
+              let carpools = result.rows;
+              carpools = carpools.map(carpool => {
+                const date = new Date(carpool.schedule);
+                const formattedDate = date.toISOString().split('T')[0];
+                const formattedTime = date.toTimeString().split(' ')[0];
+                carpool.schedule = `${formattedDate} ${formattedTime}`;
+                return carpool;
+              });
               client.release(); 
               res.status(200).json({
                   status: "success",
