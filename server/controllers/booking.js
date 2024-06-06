@@ -37,17 +37,24 @@ export async function getPendingRequests(req, res) {
         await requireAuth(req, res, async () => {
 
             const { username } = res.locals.token;
-            const quer = 'SELECT * FROM users WHERE username = $1';
-            const result = await pool.query(quer, [username]);
+            const userQuery = 'SELECT * FROM users WHERE username = $1';
+            const userResult = await pool.query(userQuery, [username]);
             let user;
-            if (result.rows && result.rows.length > 0) {
-                user = result.rows[0];
+            if (userResult.rows && userResult.rows.length > 0) {
+                user = userResult.rows[0];
             } else {
                 res.status(404).json({ error: 'User not found' });
                 return;
             }
 
-            const query = `SELECT * FROM booking_request WHERE owner_id = $1 AND status = 'pending'`;
+            const query = `
+                SELECT booking_request.*, users.username AS client_username,
+                CONCAT(carpool.depart, ' to ', carpool.destination) AS carpool_name
+                FROM booking_request
+                INNER JOIN users ON booking_request.client_id = users.id
+                INNER JOIN carpool ON booking_request.carpool_id = carpool.id
+                WHERE booking_request.owner_id = $1 AND booking_request.status = 'pending'
+            `;
             const values = [user.id];
             const { rows } = await pool.query(query, values);
             res.status(200).json({ pendingRequests: rows });
@@ -58,6 +65,8 @@ export async function getPendingRequests(req, res) {
         res.status(500).json({ error: 'Failed to fetch pending requests' });
     }
 }
+
+
 
 export async function updateBookingRequestStatus(req, res) {
     try {

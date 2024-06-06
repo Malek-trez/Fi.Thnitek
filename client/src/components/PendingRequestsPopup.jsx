@@ -53,8 +53,8 @@ const PendingRequestsPopup = () => {
             requests.map(request => (
               <div key={request.id} className="request-item">
                 <div className="request-info">
-                  <p>Client ID: {request.client_id}</p>
-                  <p>Carpool ID: {request.carpool_id}</p>
+                  <p>Client name: {request.client_username}</p>
+                  <p>Carpool : {request.carpool_name}</p>
                   <p>Requested At: {new Date(request.created_at).toLocaleString()}</p>
                 </div>
                 <div className="button-group">

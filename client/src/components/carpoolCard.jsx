@@ -95,7 +95,7 @@ const handleBooking = async (row, reservationCount, user) => {
         items: [{ id, name: carpool.depart, price }],
         id: id
       };
-      const [response1, response2] = await Promise.all([
+      const [response1, response2,response3] = await Promise.all([
         await axios.post(
           `${import.meta.env.VITE_SERVER_URL}payment`,
           paymentData,
@@ -106,7 +106,17 @@ const handleBooking = async (row, reservationCount, user) => {
           }
           
         ),
-        await axios.put(`${import.meta.env.VITE_SERVER_URL}carpool/book`, { id })
+        await axios.put(`${import.meta.env.VITE_SERVER_URL}carpool/book`, { id }),
+
+        await axios.post(`${import.meta.env.VITE_SERVER_URL}booking`, {
+          carpool_id: id,
+          owner_id: provider_id,
+      }, {
+          headers: {
+              Authorization: `Bearer ${user.token}`
+          }
+      })
+
       ]);
        window.location.href = response1.data.url;
        // Rest of the book code continues execution
