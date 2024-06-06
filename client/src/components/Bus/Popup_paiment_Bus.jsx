@@ -16,6 +16,7 @@ const PopupPaiment = ({ row, onClose, onBooking, Date }) => {
     try {
       onBooking(row, reservationCount);
       onClose();
+      
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}payment`, {
         method: 'POST',
         headers: {
