@@ -33,7 +33,7 @@ import { getProfilee } from './controllers/ProfilePage.js';
 import { profileEdit} from './controllers/profileEdit.js';
 import { deleteProfile} from './controllers/profiledel.js';
 import {SearchBusTrips, Booking_Bus,SearchBus, getBusBookings} from "./controllers/Bus.js";
-
+import {createBookingRequest,getPendingRequests,updateBookingRequestStatus} from './controllers/booking.js';
 
 const app = express();
 
@@ -103,6 +103,12 @@ app.get('/api/voyage', allTrips);
 
 // Get all countries 
 app.get('api/ville', allCountries);
+
+// Create a carpool booking request
+app.post('/api/Booking',createBookingRequest);
+app.get('/api/Booking',getPendingRequests);
+app.put('/api/Booking',updateBookingRequestStatus);
+
 
 // Get all stops
 app.get('/Arret', allStops);

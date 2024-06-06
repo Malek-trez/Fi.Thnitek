@@ -76,7 +76,7 @@ const handleBooking = async (row, reservationCount, user) => {
     console.error('Error booking the trip:', error);
   }
 };
-  const handleBookNow = async (id, price, event) => {
+  const handleBookNow = async (provider_id,id, price, event) => {
     event.preventDefault();
     if (capacity === 0) {
       return;
@@ -97,17 +97,19 @@ const handleBooking = async (row, reservationCount, user) => {
         id: id
       };
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}payment`,
-        paymentData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
-
-      window.location.href = response.data.url;
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}booking`, {
+            carpool_id: id,
+            owner_id: provider_id,
+        }, {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        });
+        console.log('Booking request sent successfully');
+    } catch (error) {
+        console.log('Error sending booking request');
+    }
 
     } catch (error) {
       console.error('Error booking carpool:', error);
@@ -174,7 +176,7 @@ const handleBooking = async (row, reservationCount, user) => {
             <a
               href="#"
               className={isBooked ? "btn btn-danger" : "btn btn-primary"}
-              onClick={(event) => isBooked ? handleCancelBook(carpool.id, event) : handleBookNow(carpool.id, carpool.price, event)}
+              onClick={(event) => isBooked ? handleCancelBook(carpool.id, event) : handleBookNow(carpool.provider_id,carpool.id, carpool.price, event)}
               disabled={capacity === 0 && !isBooked}
             >
               {isBooked ? "Cancel" : "Book Now"}

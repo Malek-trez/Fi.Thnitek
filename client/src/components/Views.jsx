@@ -21,7 +21,7 @@ import ProfilePage from "./ProfilePage.jsx";
 import SearchBarBus from "./Bus/Bus.jsx";
 import History from "./History_reservation.jsx";
 import SuccessPage from "./success.jsx";
-
+import PendingRequestsPopup from "./PendingRequestsPopup.jsx";
 
 const Views = () => {
     const {user} = useContext(AccountContext);
@@ -49,6 +49,9 @@ const Views = () => {
                 <Route path="profilepage" element={<ProfilePage />} />
                 <Route path="bus" element={<SearchBarBus/>}/>
                 <Route path="success" element={<SuccessPage/>}/>
+                <Route path="booking" element={<PendingRequestsPopup/>}/>
+
+                
             </Route>
         </Routes>
         )
