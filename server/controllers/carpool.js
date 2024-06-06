@@ -93,7 +93,14 @@ export async function searchByDestination(req, res) {
     const query = 'SELECT * FROM carpool WHERE lower(destination) ILIKE $1 ORDER BY id';
     const client = await pool.connect();
     const result = await client.query(query, [`%${destination}%`]); // Add % wildcards
-    const carpools = result.rows;
+    let carpools = result.rows;
+    carpools = carpools.map(carpool => {
+      const date = new Date(carpool.schedule);
+      const formattedDate = date.toISOString().split('T')[0];
+      const formattedTime = date.toTimeString().split(' ')[0];
+      carpool.schedule = `${formattedDate} ${formattedTime}`;
+      return carpool;
+    });
     client.release(); 
     
     res.status(200).json({
