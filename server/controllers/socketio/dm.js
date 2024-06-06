@@ -15,9 +15,9 @@ const dm = async (socket, message) => {
   // Emit the message to the recipient
   socket.to(message.to).emit("dm", message);
 
-  // Store the message as a notification in the database
+   // Store the message as a notification in the database
   const notificationQuery = 'INSERT INTO notifications(user_id, title, message) VALUES ($1, $2, $3)';
-  const notificationValues = [message.to, 'New Message!', message.content]; // Example message content
+  const notificationValues = [message.to, 'New Message!', message.content]; // Example message content 
 
   try {
     await pool.query(notificationQuery, notificationValues);

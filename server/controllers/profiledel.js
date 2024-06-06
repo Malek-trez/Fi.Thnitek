@@ -2,7 +2,6 @@ import { pool } from '../db/db.js';
 import { requireAuth } from './middle.js'; // Ensure this path is correct
 import bcrypt from 'bcrypt';
 
-
 export async function deleteProfile(req, res) {
   const { password } = req.body; // Get password from request body
 
@@ -30,7 +29,7 @@ export async function deleteProfile(req, res) {
       const passwordMatch = await bcrypt.compare(password, currentPassword);
 
       if (!passwordMatch) {
-        return res.status(400).json({ message: 'Incorrect  password' });
+        return res.status(400).json({ message: 'Incorrect password' });
       }
 
       // Start a transaction
@@ -51,6 +50,9 @@ export async function deleteProfile(req, res) {
       const deleteNotificationsQuery = 'DELETE FROM notifications WHERE user_id = $1';
       await pool.query(deleteNotificationsQuery, [userId]);
 
+      const deleteCarpoolReqQuery = 'DELETE FROM booking_request WHERE carpool_id IN (SELECT id FROM carpool WHERE provider_id = $1)';
+      await pool.query(deleteCarpoolReqQuery, [userId]);
+
       const deleteCarpoolQuery = 'DELETE FROM carpool WHERE provider_id = $1';
       await pool.query(deleteCarpoolQuery, [userId]);
 
@@ -69,14 +71,14 @@ export async function deleteProfile(req, res) {
       const deleteTrainQuery = 'DELETE FROM Reservation_train WHERE Utilisateur_ID = $1';
       await pool.query(deleteTrainQuery, [userId]);
 
-      const deletecarpoolResQuery = 'DELETE FROM Reservation_carpool WHERE Utilisateur_ID = $1';
-      await pool.query(deletecarpoolResQuery , [userId]);
+      const deleteCarpoolResQuery = 'DELETE FROM Reservation_carpool WHERE Utilisateur_ID = $1';
+      await pool.query(deleteCarpoolResQuery, [userId]);
 
-      const deletecarpoolReqQuery = 'DELETE FROM booking_request WHERE client_id  = $1';
-      await pool.query(deletecarpoolReqQuery, [userId]);
+      const deleteCarpoolReqClientQuery = 'DELETE FROM booking_request WHERE client_id = $1';
+      await pool.query(deleteCarpoolReqClientQuery, [userId]);
 
-      const deletecarpoolReq1Query = 'DELETE FROM booking_request WHERE  owner_id  = $1';
-      await pool.query(deletecarpoolReq1Query, [userId]);
+      const deleteCarpoolReqOwnerQuery = 'DELETE FROM booking_request WHERE owner_id = $1';
+      await pool.query(deleteCarpoolReqOwnerQuery, [userId]);
 
       // Finally, delete the user
       const deleteUserQuery = 'DELETE FROM users WHERE id = $1';

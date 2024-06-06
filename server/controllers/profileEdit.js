@@ -24,7 +24,7 @@ export async function profileEdit(req, res) {
     let updatedUser = { rows: [] }; // Initialiser updatedUser à une valeur par défaut
     const getIDQuery = 'SELECT id FROM users WHERE username= $1';
     const idResult = await pool.query(getIDQuery, [username]);
-    const id =idResult.rows[0].id;
+    const id =idResult?.rows[0]?.id;
     console.log(id);
 
     if (password ) {
