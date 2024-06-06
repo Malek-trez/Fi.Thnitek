@@ -97,6 +97,10 @@ const NavBar = () => {
                                     <OffersModal />
                                     <NavDropdown.Divider />
                                     <NavDropdown.Item href="http://localhost:5173/MyOffers">My Offers</NavDropdown.Item>
+
+                                    <NavDropdown.Divider />
+                                    <NavDropdown.Item href="http://localhost:5173/booking">Requests</NavDropdown.Item>
+                                                     
                                 </NavDropdown>
                             )}
                             <NavDropdown
@@ -108,12 +112,7 @@ const NavBar = () => {
                                     <>
                                         <NavDropdown.Item href="http://localhost:5173/profilepage">Profile</NavDropdown.Item>
                                         <NavDropdown.Divider />
-                                        {isFournisseur && (
-                                            <>
-                                                <NavDropdown.Item href="http://localhost:5173/booking">Requests</NavDropdown.Item>
-                                                <NavDropdown.Divider />
-                                            </>
-                                        )}
+                                        
                                     </>
                                 )}
                                 {!isLoggedIn && (
