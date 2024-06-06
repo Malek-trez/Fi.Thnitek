@@ -80,7 +80,7 @@ const PaymentHistory = () => {
             <div className="payment-details">
               <div className="payment-amount">${payment.amount}</div>
               <div className="payment-description">{payment.description}</div>
-              <div className="payment-status">{payment.status}</div>
+              <div className="payment-status">{payment.created_at}</div>
               {/* Add more payment details as needed */}
             </div>
             {/* Add additional UI elements or actions for each payment */}
