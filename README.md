@@ -1,11 +1,9 @@
 
 # **Fi Thnitek**
 #### Carpooling Made Easier!
-![image](https://github.com/Malek-trez/Fi.Thnitek/assets/107933631/965daa90-855a-4136-bda0-2a9c6db56b13)
+![346056366-965daa90-855a-4136-bda0-2a9c6db56b13 (1)](https://github.com/Malek-trez/Fi.Thnitek/assets/107933631/db4a3965-99ca-4fb3-9d03-28c471f778ff)
 
-![image](https://github.com/Malek-trez/Fi.Thnitek/assets/107933631/2d404401-3f1b-4706-a67b-c0ae67fc5873)
-
-
+![346056825-2d404401-3f1b-4706-a67b-c0ae67fc5873 (1)](https://github.com/Malek-trez/Fi.Thnitek/assets/107933631/f173b5de-e547-4a59-9f78-3f5f10e33960)
 
 # **Getting Started**
 To set up the project LOCALLY, follow these steps:
